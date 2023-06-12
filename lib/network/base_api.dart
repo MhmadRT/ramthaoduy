@@ -3,14 +3,18 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:alice/core/alice_http_extensions.dart';
 import 'package:http/http.dart' as http;
+import 'package:ramtha/network/api_response_model.dart';
+import '../helper/local_storage_helper.dart';
 import 'app_exception.dart';
 import 'package:alice/alice.dart';
 
 class BaseAPI {
   static final Map<String, String> _headers = {
-    'app-key': '9E075AC2-42A4-4077-BF25-9754E4C32FDC',
-    "token": ""
+    'Accept': 'application/json',
+    'api_key':
+        'ZZnUS84FEKcw8roZlLwrJ83keSGj661AMomSjTMpiEsBoIlSgsOPI9kHV1ByV7ekBmOqe3oZ63ar8tV55vNZH4J78SMLCAR9iNxrHEXx6pMLVkU1KjzDUEGd9kaVAmZlB3dD4HZSXT4WdGFTDfmzJKlPuBQU4ep4MYQMewlqd8EclYwyZb4DKA7e7dyLyHgkkGOYGN6rQV9zhXPx2gS0LUJpagcDN827VHJ9Uivy5mCbTTpomydCh0Xpjz4UIrFh'
   };
+
   static Alice alice = Alice(
     showNotification: true,
     showInspectorOnShake: true,
@@ -46,6 +50,33 @@ class BaseAPI {
     return _handelResponse(response);
   }
 
+  static Future<ApiResponseModel> post2(
+      String url, Map<String, dynamic> body) async {
+    try {
+      var response = await http
+          .post(Uri.parse(url), headers: await getHeader(), body: body)
+          .interceptWithAlice(alice, body: body)
+          .timeout(
+            const Duration(seconds: _timeOutValueSeconds),
+          );
+      return ApiResponseModel.fromJson(json.decode(response.body));
+    } catch (e) {
+      return ApiResponseModel(message: 'حدث خطاء', status: '0', data: {});
+    }
+  }
+
+  static Future<Map<String, String>> getHeader() async {
+    String apiKey =
+        'ZZnUS84FEKcw8roZlLwrJ83keSGj661AMomSjTMpiEsBoIlSgsOPI9kHV1ByV7ekBmOqe3oZ63ar8tV55vNZH4J78SMLCAR9iNxrHEXx6pMLVkU1KjzDUEGd9kaVAmZlB3dD4HZSXT4WdGFTDfmzJKlPuBQU4ep4MYQMewlqd8EclYwyZb4DKA7e7dyLyHgkkGOYGN6rQV9zhXPx2gS0LUJpagcDN827VHJ9Uivy5mCbTTpomydCh0Xpjz4UIrFh';
+    String? token = await LocalStorageHelper.getToken();
+    Map<String, String> header = {
+      'api_key': apiKey,
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    return header;
+  }
+
   static Future<dynamic> post(String url, Map<String, dynamic> body,
       {bool? isJson}) async {
     http.Response response;
@@ -64,8 +95,8 @@ class BaseAPI {
     } on Exception {
       throw FetchDataException('Server Error');
     }
-    if (isJson == false) return response;
-    return _handelResponse(response);
+    // if (isJson == false) return response;
+    return json.encode(response);
   }
 
   static Future<dynamic> put(String url, Map<String, dynamic> body,

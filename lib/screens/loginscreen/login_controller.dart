@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/helper/custom/custom_loading.dart';
+import 'package:ramtha/screens/homescreen/home_screen.dart';
 import 'package:ramtha/screens/loginscreen/login_repository.dart';
 import 'package:ramtha/screens/loginscreen/model/login_request.dart';
 import 'package:ramtha/screens/loginscreen/model/login_response.dart';
@@ -22,42 +23,39 @@ class LoginController extends GetxController {
     if (userName.text.isEmpty) {
       CustomSnackBar.showCustomSnackBar(
         message: 'الرجاء تعبئة البريد الألكتروني',
-        backgroundColor: AppColors.blueButtonColor,
-        duration: const Duration(seconds: 1),
       );
       return;
     }
     if (password.text.isEmpty) {
       CustomSnackBar.showCustomSnackBar(
         message: 'الرجاء تعبئة كلمة السر',
-        backgroundColor: AppColors.blueButtonColor,
-        duration: const Duration(seconds: 1),
       );
       return;
     }
     LoginRequest loginRequest = LoginRequest(
         deviceToken: 'sdsdsds',
         password: password.text,
-        platform: GetPlatform.isAndroid ? "Android" : "iOS",
+        platform: GetPlatform.isAndroid ? "android" : "ios",
         username: userName.text);
     loading();
-    await loginRepository.makeLoginAPI(loginRequest.toJson()).then((value) {
+    await loginRepository
+        .makeLoginAPI(loginRequest.toJson())
+        .then((value) async {
       closeLoading();
-      if (value is LoginResponse) {
-        //save user Data
-        //Go To Home
+      if (value.status == '1') {
+        if (isRememberMe) {
+          await LocalStorageHelper.saveCredentials(
+              username: userName.text,
+              password: password.text,
+              token: value.data?.token ?? "");
+        }
+        Get.offAll(MainScreen());
       } else {
         CustomSnackBar.showCustomSnackBar(
           message: value.message,
-          backgroundColor: AppColors.blueButtonColor,
-          duration: const Duration(seconds: 1),
         );
       }
     });
-
-    if (isRememberMe) {
-      LocalStorageHelper.saveCredentials(userName.text, password.text);
-    }
   }
 
   bool onPressedUnVisible() {

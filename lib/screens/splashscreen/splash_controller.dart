@@ -8,18 +8,13 @@ class SplashController extends GetxController {
   UserModel? userModel;
 
   @override
-  void onInit() {
-    // TODO: implement onInit
+  void onInit() async {
     super.onInit();
-    Future.delayed(const Duration(milliseconds: 3000), () async {
-      userModel = LocalStorageHelper.getCredentials();
-
-      if ((userModel?.email.isEmpty ?? true) &&
-          (userModel?.password.isEmpty ?? true)) {
-        Get.offAll(const LoginScreen());
-      } else {
-        Get.offAll(  MainScreen());
-      }
-    });
+    await Future.delayed(const Duration(seconds: 1));
+    if (await LocalStorageHelper.isLoggedIn()) {
+      Get.offAll(MainScreen());
+    } else {
+      Get.offAll(const LoginScreen());
+    }
   }
 }

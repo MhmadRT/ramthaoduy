@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../../helper/custom/custom_toast_massage.dart';
+
 class CreateAccountController extends GetxController {
   bool visiblePassword = true;
   bool visiblePasswordConfirm = true;
@@ -33,4 +35,5 @@ class CreateAccountController extends GetxController {
     update();
     return true;
   }
+
 }

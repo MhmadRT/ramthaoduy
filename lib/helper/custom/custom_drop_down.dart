@@ -1,49 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import '../../constant/app_colors.dart';
+import '../../constant/app_images.dart';
 
 class CustomDropdown extends StatefulWidget {
+  final List<Item> listItems;
+  final Item? selectedItem;
+  final ValueChanged<Item>? onSelected;
+
+  const CustomDropdown(
+      {super.key, required this.listItems, this.selectedItem, this.onSelected});
+
   @override
-  _CustomDropdownState createState() => _CustomDropdownState();
+  CustomDropdownState createState() => CustomDropdownState();
 }
 
-class _CustomDropdownState extends State<CustomDropdown> {
-  String ?selectedOption;
-  bool isDropdownOpen = false;
-
-  List<String> options = [
-    'Option 1',
-    'Option 2',
-    'Option 3',
-    'Option 4',
-  ];
-
+class CustomDropdownState extends State<CustomDropdown> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          isDropdownOpen = !isDropdownOpen;
-        });
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                selectedOption ?? 'Select an option',
-                style: TextStyle(fontSize: 16),
-              ),
+    return Container(
+      height: 50,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: AppColors.editTextColor),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: DropdownButton<Item>(
+            menuMaxHeight: Get.height / 3,
+            isExpanded: true,
+            icon: SvgPicture.asset(
+              AppImages.dropDownIcon,
+              height: 7,
             ),
-            Icon(
-              isDropdownOpen ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-            ),
-          ],
-        ),
+            focusColor: const Color(0xff00114F),
+            borderRadius: BorderRadius.circular(10),
+            underline: const SizedBox(),
+            iconEnabledColor: Colors.black,
+            dropdownColor: Colors.grey.shade200,
+            items: widget.listItems.map<DropdownMenuItem<Item>>((Item value) {
+              return DropdownMenuItem<Item>(
+                value: value,
+                child: Text(
+                  value.desc ?? "",
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+              );
+            }).toList(),
+            onChanged: (Item? newValue) {},
+            hint: const Text(
+              "Please choose a langauage",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500),
+            )),
       ),
     );
   }
+}
+
+class Item {
+  String? id;
+  String? desc;
+  String? parentID;
+  bool isSelected = false;
+
+  Item({this.id, this.desc, this.parentID});
 }

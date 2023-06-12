@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/helper/custom/custom_button.dart';
+import 'package:ramtha/helper/custom/custom_text_feild.dart';
 
 import '../../constant/app_colors.dart';
 import '../../constant/app_images.dart';
@@ -107,6 +109,18 @@ class CreateAccountScreen extends StatelessWidget {
                               ),
                             ),
                           ],
+                        ),
+                        CustomTextField<String>(
+                          controller: controller.userNameFromThreeSection,
+                          isRequired: true,
+                          suffixIcon: "",
+                          hintText: "احمد الحماد",
+                          title: "اسم صاحب الرقم",
+                          lightLabel: true,
+                          validator: (v) {
+                            if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                            return null;
+                          },
                         ),
                         Row(
                           children: [

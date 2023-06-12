@@ -33,19 +33,19 @@ class MainScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Row(
+                        const Row(
                           children: [
-                            const CircleAvatar(
+                            CircleAvatar(
                               maxRadius: 35,
                               backgroundImage: NetworkImage(
                                   'https://www.sayidaty.net/sites/default/files/styles/900_scale/public/2019/12/03/6145006-1029464460.jpg'),
                             ),
-                            const SizedBox(
+                            SizedBox(
                               width: 10,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text("احمد محمد احمد",
                                     style: TextStyle(
                                         fontSize: 17,
@@ -131,7 +131,7 @@ class MainScreen extends StatelessWidget {
                     Row(
                       children: [
                         SvgPicture.asset(AppImages.aboutMenuIcon, height: 20),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         const Text("عن التطبيق",
@@ -157,7 +157,7 @@ class MainScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           SvgPicture.asset(AppImages.starMenuIcon, height: 20),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           const Text("تقييم التطبيق",
@@ -177,19 +177,27 @@ class MainScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(AppImages.loginMenuIcon, height: 20),
-                        SizedBox(
-                          width: 10,
+                    GetBuilder<MainController>(builder: (con) {
+                      return InkWell(
+                        onTap: () {
+                          con.makeLogOut();
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(AppImages.loginMenuIcon,
+                                height: 20),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text("تسجيل خروج",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w600)),
+                          ],
                         ),
-                        const Text("تسجيل خروج",
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.red,
-                                fontWeight: FontWeight.w600)),
-                      ],
-                    ),
+                      );
+                    }),
                     const SizedBox(
                       height: 10,
                     ),

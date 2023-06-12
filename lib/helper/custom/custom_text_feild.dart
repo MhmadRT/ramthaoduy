@@ -1,33 +1,35 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../constant/app_colors.dart';
-import '../../constant/app_images.dart';
 
-class CustomTextField extends StatefulWidget {
-  CustomTextField(
+class CustomTextField<T> extends StatefulWidget {
+  const CustomTextField(
       {Key? key,
       this.controller,
       this.maxLines,
       this.hintText,
+      this.validator,
       this.suffixIcon,
       this.title,
       this.autoFocus,
+      this.lightLabel,
       this.inputType,
       this.showTitle,
       this.isRequired})
       : super(key: key);
 
-  TextEditingController? controller;
-  String? hintText;
-  int? maxLines;
-  String? title;
-  bool? isRequired;
-  bool? showTitle;
-  bool? autoFocus;
-  String? suffixIcon;
-  TextInputType? inputType;
+  final TextEditingController? controller;
+  final String? hintText;
+  final int? maxLines;
+  final String? title;
+  final bool? isRequired;
+  final bool? showTitle;
+  final bool? autoFocus;
+  final bool? lightLabel;
+  final String? suffixIcon;
+  final TextInputType? inputType;
+  final FormFieldValidator<T>? validator;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -45,17 +47,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 children: [
                   if (widget.showTitle ?? true)
                     Text(widget.title ?? "",
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 15,
-                            color: AppColors.mainColor,
+                            color: widget.lightLabel == true
+                                ? AppColors.whiteColor
+                                : AppColors.mainColor,
                             fontWeight: FontWeight.w500)),
                   if (widget.isRequired ?? false)
                     const Text("*", style: TextStyle(color: Colors.red)),
                 ],
               ),
-              TextField(
+              TextFormField(
                 maxLines: widget.maxLines,
-                autofocus: widget.autoFocus??false,
+                autofocus: widget.autoFocus ?? false,
                 keyboardType: widget.inputType,
                 controller: widget.controller,
                 decoration: InputDecoration(
