@@ -76,7 +76,7 @@ class RateScreen extends StatelessWidget {
                                 CustomTextField(
                                   controller: controller.rateController,
                                   isRequired: false,
-                                  suffixIcon: "",
+                                  suffixSvgIconName: "",
                                   maxLines: 5,
                                   hintText: "اضف ملاحظات",
                                   title: "",

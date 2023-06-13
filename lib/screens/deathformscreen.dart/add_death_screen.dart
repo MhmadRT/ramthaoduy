@@ -26,7 +26,7 @@ class FormDeathScreen extends StatelessWidget {
                   CustomTextField(
                     controller: controller.nameDeathFromThreeSection,
                     isRequired: true,
-                    suffixIcon: "",
+                    suffixSvgIconName: "",
                     hintText: "مثال: محمد احمد رمضان",
                     title: "الأسم الثلاثي للشخص المتوفى",
                   ),
@@ -36,7 +36,7 @@ class FormDeathScreen extends StatelessWidget {
                   CustomTextField(
                     controller: controller.burial,
                     isRequired: true,
-                    suffixIcon: "",
+                    suffixSvgIconName: "",
                     maxLines: 5,
                     hintText:
                         "مثال:  وقت الدفن : صلاة الظهر في مسجد خالد بن الوليد",
@@ -46,7 +46,7 @@ class FormDeathScreen extends StatelessWidget {
                   CustomTextField(
                     controller: controller.theMobileNumberOfTheDeceasedFamily,
                     isRequired: true,
-                    suffixIcon: "",
+                    suffixSvgIconName: "",
                     inputType: TextInputType.phone,
                     hintText: "+962 789 654 986",
                     title: "رقم موبايل اهل المتوفي",
@@ -54,7 +54,7 @@ class FormDeathScreen extends StatelessWidget {
                   CustomTextField(
                     controller: controller.theNameOfTheOwnerOfTheNumber,
                     isRequired: true,
-                    suffixIcon: "",
+                    suffixSvgIconName: "",
                     hintText: "احمد الحماد",
                     title: "اسم صاحب الرقم",
                   ),

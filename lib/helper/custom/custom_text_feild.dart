@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../constant/app_colors.dart';
@@ -8,13 +9,15 @@ class CustomTextField<T> extends StatefulWidget {
       {Key? key,
       this.controller,
       this.maxLines,
+      this.inputFormatters,
       this.hintText,
       this.validator,
-      this.suffixIcon,
+      this.suffixSvgIconName,
       this.title,
       this.autoFocus,
       this.lightLabel,
       this.inputType,
+      this.suffixIcon,
       this.showTitle,
       this.isRequired})
       : super(key: key);
@@ -27,7 +30,9 @@ class CustomTextField<T> extends StatefulWidget {
   final bool? showTitle;
   final bool? autoFocus;
   final bool? lightLabel;
-  final String? suffixIcon;
+  final List<TextInputFormatter>? inputFormatters;
+  final String? suffixSvgIconName;
+  final Widget? suffixIcon;
   final TextInputType? inputType;
   final FormFieldValidator<T>? validator;
 
@@ -38,58 +43,58 @@ class CustomTextField<T> extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        Expanded(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  if (widget.showTitle ?? true)
-                    Text(widget.title ?? "",
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: widget.lightLabel == true
-                                ? AppColors.whiteColor
-                                : AppColors.mainColor,
-                            fontWeight: FontWeight.w500)),
-                  if (widget.isRequired ?? false)
-                    const Text("*", style: TextStyle(color: Colors.red)),
-                ],
-              ),
-              TextFormField(
-                maxLines: widget.maxLines,
-                autofocus: widget.autoFocus ?? false,
-                keyboardType: widget.inputType,
-                controller: widget.controller,
-                decoration: InputDecoration(
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  filled: true,
-                  fillColor: AppColors.editTextColor,
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(9.0),
-                    child: SvgPicture.asset(
-                      widget.suffixIcon ?? "",
-                      height: 2,
-                    ),
-                  ),
-                  hintText: widget.hintText,
-                  hintStyle: TextStyle(
-                      color: Colors.grey.withOpacity(.8), fontSize: 14),
-                  helperStyle: TextStyle(color: Colors.black.withOpacity(.5)),
-                  enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      borderSide:
-                          BorderSide(color: Colors.transparent, width: 2)),
-                  focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    // borderSide:
-                    //     BorderSide(color: AppColors.textColor, width: 2),
-                  ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 3.0),
+            child: Row(
+              children: [
+                if (widget.showTitle ?? true)
+                  Text(widget.title ?? "",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: widget.lightLabel == true
+                              ? AppColors.whiteColor
+                              : AppColors.mainColor,
+                          fontWeight: FontWeight.w500)),
+                if (widget.isRequired ?? false)
+                  const Text("*", style: TextStyle(color: Colors.red)),
+              ],
+            ),
+          ),
+        TextFormField(
+          maxLines: widget.maxLines,
+          autofocus: widget.autoFocus ?? false,
+          keyboardType: widget.inputType,
+          controller: widget.controller,
+          inputFormatters: widget.inputFormatters,
+          decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            filled: true,
+            fillColor: AppColors.editTextColor,
+            suffixIcon: widget.suffixIcon ??
+                Padding(
+                  padding: const EdgeInsets.all(9.0),
+                  child: (widget.suffixSvgIconName?.isNotEmpty ?? false)
+                      ? SvgPicture.asset(
+                          widget.suffixSvgIconName ?? "",
+                          height: 2,
+                        )
+                      : null,
                 ),
-              ),
-            ],
+            hintText: widget.hintText,
+            hintStyle:
+                TextStyle(color: Colors.grey.withOpacity(.8), fontSize: 14),
+            helperStyle: TextStyle(color: Colors.black.withOpacity(.5)),
+            enabledBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                borderSide: BorderSide(color: Colors.transparent, width: 2)),
+            focusedBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              // borderSide:
+              //     BorderSide(color: AppColors.textColor, width: 2),
+            ),
           ),
         ),
       ],

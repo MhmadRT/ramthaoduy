@@ -23,7 +23,7 @@ class SearchScreen extends StatelessWidget {
                       controller: controller.searchController,
                       isRequired: false,autoFocus: true,
                       showTitle: false,
-                      suffixIcon: "",
+                      suffixSvgIconName: "",
                       inputType: TextInputType.text,
                       hintText: "اكتب هنا ...",
                       title: "البحث",

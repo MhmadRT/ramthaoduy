@@ -234,7 +234,7 @@ class LoginScreen extends StatelessWidget {
                           },
                         ),
                         CustomButton(
-                          color: AppColors.blueButtonColor,
+                          color: AppColors.yellow,
                           title: "انشاء حساب",
                           height: 50,
                           colorTitle: AppColors.whiteColor,

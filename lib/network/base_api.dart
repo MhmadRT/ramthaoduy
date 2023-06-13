@@ -65,6 +65,29 @@ class BaseAPI {
     }
   }
 
+  static Future<ApiResponseModel> get2(
+      String url, Map<String, dynamic> body) async {
+    try {
+      final String queryString = Uri(
+          queryParameters:
+              body.map((key, value) => MapEntry(key, value?.toString()))).query;
+      String fullUrl = "$url?$queryString";
+      log('START', name: 'Get $fullUrl API');
+      var response = await http
+          .get(Uri.parse(fullUrl), headers: await getHeader())
+          .interceptWithAlice(alice, body: body)
+          .timeout(
+            const Duration(seconds: _timeOutValueSeconds),
+          );
+      log(response.body, name: 'STATUS CODE ${response.statusCode}');
+
+      return ApiResponseModel.fromJson(json.decode(response.body));
+    } catch (e) {
+      log(e.toString(), error: 'GET API ERROR $url');
+      return ApiResponseModel(message: 'حدث خطاء', status: '0', data: {});
+    }
+  }
+
   static Future<Map<String, String>> getHeader() async {
     String apiKey =
         'ZZnUS84FEKcw8roZlLwrJ83keSGj661AMomSjTMpiEsBoIlSgsOPI9kHV1ByV7ekBmOqe3oZ63ar8tV55vNZH4J78SMLCAR9iNxrHEXx6pMLVkU1KjzDUEGd9kaVAmZlB3dD4HZSXT4WdGFTDfmzJKlPuBQU4ep4MYQMewlqd8EclYwyZb4DKA7e7dyLyHgkkGOYGN6rQV9zhXPx2gS0LUJpagcDN827VHJ9Uivy5mCbTTpomydCh0Xpjz4UIrFh';

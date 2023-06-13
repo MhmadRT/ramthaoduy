@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/helper/custom/custom_button.dart';
@@ -49,532 +49,158 @@ class CreateAccountScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  child: Column(children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
+                  child: Form(
+                    key: controller.formKey,
+                    child: Column(children: [
+                      CustomTextField<String>(
+                        controller: controller.userNameFromThreeSection,
+                        isRequired: true,
+                        suffixSvgIconName: '',
+                        title: "الأسم من ثلاث مقاطع",
+                        hintText: 'محمد احمد علي',
+                        lightLabel: true,
+                        validator: (v) {
+                          if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomTextField<String>(
+                        controller: controller.userNameForRegister,
+                        isRequired: true,
+                        suffixSvgIconName: '',
+                        title: "الأسم المستخدم لتسجيل",
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r"\s")),
+                          // Deny whitespace characters
+                        ],
+                        hintText: 'user123',
+                        lightLabel: true,
+                        validator: (v) {
+                          if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomTextField<String>(
+                        controller: controller.password,
+                        isRequired: true,
+                        suffixSvgIconName: '',
+                        title: "كلمة السر",
+                        lightLabel: true,
+                        suffixIcon: InkWell(
                           onTap: () {
-                            // Get.offAll(() => const MainScreen());
+                            controller.visiblePassword =
+                                !controller.visiblePassword;
+                            controller.update();
                           },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [],
+                          child: Icon(
+                            controller.visiblePassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: controller.visiblePassword
+                                ? AppColors.yellow
+                                : AppColors.defaultButtonColor,
                           ),
                         ),
-                      ],
-                    ),
-                    Wrap(
-                      runSpacing: 20,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: controller.userNameFromThreeSection,
-                                decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-                                  filled: true,
-                                  fillColor: AppColors.editTextColor,
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.all(9.0),
-                                    child: SvgPicture.asset(
-                                      AppImages.iconProfile,
-                                      height: 2,
-                                    ),
-                                  ),
-                                  hintText: "الأسم من ثلاث مقاطع",
-                                  helperStyle: TextStyle(
-                                      color: Colors.black.withOpacity(.5)),
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(15)),
-                                      borderSide: BorderSide(
-                                          color: Colors.transparent, width: 2)),
-                                  focusedBorder: const OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                    // borderSide:
-                                    //     BorderSide(color: AppColors.textColor, width: 2),
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'الرجاء ادخال الاسم';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {},
-                              ),
-                            ),
-                          ],
-                        ),
-                        CustomTextField<String>(
-                          controller: controller.userNameFromThreeSection,
-                          isRequired: true,
-                          suffixIcon: "",
-                          hintText: "احمد الحماد",
-                          title: "اسم صاحب الرقم",
-                          lightLabel: true,
-                          validator: (v) {
-                            if (v?.isEmpty ?? true) return 'الحقل فارخ';
-                            return null;
+                        validator: (v) {
+                          if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomTextField<String>(
+                        controller: controller.passwordConfirm,
+                        isRequired: true,
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            controller.visiblePasswordConfirm =
+                                !controller.visiblePasswordConfirm;
+                            controller.update();
                           },
+                          child: Icon(
+                            controller.visiblePasswordConfirm
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: controller.visiblePasswordConfirm
+                                ? AppColors.yellow
+                                : AppColors.defaultButtonColor,
+                          ),
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: controller.userNameForRegister,
-                                decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-                                  filled: true,
-                                  fillColor: AppColors.editTextColor,
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.all(9.0),
-                                    child: SvgPicture.asset(
-                                      AppImages.iconProfile,
-                                      height: 2,
-                                    ),
-                                  ),
-                                  hintText: "الأسم المستخدم لتسجيل",
-                                  helperStyle: TextStyle(
-                                      color: Colors.black.withOpacity(.5)),
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(15)),
-                                      borderSide: BorderSide(
-                                          color: Colors.transparent, width: 2)),
-                                  focusedBorder: const OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                    // borderSide:
-                                    //     BorderSide(color: AppColors.textColor, width: 2),
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'الرجاء ادخال الاسم';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {},
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: controller.password,
-                                obscureText: controller.visiblePassword,
-                                decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                      width: 70,
-                                      child: Row(
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              controller.onPressedVisible();
-                                            },
-                                            child: SvgPicture.asset(
-                                              AppImages.iconUnVisible,
-                                              fit: BoxFit.fitHeight,
-                                              color: controller.visiblePassword
-                                                  ? AppColors.blueButtonColor
-                                                  : null,
-                                              height: 25,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              controller.onPressedUnVisible();
-                                            },
-                                            child: SvgPicture.asset(
-                                              AppImages.iconVisible,
-                                              fit: BoxFit.fitHeight,
-                                              color: !controller.visiblePassword
-                                                  ? AppColors.blueButtonColor
-                                                  : null,
-                                              height: 23,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  hintText: "كلمة السر",
-                                  helperStyle: TextStyle(
-                                      color: Colors.black.withOpacity(.5)),
-                                  filled: true,
-                                  fillColor: AppColors.editTextColor,
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(15)),
-                                      borderSide: BorderSide(
-                                          color: Colors.transparent, width: 2)),
-                                  focusedBorder: const OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'الرجاء ادخال الاسم';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {},
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: controller.passwordConfirm,
-                                obscureText: controller.visiblePasswordConfirm,
-                                decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                      width: 70,
-                                      child: Row(
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              controller.onPressedVisible();
-                                            },
-                                            child: SvgPicture.asset(
-                                              AppImages.iconUnVisible,
-                                              fit: BoxFit.fitHeight,
-                                              color: controller.visiblePassword
-                                                  ? AppColors.blueButtonColor
-                                                  : null,
-                                              height: 25,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              controller.onPressedUnVisible();
-                                            },
-                                            child: SvgPicture.asset(
-                                              AppImages.iconVisible,
-                                              fit: BoxFit.fitHeight,
-                                              color: !controller.visiblePassword
-                                                  ? AppColors.blueButtonColor
-                                                  : null,
-                                              height: 23,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  hintText: "تأكيد كلمة السر",
-                                  helperStyle: TextStyle(
-                                      color: Colors.black.withOpacity(.5)),
-                                  filled: true,
-                                  fillColor: AppColors.editTextColor,
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(15)),
-                                      borderSide: BorderSide(
-                                          color: Colors.transparent, width: 2)),
-                                  focusedBorder: const OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'الرجاء ادخال الاسم';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {},
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "المحافظة",
-                                    style: TextStyle(
-                                        color: AppColors.whiteColor
-                                            .withOpacity(.6)),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: AppColors.editTextColor),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: DropdownButton<String>(
-                                          menuMaxHeight: Get.height / 3,
-                                          isExpanded: true,
-                                          icon: SvgPicture.asset(
-                                            AppImages.dropDownIcon,
-                                            height: 7,
-                                          ),
-                                          focusColor: const Color(0xff00114F),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          underline: const SizedBox(),
-                                          value: dropdownValue,
-                                          iconEnabledColor: Colors.black,
-                                          dropdownColor: Colors.grey.shade200,
-                                          items: <String>[
-                                            'Test1',
-                                            'Test2',
-                                            'Test3',
-                                            'Test4',
-                                            'Test4',
-                                          ].map<DropdownMenuItem<String>>(
-                                              (String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(
-                                                value,
-                                                style: const TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            );
-                                          }).toList(),
-                                          // Step 5.
-                                          onChanged: (String? newValue) {
-                                            // setState(() {
-                                            //   dropdownValue = newValue!;
-                                            // });
-                                          },
-                                          hint: const Text(
-                                            "Please choose a langauage",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500),
-                                          )),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "اللواء",
-                                    style: TextStyle(
-                                        color: AppColors.whiteColor
-                                            .withOpacity(.6)),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: AppColors.editTextColor),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: DropdownButton<String>(
-                                          menuMaxHeight: Get.height / 3,
-                                          isExpanded: true,
-                                          icon: SvgPicture.asset(
-                                            AppImages.dropDownIcon,
-                                            height: 7,
-                                          ),
-                                          focusColor: const Color(0xff00114F),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          underline: const SizedBox(),
-                                          value: dropdownValue,
-                                          iconEnabledColor: Colors.black,
-                                          dropdownColor: Colors.grey.shade200,
-                                          items: <String>[
-                                            'Test1',
-                                            'Test2',
-                                            'Test3',
-                                            'Test4',
-                                            'Test4',
-                                          ].map<DropdownMenuItem<String>>(
-                                              (String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(
-                                                value,
-                                                style: const TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            );
-                                          }).toList(),
-                                          // Step 5.
-                                          onChanged: (String? newValue) {
-                                            // setState(() {
-                                            //   dropdownValue = newValue!;
-                                            // });
-                                          },
-                                          hint: const Text(
-                                            "Please choose a langauage",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500),
-                                          )),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "القضاء",
-                                    style: TextStyle(
-                                        color: AppColors.whiteColor
-                                            .withOpacity(.6)),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: AppColors.editTextColor),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: DropdownButton<String>(
-                                          menuMaxHeight: Get.height / 3,
-                                          isExpanded: true,
-                                          icon: SvgPicture.asset(
-                                            AppImages.dropDownIcon,
-                                            height: 7,
-                                          ),
-                                          focusColor: const Color(0xff00114F),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          underline: const SizedBox(),
-                                          value: dropdownValue,
-                                          iconEnabledColor: Colors.black,
-                                          dropdownColor: Colors.grey.shade200,
-                                          items: <String>[
-                                            'Test1',
-                                            'Test2',
-                                            'Test3',
-                                            'Test4',
-                                            'Test4',
-                                          ].map<DropdownMenuItem<String>>(
-                                              (String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(
-                                                value,
-                                                style: const TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            );
-                                          }).toList(),
-                                          // Step 5.
-                                          onChanged: (String? newValue) {
-                                            // setState(() {
-                                            //   dropdownValue = newValue!;
-                                            // });
-                                          },
-                                          hint: const Text(
-                                            "Please choose a langauage",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500),
-                                          )),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            CustomButton(
-                              color: AppColors.blueButtonColor,
-                              title: "انشاء حساب",
-                              height: 50,
-                              colorTitle: AppColors.whiteColor,
-                              pressed: () {
-                                // Get.to(()=> CreateAccountScreen());
-                              },
-                            ),
-                            const SizedBox(
-                              height: 50,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ]),
+                        title: "تأكيد كلمة السر",
+                        lightLabel: true,
+                        validator: (v) {
+                          if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          if (v != controller.password.text) {
+                            return 'كلمة السر غير مطابقه';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomDropdown(
+                          listItems: controller.cities.cities ?? [],
+                          selectedItem: controller.selectedCity,
+                          lightLabel: true,
+                          isRequired: true,
+                          label: 'المحافظة',
+                          onSelected: (v) {
+                            controller.selectedCity = v;
+                            controller.update();
+                            controller.getBrigades();
+                          }),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomDropdown(
+                          lightLabel: true,
+                          isRequired: true,
+                          label: 'الواء',
+                          listItems: controller.brigades.brigades ?? [],
+                          selectedItem: controller.selectedBrigade,
+                          onSelected: (v) {
+                            controller.selectedBrigade = v;
+                            controller.update();
+                            controller.getDistrict();
+                          }),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomDropdown(
+                          lightLabel: true,
+                          isRequired: true,
+                          label: 'المنطقة',
+                          listItems: controller.districts.districts ?? [],
+                          selectedItem: controller.selectedDistrict,
+                          onSelected: (v) {
+                            controller.selectedDistrict = v;
+                            controller.update();
+                          }),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      CustomButton(
+                        color: AppColors.blueButtonColor,
+                        title: "انشاء حساب",
+                        height: 50,
+                        colorTitle: AppColors.whiteColor,
+                        pressed: () {
+                          if (controller.formKey.currentState?.validate() ??
+                              false) {
+                            controller.makeRegister();
+                          }
+                        },
+                      ),
+                    ]),
+                  ),
                 ),
               );
             }),

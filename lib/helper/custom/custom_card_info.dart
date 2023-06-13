@@ -4,24 +4,12 @@ import 'package:get/get.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/constant/app_images.dart';
 
-class CustomCardInfo extends StatefulWidget {
-  String? period;
-  String? sex="1";
-  String? image;
-  String? name;
-  String? date;
-  String? age;
-  String? town;
+import '../../screens/homescreen/model/posts_response.dart';
 
-  CustomCardInfo(
-      {super.key,
-      this.period,
-      this.sex,
-      this.image,
-      this.name,
-      this.date,
-      this.age,
-      this.town});
+class CustomCardInfo extends StatefulWidget {
+  final Post post;
+
+  const CustomCardInfo({super.key, required this.post});
 
   @override
   State<CustomCardInfo> createState() => _CustomCardInfoState();
@@ -59,21 +47,20 @@ class _CustomCardInfoState extends State<CustomCardInfo> {
                           children: [
                             ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
-                                child:
-                                    (widget.image == null || widget.image == "")
-                                        ? widget.sex == "1"
-                                            ? Image.asset(
-                                                fit: BoxFit.fitHeight,
-                                                height: 150,
-                                                AppImages.male)
-                                            : Image.asset(
-                                                fit: BoxFit.fitHeight,
-                                                height: 150,
-                                                AppImages.female)
-                                        : Image.network(
+                                child: (widget.post.image?.isEmpty ?? true)
+                                    ? widget.post.gender == "1"
+                                        ? Image.asset(
                                             fit: BoxFit.fitHeight,
                                             height: 150,
-                                            widget.image ?? "")),
+                                            AppImages.male)
+                                        : Image.asset(
+                                            fit: BoxFit.fitHeight,
+                                            height: 150,
+                                            AppImages.female)
+                                    : Image.network(
+                                        fit: BoxFit.fitHeight,
+                                        height: 150,
+                                        widget.post.image ?? "")),
                             Opacity(
                               opacity: .8,
                               child: Image.asset(AppImages.blackLine,
@@ -93,7 +80,9 @@ class _CustomCardInfoState extends State<CustomCardInfo> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    widget.period ?? "",
+                                    widget.post.createdDate
+                                            ?.toIso8601String() ??
+                                        "",
                                     style: TextStyle(
                                       color:
                                           AppColors.mainColor.withOpacity(.5),
@@ -103,28 +92,29 @@ class _CustomCardInfoState extends State<CustomCardInfo> {
                                 ],
                               ),
                               Text(
-                                widget.name ?? "",
+                                widget.post.deadName ?? "",
                                 style: const TextStyle(
                                     color: AppColors.mainColor,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                widget.date ?? "",
+                                widget.post.createdDate?.toIso8601String() ??
+                                    "",
                                 style: const TextStyle(
                                     color: AppColors.mainColor,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                widget.age ?? "",
+                                widget.post.ageInYears.toString() ?? "",
                                 style: const TextStyle(
                                     color: AppColors.mainColor,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                widget.town ?? "",
+                                widget.post.city ?? "",
                                 style: const TextStyle(
                                     color: AppColors.mainColor,
                                     fontSize: 15,
@@ -147,10 +137,10 @@ class _CustomCardInfoState extends State<CustomCardInfo> {
                                           style: TextStyle(color: Colors.grey)),
                                     ],
                                   ),
-                                  Row(
+                                  const Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
-                                    children: const [
+                                    children: [
                                       Icon(
                                         Icons.share,
                                         color: AppColors.mainColor,
