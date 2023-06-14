@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/helper/custom/custom_text_feild.dart';
 
 import '../../constant/app_images.dart';
 import '../../helper/custom/custom_button.dart';
+import '../../helper/custom/custom_date_picker.dart';
+import '../../helper/custom/custom_drop_down.dart';
 import '../locationscreen/location_screen.dart';
 import 'death_controller.dart';
 
@@ -31,8 +32,55 @@ class FormDeathScreen extends StatelessWidget {
                     title: "الأسم الثلاثي للشخص المتوفى",
                   ),
                   _buildSelectSex(controller),
-                  _buildDate(context, controller),
-                  buildRegion(controller),
+                  CustomDateField(
+                    label: 'تاريخ الوفاه',
+                    onConfirm: (v) {
+                      controller.date = v;
+                      controller.update();
+                    },
+                    required: true,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomDropdown(
+                      listItems: controller.cities.cities ?? [],
+                      selectedItem: controller.selectedCity,
+                      isRequired: true,
+                      label: 'المحافظة',
+                      onSelected: (v) {
+                        controller.selectedCity = v;
+                        controller.update();
+                        controller.getBrigades();
+                      }),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomDropdown(
+                      isRequired: true,
+                      label: 'الواء',
+                      listItems: controller.brigades.brigades ?? [],
+                      selectedItem: controller.selectedBrigade,
+                      onSelected: (v) {
+                        controller.selectedBrigade = v;
+                        controller.update();
+                        controller.getDistrict();
+                      }),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomDropdown(
+                      isRequired: true,
+                      label: 'المنطقة',
+                      listItems: controller.districts.districts ?? [],
+                      selectedItem: controller.selectedDistrict,
+                      onSelected: (v) {
+                        controller.selectedDistrict = v;
+                        controller.update();
+                      }),
+                  const SizedBox(
+                    height: 40,
+                  ),
                   CustomTextField(
                     controller: controller.burial,
                     isRequired: true,
@@ -88,8 +136,8 @@ class FormDeathScreen extends StatelessWidget {
   Column _buildLocation(BuildContext context, FormDeathController controller) {
     return Column(
       children: [
-        Row(
-          children: const [
+        const Row(
+          children: [
             Text("الموقع",
                 style: TextStyle(
                     fontSize: 15,
@@ -121,10 +169,9 @@ class FormDeathScreen extends StatelessWidget {
                 children: [
                   Text(controller.locationInfo.streetInfo ?? "",
                       style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w100,
-                        color: AppColors.mainColor
-                      )),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w100,
+                          color: AppColors.mainColor)),
                   SvgPicture.asset(
                     AppImages.locationIcon,
                     height: 20,
@@ -136,89 +183,11 @@ class FormDeathScreen extends StatelessWidget {
     );
   }
 
-  Column buildRegion(FormDeathController controller) {
-    return Column(
-      children: [
-        Row(
-          children: const [
-            Text("البلدة",
-                style: TextStyle(
-                    fontSize: 15,
-                    color: AppColors.mainColor,
-                    fontWeight: FontWeight.w500)),
-            Text("*",
-                style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.red,
-                    fontWeight: FontWeight.w500)),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: AppColors.editTextColor),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: DropdownButton<String>(
-                      menuMaxHeight: Get.height / 3,
-                      isExpanded: true,
-                      icon: SvgPicture.asset(
-                        AppImages.dropDownIcon,
-                        height: 7,
-                      ),
-                      focusColor: const Color(0xff00114F),
-                      borderRadius: BorderRadius.circular(10),
-                      underline: const SizedBox(),
-                      value: controller.dropdownValue,
-                      iconEnabledColor: Colors.black,
-                      dropdownColor: Colors.grey.shade200,
-                      items: <String>[
-                        'Test1',
-                        'Test2',
-                        'Test3',
-                        'Test4',
-                        'Test4',
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                        );
-                      }).toList(),
-                      // Step 5.
-                      onChanged: (String? newValue) {
-                        // setState(() {
-                        //   dropdownValue = newValue!;
-                        // });
-                      },
-                      hint: const Text(
-                        "Please choose a langauage",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      )),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
   Column _buildDate(BuildContext context, FormDeathController controller) {
     return Column(
       children: [
-        Row(
-          children: const [
+        const Row(
+          children: [
             Text("التاريخ",
                 style: TextStyle(
                     fontSize: 15,
@@ -269,8 +238,8 @@ class FormDeathScreen extends StatelessWidget {
   _buildSelectSex(FormDeathController controller) {
     return Column(
       children: [
-        Row(
-          children: const [
+        const Row(
+          children: [
             Text("الجنس",
                 style: TextStyle(
                     fontSize: 15,

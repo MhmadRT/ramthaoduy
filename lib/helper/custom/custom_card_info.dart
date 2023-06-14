@@ -1,21 +1,20 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/constant/app_images.dart';
+import 'package:ramtha/network/api_urls.dart';
 
+import '../../constant/const_var.dart';
 import '../../screens/homescreen/model/posts_response.dart';
 
-class CustomCardInfo extends StatefulWidget {
+class CustomCardInfo extends StatelessWidget {
   final Post post;
 
   const CustomCardInfo({super.key, required this.post});
 
-  @override
-  State<CustomCardInfo> createState() => _CustomCardInfoState();
-}
-
-class _CustomCardInfoState extends State<CustomCardInfo> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,21 +45,35 @@ class _CustomCardInfoState extends State<CustomCardInfo> {
                         child: Stack(
                           children: [
                             ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: (widget.post.image?.isEmpty ?? true)
-                                    ? widget.post.gender == "1"
-                                        ? Image.asset(
-                                            fit: BoxFit.fitHeight,
-                                            height: 150,
-                                            AppImages.male)
-                                        : Image.asset(
-                                            fit: BoxFit.fitHeight,
-                                            height: 150,
-                                            AppImages.female)
-                                    : Image.network(
-                                        fit: BoxFit.fitHeight,
-                                        height: 150,
-                                        widget.post.image ?? "")),
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: (post.image?.isEmpty ?? true)
+                                  ? post.gender == "1"
+                                      ? Image.asset(
+                                          fit: BoxFit.fitHeight,
+                                          height: 150,
+                                          AppImages.male)
+                                      : Image.asset(
+                                          fit: BoxFit.fitHeight,
+                                          height: 150,
+                                          AppImages.female)
+                                  : SizedBox(
+                                      height: 150,
+                                      width: 150,
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            ApiUrl.baseUrl + (post.image ?? ""),
+                                        progressIndicatorBuilder:
+                                            (context, url, downloadProgress) =>
+                                                Center(
+                                          child: CircularProgressIndicator(
+                                              value: downloadProgress.progress),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            const Center(
+                                                child: Icon(Icons.error)),
+                                      ),
+                                    ),
+                            ),
                             Opacity(
                               opacity: .8,
                               child: Image.asset(AppImages.blackLine,
@@ -79,42 +92,45 @@ class _CustomCardInfoState extends State<CustomCardInfo> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    widget.post.createdDate
-                                            ?.toIso8601String() ??
-                                        "",
-                                    style: TextStyle(
-                                      color:
-                                          AppColors.mainColor.withOpacity(.5),
-                                      fontSize: 12,
+                                  Visibility(
+                                    visible: GetUtils.isDateTime(
+                                        post.createdDate?.toIso8601String() ??
+                                            ""),
+                                    child: Text(
+                                      ConstVars.format
+                                          .format(post.createdDate!),
+                                      style: TextStyle(
+                                        color:
+                                            AppColors.mainColor.withOpacity(.5),
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                               Text(
-                                widget.post.deadName ?? "",
+                                post.deadName ?? "",
                                 style: const TextStyle(
                                     color: AppColors.mainColor,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                widget.post.createdDate?.toIso8601String() ??
-                                    "",
+                                ConstVars.timeAgo(post.createdDate),
                                 style: const TextStyle(
                                     color: AppColors.mainColor,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                widget.post.ageInYears.toString() ?? "",
+                                '${post.ageInYears.toString() ?? ""} عام',
                                 style: const TextStyle(
                                     color: AppColors.mainColor,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                widget.post.city ?? "",
+                                post.city ?? "",
                                 style: const TextStyle(
                                     color: AppColors.mainColor,
                                     fontSize: 15,

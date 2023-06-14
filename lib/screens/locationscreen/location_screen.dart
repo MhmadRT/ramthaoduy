@@ -31,6 +31,7 @@ class PickLocationScreen extends StatelessWidget {
                     children: [
                       if (controller.center != null)
                         GoogleMap(
+
                             zoomControlsEnabled: false,
                             onMapCreated: controller.onMapCreated,
                             initialCameraPosition: CameraPosition(

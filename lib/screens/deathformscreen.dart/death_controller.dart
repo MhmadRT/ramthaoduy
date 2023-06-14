@@ -3,6 +3,12 @@ import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ramtha/constant/app_colors.dart';
+import '../../helper/custom/custom_drop_down.dart';
+import '../../helper/custom/custom_loading.dart';
+import '../createaccountscreen/create_account_repository.dart';
+import '../createaccountscreen/models/brigades.dart';
+import '../createaccountscreen/models/cities.dart';
+import '../createaccountscreen/models/districts.dart';
 import '../locationscreen/location_screen.dart';
 
 class FormDeathController extends GetxController {
@@ -19,12 +25,52 @@ class FormDeathController extends GetxController {
 
   LocationInfo locationInfo=LocationInfo(streetInfo: "موقع المقبرة");
 
+  CreateAccountRepository repository = CreateAccountRepository();
+  Cities cities = Cities(cities: []);
+  Item selectedCity = Item(name: 'أختر المحافظة');
+  Districts districts = Districts(districts: []);
+  Item selectedDistrict = Item(name: 'أختر المنطقة');
+  Brigades brigades = Brigades(brigades: []);
+  Item selectedBrigade = Item(name: 'أختر الواء');
+  final formKey = GlobalKey<FormState>();
+
   @override
-  void onInit() {
+  void onInit() async {
     // TODO: implement onInit
+    Future.delayed(Duration.zero).then((value) => getCities());
     super.onInit();
   }
 
+  getCities() async {
+    loading();
+    selectedCity = Item(name: 'أختر المحافظة');
+    selectedBrigade = Item(name: 'أختر الواء');
+    selectedDistrict = Item(name: 'أختر المنطقة');
+    cities = Cities(cities: []);
+    cities = await repository.getCities();
+    update();
+    closeLoading();
+  }
+
+  getBrigades() async {
+    loading();
+    selectedBrigade = Item(name: 'أختر الواء');
+    selectedDistrict = Item(name: 'أختر المنطقة');
+    brigades = Brigades(brigades: []);
+    brigades = await repository.getBrigades(cityId: selectedCity.id ?? "");
+    update();
+    closeLoading();
+  }
+
+  getDistrict() async {
+    loading();
+    selectedDistrict = Item(name: 'أختر المنطقة');
+    districts = Districts(districts: []);
+    districts =
+    await repository.getDistricts(brigadeId: selectedBrigade.id ?? "");
+    update();
+    closeLoading();
+  }
 
   getFormattedDots({bool? isDotes}) {
     if (isDotes == true) {
