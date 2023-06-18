@@ -5,12 +5,13 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/constant/app_images.dart';
+import 'package:ramtha/helper/custom/user_image.dart';
 import 'package:ramtha/network/api_urls.dart';
 
 import '../../constant/const_var.dart';
 import '../../screens/homescreen/model/posts_response.dart';
 import 'custom_button.dart';
-import 'custom_comments_bottomsheet.dart';
+import '../../screens/post_detealis/custom_comments_bottomsheet.dart';
 
 class CustomCardInfo extends StatelessWidget {
   final Post post;
@@ -47,47 +48,18 @@ class CustomCardInfo extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: Get.width / 3.2,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: (post.image?.isEmpty ?? true)
-                                  ? post.gender == "ذكر"
-                                      ? Image.asset(
-                                          fit: BoxFit.fitHeight,
-                                          height: 150,
-                                          AppImages.male)
-                                      : Image.asset(
-                                          fit: BoxFit.fitHeight,
-                                          height: 150,
-                                          AppImages.female)
-                                  : SizedBox(
-                                      height: 120,
-                                      width: 120,
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            ApiUrl.baseUrl + (post.image ?? ""),
-                                        progressIndicatorBuilder:
-                                            (context, url, downloadProgress) =>
-                                                Center(
-                                          child: CircularProgressIndicator(
-                                              value: downloadProgress.progress),
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            const Center(
-                                                child: Icon(Icons.error)),
-                                      ),
-                                    ),
-                            ),
-                            Opacity(
-                              opacity: .8,
-                              child: Image.asset(AppImages.blackLine,
-                                  height: 40, width: 45),
-                            ),
-                          ],
-                        ),
+                      Stack(
+                        children: [
+                          UserImage(
+                              userImage: post.image,
+                              gender: post.gender,
+                              size: 150),
+                          Opacity(
+                            opacity: .8,
+                            child: Image.asset(AppImages.blackLine,
+                                height: 40, width: 45),
+                          ),
+                        ],
                       ),
                       Expanded(
                         child: SizedBox(
@@ -161,9 +133,7 @@ class CustomCardInfo extends StatelessWidget {
                                           onTap: () {
                                             Get.bottomSheet(
                                                 CustomCommentsBottomSheet(
-                                              post: post
-                                                  ,
-                                            ));
+                                                    post: post));
                                           },
                                           child: const Text(" 2 تعليق",
                                               style: TextStyle(

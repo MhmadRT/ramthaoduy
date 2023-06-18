@@ -6,7 +6,7 @@ import 'package:ramtha/screens/homescreen/model/posts_request.dart';
 import 'package:ramtha/screens/homescreen/model/posts_response.dart';
 import 'package:flutter/material.dart';
 
-import '../../helper/custom/custom_comments_bottomsheet.dart';
+import '../post_detealis/custom_comments_bottomsheet.dart';
 import '../../helper/custom/custom_toast_massage.dart';
 import 'model/comments_response.dart';
 
