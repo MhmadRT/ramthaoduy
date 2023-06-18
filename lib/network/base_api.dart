@@ -5,6 +5,7 @@ import 'package:alice/core/alice_http_extensions.dart';
 import 'package:http/http.dart' as http;
 import 'package:ramtha/network/api_response_model.dart';
 import '../helper/local_storage_helper.dart';
+import '../screens/mainscreen/main_controller.dart';
 import 'app_exception.dart';
 import 'package:alice/alice.dart';
 
@@ -59,6 +60,10 @@ class BaseAPI {
           .timeout(
             const Duration(seconds: _timeOutValueSeconds),
           );
+      log('START', name: 'post $url API $body',);
+      Future.delayed(Duration(seconds: 1))
+          .then((value) => print(response.body));
+
       return ApiResponseModel.fromJson(json.decode(response.body));
     } catch (e) {
       return ApiResponseModel(message: 'حدث خطاء', status: '0', data: {});
@@ -80,6 +85,9 @@ class BaseAPI {
             const Duration(seconds: _timeOutValueSeconds),
           );
       log(response.body, name: 'STATUS CODE ${response.statusCode}');
+      if (response.statusCode == 401) {
+        makeLogOut();
+      }
 
       return ApiResponseModel.fromJson(json.decode(response.body));
     } catch (e) {

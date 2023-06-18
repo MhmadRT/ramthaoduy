@@ -16,7 +16,8 @@ class HomeScreen extends StatelessWidget {
           return Column(
             children: [
               if (controller.isLoading) loading(),
-              posts(controller.posts?.posts ?? PostsModel(posts: [])),
+              posts(
+                  controller.posts?.posts ?? PostsModel(posts: []), controller),
             ],
           );
         });
@@ -38,15 +39,22 @@ class HomeScreen extends StatelessWidget {
         });
   }
 
-  posts(PostsModel postsModel) {
-    return ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: postsModel.posts?.length,
-        itemBuilder: (context, index) {
-          return CustomCardInfo(
-            post: postsModel.posts![index],
-          );
-        });
+  posts(PostsModel postsModel, HomeController controller) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        await controller.getPosts();
+      },
+      child: ListView.builder(
+          padding: EdgeInsets.zero,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: postsModel.posts?.length,
+          itemBuilder: (context, index) {
+            return CustomCardInfo(
+              isReview: false,
+              post: postsModel.posts![index],
+            );
+          }),
+    );
   }
 }

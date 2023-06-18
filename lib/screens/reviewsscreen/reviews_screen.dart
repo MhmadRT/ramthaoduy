@@ -1,116 +1,308 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/constant/app_colors.dart';
-import 'package:ramtha/constant/app_images.dart';
-
+import 'package:ramtha/screens/reviewsscreen/review_controller.dart';
 import '../../helper/custom/custom_button.dart';
 import '../../helper/custom/custom_card_info.dart';
-import '../../helper/custom/custom_review_card.dart';
+import '../../helper/custom/custom_loading.dart';
+ import '../../helper/custom/no_data_widget.dart';
+import '../homescreen/model/posts_response.dart';
+import '../post_detealis/post_detealis_screen.dart';
 
 class ReviewsScreen extends StatelessWidget {
   const ReviewsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              Container(
-                height: 80,
-                decoration: const BoxDecoration(
-                    color: AppColors.mainColor,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15))),
-                child: Column(
+    return GetBuilder<ReviewController>(
+        init: ReviewController(),
+        builder: (controller) {
+          return Scaffold(
+            body: Stack(
+              children: [
+                Column(
                   children: [
-                    const SizedBox(
-                      height: 45,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
+                    Container(
+                      height: 85,
+                      decoration: const BoxDecoration(
+                          color: AppColors.mainColor,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15))),
+                      child: Column(
                         children: [
-                          InkWell(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: const Icon(Icons.arrow_back_ios,
-                                color: AppColors.whiteColor, size: 15),
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            child: const Text(
-                              "منشورات تحتاج موافقة",
-                              style: TextStyle(
-                                  color: AppColors.whiteColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17),
-                            ),
-                          ),
                           const SizedBox(
-                            height: 20,
+                            height: 45,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: const Icon(Icons.arrow_back_ios,
+                                        color: AppColors.whiteColor, size: 15),
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    "منشورات تحتاج موافقة",
+                                    style: TextStyle(
+                                        color: AppColors.whiteColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, bottom: 100, top: 10),
+                          child: Column(
+                            children: [
+                              if (controller.isLoading) loading(),
+                              posts(
+                                  controller.posts?.posts ??
+                                      PostsModel(posts: []),
+                                  controller),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      children: [
-                        CustomReviewCard(
-                          age: "50 سنة",
-                          date: "2022.08.22",
-                          image:
-                              "https://www.sayidaty.net/sites/default/files/styles/900_scale/public/2019/12/03/6145006-1029464460.jpg",
-                          name: "احمد مرتضى ابو حمادة",
-                          period: "منذ 5 ساعات",
-                          town: "الرمثا",
+                Visibility(
+                  visible: ((controller.posts?.posts?.posts?.length ?? 0) >= 2),
+                  child: Positioned(
+                    bottom: 0,
+                    right: 0,
+                    left: 0,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            CustomButton(
+                                color: AppColors.red,
+                                title: "رفض الكل",
+                                colorTitle: AppColors.whiteColor,
+                                height: 40,
+                                borderRadius: 15,
+                                pressed: () {
+                                  Get.dialog(Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      _buildQuestionDialog(controller, 2),
+                                    ],
+                                  ));
+                                },
+                                width: Get.width / 2.3),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            CustomButton(
+                                color: AppColors.mainColor,
+                                title: "قبول الكل",
+                                colorTitle: AppColors.whiteColor,
+                                height: 40,
+                                borderRadius: 15,
+                                pressed: () {
+                                  Get.dialog(Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      _buildQuestionDialog(controller, 1),
+                                    ],
+                                  ));
+                                },
+                                width: Get.width / 2.3),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Positioned(
-            bottom: 10,
-            right: 0,
-            left: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CustomButton(
-                    color: AppColors.red,
-                    title: " رفض الكل",
-                    colorTitle: AppColors.whiteColor,
-                    height: 30,
-                    pressed: () {},
-                    width: Get.width / 2.3),
-                const SizedBox(
-                  width: 10,
-                ),
-                CustomButton(
-                    color: AppColors.mainColor,
-                    title: " قبول الكل",
-                    colorTitle: AppColors.whiteColor,
-                    height: 30,
-                    pressed: () {},
-                    width: Get.width / 2.3),
               ],
+            ),
+          );
+        });
+  }
+
+  Dialog _buildQuestionDialog(
+      ReviewController controller, int approveOrReject) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12), color: Colors.white),
+              child: Column(children: [
+                const Text(
+                  "هل انت متاكد من هذه العملية",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            color: AppColors.red,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: const Center(
+                          child: Text("اغلاق",
+                              style: TextStyle(color: AppColors.whiteColor)),
+                        ),
+                      ),
+                    ),
+                    const Expanded(child: SizedBox()),
+                    InkWell(
+                      onTap: () {
+                        if (approveOrReject == 2) {
+                          controller.approveOrRejectAll(
+                            status: "2",
+                          );
+                        } else {
+                          controller.approveOrRejectAll(
+                            status: "1",
+                          );
+                        }
+
+                        Get.back();
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            color: AppColors.mainColor,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: const Center(
+                          child: Text("تأكيد",
+                              style: TextStyle(color: AppColors.whiteColor)),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ]),
             ),
           ),
         ],
       ),
     );
+  }
+
+  loading() {
+    return Column(
+      children: [
+        ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: CustomLoading(
+                  height: 120,
+                  width: Get.width,
+                ),
+              );
+            }),
+      ],
+    );
+  }
+
+  posts(PostsModel postsModel, ReviewController controller) {
+    return ((postsModel.posts?.length ?? 0) > 0) &&
+            controller.isLoading == false
+        ? ListView.builder(
+            padding: EdgeInsets.zero,
+            controller: controller.scrollController,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: postsModel.posts?.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  InkWell(
+                    onTap: (){
+                      Get.to(PostDetailsScreen(
+                        post:postsModel.posts![index] ,
+                      ),transition: Transition.rightToLeftWithFade);
+                    },
+                    child: CustomCardInfo(
+                      isReview: true,
+                      post: postsModel.posts![index],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      CustomButton(
+                          color: AppColors.red,
+                          title: "رفض",
+                          colorTitle: AppColors.whiteColor,
+                          height: 30,
+                          pressed: () {
+                            controller.approveOrReject(
+                                status: "2",
+                                id: postsModel.posts![index].id.toString());
+                          },
+                          width: Get.width / 2.3),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      CustomButton(
+                          color: AppColors.mainColor,
+                          title: " قبول",
+                          colorTitle: AppColors.whiteColor,
+                          height: 30,
+                          pressed: () {
+                            controller.approveOrReject(
+                                status: "1",
+                                id: postsModel.posts![index].id.toString());
+                          },
+                          width: Get.width / 2.3),
+                    ],
+                  ),
+                ],
+              );
+            })
+        : const Center(
+            child: NoDataWidget(
+            title: "لا يوجد منوشرات تحتاج موافقة",
+          ));
   }
 }

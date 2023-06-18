@@ -86,8 +86,8 @@ class RateScreen extends StatelessWidget {
                                   height: 100,
                                 ),
                                 RatingBar.builder(
-                                  initialRating: 3,
-                                  minRating: 1,
+                                  initialRating: 0.0,
+                                  minRating: 0,
                                   direction: Axis.horizontal,
                                   allowHalfRating: true,
                                   itemCount: 5,
@@ -98,6 +98,8 @@ class RateScreen extends StatelessWidget {
                                     color: AppColors.mainColor,
                                   ),
                                   onRatingUpdate: (rating) {
+                                    controller.rateValue = rating;
+                                    controller.update();
                                     print(rating);
                                   },
                                 ),
@@ -109,7 +111,9 @@ class RateScreen extends StatelessWidget {
                                     title: "ارسال التقييم",
                                     colorTitle: AppColors.whiteColor,
                                     height: 30,
-                                    pressed: () {},
+                                    pressed: () {
+                                      controller.rate();
+                                    },
                                     width: Get.width),
                               ],
                             ),

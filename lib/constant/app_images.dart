@@ -21,6 +21,8 @@ class AppImages {
   static const String loginMenuIcon = "${baseurl}icon_loginmenu.svg";
   static const String shareMenuIcon = "${baseurl}icon_sharemenu.svg";
   static const String starMenuIcon = "${baseurl}icon_starmenu.svg";
+  static const String emptyIcon = "${baseurl}icon_empty.svg";
+  static const String sucsessMassege = "${baseurl}sucsess_massege.svg";
 
   /// GIF
   static const String loading = "${baseurl}loading.gif";

@@ -9,11 +9,18 @@ import 'package:ramtha/network/api_urls.dart';
 
 import '../../constant/const_var.dart';
 import '../../screens/homescreen/model/posts_response.dart';
+import 'custom_button.dart';
+import 'custom_comments_bottomsheet.dart';
 
 class CustomCardInfo extends StatelessWidget {
   final Post post;
+  final bool isReview;
 
-  const CustomCardInfo({super.key, required this.post});
+  const CustomCardInfo({
+    super.key,
+    required this.post,
+    required this.isReview,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,18 +43,18 @@ class CustomCardInfo extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(3.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: Get.width / 2.5,
+                        width: Get.width / 3.2,
                         child: Stack(
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10.0),
                               child: (post.image?.isEmpty ?? true)
-                                  ? post.gender == "1"
+                                  ? post.gender == "ذكر"
                                       ? Image.asset(
                                           fit: BoxFit.fitHeight,
                                           height: 150,
@@ -57,8 +64,8 @@ class CustomCardInfo extends StatelessWidget {
                                           height: 150,
                                           AppImages.female)
                                   : SizedBox(
-                                      height: 150,
-                                      width: 150,
+                                      height: 120,
+                                      width: 120,
                                       child: CachedNetworkImage(
                                         imageUrl:
                                             ApiUrl.baseUrl + (post.image ?? ""),
@@ -85,7 +92,7 @@ class CustomCardInfo extends StatelessWidget {
                       Expanded(
                         child: SizedBox(
                             child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -136,41 +143,53 @@ class CustomCardInfo extends StatelessWidget {
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600),
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppImages.commentIcon,
-                                        height: 17,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      const Text(" 2 تعليق",
-                                          style: TextStyle(color: Colors.grey)),
-                                    ],
-                                  ),
-                                  const Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.share,
-                                        color: AppColors.mainColor,
-                                        size: 17,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text("مشاركة",
-                                          style: TextStyle(color: Colors.grey)),
-                                    ],
-                                  ),
-                                ],
-                              )
+                              if (!isReview)
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          AppImages.commentIcon,
+                                          height: 17,
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            Get.bottomSheet(
+                                                CustomCommentsBottomSheet(
+                                              post: post
+                                                  ,
+                                            ));
+                                          },
+                                          child: const Text(" 2 تعليق",
+                                              style: TextStyle(
+                                                  color: Colors.grey)),
+                                        ),
+                                      ],
+                                    ),
+                                    const Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.share,
+                                          color: AppColors.mainColor,
+                                          size: 17,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text("مشاركة",
+                                            style:
+                                                TextStyle(color: Colors.grey)),
+                                      ],
+                                    ),
+                                  ],
+                                )
                             ],
                           ),
                         )),
@@ -181,26 +200,27 @@ class CustomCardInfo extends StatelessWidget {
                 const SizedBox(
                   height: 5,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade400,
-                      borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("التفاصيل"),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      SvgPicture.asset(
-                        height: 7,
-                        AppImages.dropDownIcon,
-                      ),
-                    ],
+                if (!isReview)
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade400,
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("التفاصيل"),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        SvgPicture.asset(
+                          height: 7,
+                          AppImages.dropDownIcon,
+                        ),
+                      ],
+                    ),
                   ),
-                )
               ],
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ramtha/constant/app_colors.dart';
 
 import '../../constant/app_images.dart';
 
@@ -40,14 +41,27 @@ loading() {
         onWillPop: () {
           return Future.value(false);
         },
-        child: const Dialog(
-          insetPadding: EdgeInsets.zero,
-          backgroundColor: Colors.transparent,
-          insetAnimationDuration: Duration.zero,
-          elevation: 0,
-          child: Center(
-            child: CupertinoActivityIndicator(),
-          ),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Card(
+              child: Container(
+                width: 100,
+                decoration: BoxDecoration(color: AppColors.whiteColor,borderRadius: BorderRadius.circular(5)),
+                child: const Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Dialog(
+                    insetPadding: EdgeInsets.zero,
+                    backgroundColor: Colors.transparent,
+                    insetAnimationDuration: Duration.zero,
+                    elevation: 0,
+                    child: Center(
+                      child: CupertinoActivityIndicator(color: AppColors.mainColor,radius: 20),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       barrierColor: Colors.white24,
