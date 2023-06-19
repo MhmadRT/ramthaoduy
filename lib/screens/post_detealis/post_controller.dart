@@ -47,7 +47,6 @@ class PostController extends GetxController {
         "content": comment.text,
         "post_id": "9",
       };
-
       await repository.addComment(body).then((value) async {
         closeLoading();
         if (value.status == '1') {
