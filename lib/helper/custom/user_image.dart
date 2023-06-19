@@ -11,13 +11,14 @@ class UserImage extends StatelessWidget {
   final double? size;
   final double? radius;
 
-  const UserImage({Key? key, this.gender, this.userImage, this.size,this.radius})
+  const UserImage(
+      {Key? key, this.gender, this.userImage, this.size, this.radius})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(radius??0),
+      borderRadius: BorderRadius.circular(radius ?? 0),
       child: SizedBox(
         height: size,
         width: size,
@@ -25,12 +26,13 @@ class UserImage extends StatelessWidget {
           imageUrl: ApiUrl.baseUrl + (userImage ?? ""),
           progressIndicatorBuilder: (context, url, downloadProgress) => Center(
               child: Image.asset(
-                gender == "ذكر" ? AppImages.male : AppImages.female,
-                height: size,
-                width: size,
-              )),
+            gender == "ذكر" ? AppImages.male : AppImages.female,
+            height: size,
+            width: size,
+          )),
           errorWidget: (context, url, error) => Center(
               child: Image.asset(
+            fit: BoxFit.fill,
             gender == "ذكر" ? AppImages.male : AppImages.female,
             height: size,
             width: size,

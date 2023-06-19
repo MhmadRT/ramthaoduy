@@ -29,7 +29,7 @@ class CustomCardInfo extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Padding(
         padding: const EdgeInsets.only(top: 3, bottom: 0, right: 0, left: 0),
-        child: SizedBox(
+        child: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -85,13 +85,7 @@ class CustomCardInfo extends StatelessWidget {
                     fontSize: 15,
                     fontWeight: FontWeight.w600),
               ),
-              Text(
-                post.buryDescription ?? "",
-                style: const TextStyle(
-                    color: AppColors.mainColor,
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal),
-              ),
+
               SizedBox(
                 width: Get.width,
                 height: 200,
@@ -108,6 +102,13 @@ class CustomCardInfo extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+              Text(
+                post.buryDescription ?? "",
+                style: const TextStyle(
+                    color: AppColors.mainColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal),
               ),
               if (!isReview)
                 Row(
