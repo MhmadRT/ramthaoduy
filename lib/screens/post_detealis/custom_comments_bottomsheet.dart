@@ -50,34 +50,44 @@ class CustomCommentsBottomSheet extends StatelessWidget {
                     Expanded(
                       child: controller.isLoadingComment
                           ? loading()
-                          : commentsWidget(controller.commentPosts),
+                          : commentsWidget(controller.commentPosts, controller),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                         Expanded(
+                        Expanded(
                             child: CustomTextField(
-
                           showTitle: false,
                           hintText: 'أضف تعليق',
-
+                          controller: controller.comment,
+                          onchange: (v) {
+                            controller.update();
+                          },
                         )),
                         const SizedBox(
                           width: 20,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.mainColor,
-                            borderRadius: BorderRadius.circular(12)
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                                child: Icon(
-                              Icons.send,
-                              color: AppColors.whiteColor,
-                            )),
+                        InkWell(
+                          onTap: controller.comment.text.isNotEmpty
+                              ? () {
+                                  controller.addComment();
+                                }
+                              : null,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: controller.comment.text.isNotEmpty
+                                    ? AppColors.mainColor
+                                    : AppColors.mainColor.withOpacity(.5),
+                                borderRadius: BorderRadius.circular(12)),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Center(
+                                  child: Icon(
+                                Icons.send,
+                                color: AppColors.whiteColor,
+                              )),
+                            ),
                           ),
                         )
                       ],
@@ -93,7 +103,7 @@ class CustomCommentsBottomSheet extends StatelessWidget {
         padding: EdgeInsets.zero,
         physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
-        itemCount: 10,
+        itemCount: 7,
         itemBuilder: (context, index) {
           return const Padding(
             padding: EdgeInsets.all(8.0),
@@ -112,20 +122,45 @@ class CustomCommentsBottomSheet extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Expanded(
-                              child: CustomLoading(
+                          CustomLoading(
                             height: 10,
-                            width: 150,
-                          )),
-                          CustomLoading(height: 10, width: 20),
+                            width: 100,
+                          ),
+                          Expanded(child: SizedBox()),
+                          CustomLoading(height: 7, width: 20),
                         ],
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                       Row(
                         children: [
                           Expanded(
                               child: CustomLoading(
-                            height: 10,
+                            height: 5,
                           )),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          CustomLoading(
+                            height: 5,
+                            width: 40,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          CustomLoading(
+                            height: 5,
+                            width: 20,
+                          ),
                         ],
                       ),
                     ],
@@ -137,53 +172,78 @@ class CustomCommentsBottomSheet extends StatelessWidget {
         });
   }
 
-  commentsWidget(CommentsResponse? commentsResponse) {
+  commentsWidget(
+      CommentsResponse? commentsResponse, PostController controller) {
     return (commentsResponse?.data?.comments?.isEmpty ?? true)
-        ? const Center(child: Text('Not Found Data'))
+        ? const Center(child: Text('لا يوجد تعليقات'))
         : ListView.builder(
+            controller: controller.scrollController,
             padding: EdgeInsets.zero,
             physics: const BouncingScrollPhysics(),
             shrinkWrap: true,
             itemCount: commentsResponse?.data?.comments?.length,
             itemBuilder: (context, index) {
               var comment = commentsResponse?.data?.comments?[index];
-              return Padding(
-                padding: EdgeInsets.all(8.0),
+              return GestureDetector(
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    UserImage(
-                        size: 50,
-                        gender: comment?.username,
-                        userImage: comment?.username),
-                    const SizedBox(
-                      width: 20,
-                    ),
                     Expanded(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                comment?.username ?? "",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 17),
-                              )),
-                              Text(
-                                comment?.createdAt ?? "",
-                                style: const TextStyle(fontSize: 13),
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(child: Text(comment?.content ?? "")),
-                            ],
-                          ),
-                        ],
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            UserImage(
+                                size: 30,
+                                gender: comment?.username,
+                                userImage: comment?.username),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                          child: Text(
+                                        comment?.username ?? "",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17),
+                                      )),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            comment?.createdAt ?? "",
+                                            style:
+                                                const TextStyle(fontSize: 13),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                          child: Text(comment?.content ?? "")),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    InkWell(
+                        onTap: () {
+                          controller.deleteComment(comment?.id.toString());
+                        },
+                        child: Icon(Icons.delete_outline))
                   ],
                 ),
               );

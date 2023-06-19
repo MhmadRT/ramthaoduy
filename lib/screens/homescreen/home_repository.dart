@@ -11,7 +11,14 @@ class HomeRepository {
         ApiResponseModel.fromJson(response.toJson());
     return PostsResponse.fromJson(apiResponseModel.toJson());
   }
-
+  Future<ApiResponseModel> addComment(Map<String, dynamic> body) async {
+    final response = await BaseAPI.post2(ApiUrl.addComment, body);
+    return ApiResponseModel.fromJson(response.toJson());
+  }
+  Future<ApiResponseModel> deleteComment(Map<String, dynamic> body) async {
+    final response = await BaseAPI.post2(ApiUrl.deleteComment, body);
+    return ApiResponseModel.fromJson(response.toJson());
+  }
   Future<CommentsResponse> getComment({required String postId}) async {
     final response =
         await BaseAPI.get2(ApiUrl.getComment, {"post_id": postId});

@@ -19,6 +19,7 @@ class CustomTextField<T> extends StatefulWidget {
       this.inputType,
       this.suffixIcon,
       this.showTitle,
+      this.onchange,
       this.isRequired})
       : super(key: key);
 
@@ -34,6 +35,7 @@ class CustomTextField<T> extends StatefulWidget {
   final String? suffixSvgIconName;
   final Widget? suffixIcon;
   final TextInputType? inputType;
+  final ValueChanged? onchange;
   final FormFieldValidator<T>? validator;
 
   @override
@@ -45,27 +47,28 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 3.0),
-            child: Row(
-              children: [
-                if (widget.showTitle ?? true)
-                  Text(widget.title ?? "",
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: widget.lightLabel == true
-                              ? AppColors.whiteColor
-                              : AppColors.mainColor,
-                          fontWeight: FontWeight.w500)),
-                if (widget.isRequired ?? false)
-                  const Text("*", style: TextStyle(color: Colors.red)),
-              ],
-            ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 3.0),
+          child: Row(
+            children: [
+              if (widget.showTitle ?? true)
+                Text(widget.title ?? "",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: widget.lightLabel == true
+                            ? AppColors.whiteColor
+                            : AppColors.mainColor,
+                        fontWeight: FontWeight.w500)),
+              if (widget.isRequired ?? false)
+                const Text("*", style: TextStyle(color: Colors.red)),
+            ],
           ),
+        ),
         TextFormField(
           maxLines: widget.maxLines,
           autofocus: widget.autoFocus ?? false,
           keyboardType: widget.inputType,
+          onChanged: widget.onchange,
           controller: widget.controller,
           inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(

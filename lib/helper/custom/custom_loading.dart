@@ -35,6 +35,7 @@ class CustomLoading extends StatelessWidget {
 
 loading() {
   Get.closeCurrentSnackbar();
+  FocusScope.of(Get.context!).unfocus();
   Get.closeAllSnackbars();
   Get.dialog(
       WillPopScope(
@@ -70,4 +71,5 @@ loading() {
 
 closeLoading() {
   Get.back();
+  FocusScope.of(Get.context!).unfocus();
 }

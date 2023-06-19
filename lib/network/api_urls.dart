@@ -13,4 +13,6 @@ class ApiUrl {
   static const approveOrReject = '${apiUrl}approve_or_reject_post';
   static const approveOrRejectAll = '${apiUrl}approve_or_reject_all_post';
   static const rate = '${apiUrl}add_note';
+  static const addComment = '${apiUrl}add_comment';
+  static const deleteComment = '${apiUrl}delete_comment';
 }
