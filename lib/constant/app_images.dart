@@ -3,6 +3,7 @@ class AppImages {
   static const String baseurl = "assets/";
   static const String logo = "${baseurl}logo.svg";
   static const String iconArrowLeft = "${baseurl}icon_arrow_left.svg";
+  static const String map = "${baseurl}map.jpg";
   static const String iconProfile = "${baseurl}icon_profile.svg";
   static const String iconUnVisible = "${baseurl}icon_invisible.svg";
   static const String iconVisible = "${baseurl}icon_visible.svg";

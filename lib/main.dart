@@ -5,6 +5,8 @@ import 'package:intl/date_symbol_data_file.dart';
 import 'package:ramtha/helper/local_storage_helper.dart';
 import 'package:ramtha/screens/splashscreen/splash_screen.dart';
 
+import 'constant/app_colors.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStorageHelper.init();
@@ -17,15 +19,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        locale: Locale("ar"),
-        fallbackLocale: Locale('ar'),
-        localizationsDelegates: [
+        locale: const Locale("ar"),
+        fallbackLocale: const Locale('ar'),
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate
         ],
-        supportedLocales: [Locale('ar'), Locale('en')],
-        home: SplashScreen());
+        theme: ThemeData(
+          scaffoldBackgroundColor: AppColors.whiteColor,
+          fontFamily: 'ArbFONTS'
+        ),
+        supportedLocales: const [Locale('ar'), Locale('en')],
+        home: const SplashScreen());
   }
 }

@@ -10,9 +10,15 @@ class UserImage extends StatelessWidget {
   final String? gender;
   final double? size;
   final double? radius;
+  final BoxFit? boxFit;
 
   const UserImage(
-      {Key? key, this.gender, this.userImage, this.size, this.radius})
+      {Key? key,
+      this.gender,
+      this.userImage,
+      this.size,
+      this.radius,
+      this.boxFit})
       : super(key: key);
 
   @override
@@ -24,15 +30,17 @@ class UserImage extends StatelessWidget {
         width: size,
         child: CachedNetworkImage(
           imageUrl: ApiUrl.baseUrl + (userImage ?? ""),
+          fit: boxFit,
           progressIndicatorBuilder: (context, url, downloadProgress) => Center(
               child: Image.asset(
+            fit: boxFit,
             gender == "ذكر" ? AppImages.male : AppImages.female,
             height: size,
             width: size,
           )),
           errorWidget: (context, url, error) => Center(
               child: Image.asset(
-            fit: BoxFit.fill,
+            fit: boxFit,
             gender == "ذكر" ? AppImages.male : AppImages.female,
             height: size,
             width: size,
