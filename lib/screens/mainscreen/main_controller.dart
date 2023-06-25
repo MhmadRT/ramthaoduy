@@ -4,14 +4,17 @@ import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:ramtha/helper/custom/custom_loading.dart';
 import 'package:ramtha/helper/local_storage_helper.dart';
- import 'package:ramtha/screens/homescreen/home_screen.dart';
+import 'package:ramtha/screens/homescreen/home_screen.dart';
 import 'package:ramtha/screens/loginscreen/login_screen.dart';
+import 'package:ramtha/screens/loginscreen/model/login_response.dart';
 import 'package:ramtha/screens/mainscreen/main_repository.dart';
 import 'package:ramtha/screens/searchscreen/search_sceen.dart';
 import '../deathformscreen.dart/add_death_screen.dart';
 
 class MainController extends GetxController {
   int currentIndex = 2;
+  LoginResponseData? loginResponseData;
+  bool ?isLogin;
   MainRepository mainRepository = MainRepository();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   List<Widget> screens = [
@@ -25,6 +28,7 @@ class MainController extends GetxController {
     ),
   ];
   List<String> title = ["البحث", "اضافة وفاة", "الرئيسية", "الأشعارات"];
+
   Future<String> getMobileVersion() async {
     return await PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
       String appName = packageInfo.appName;
@@ -42,8 +46,16 @@ class MainController extends GetxController {
         linkUrl: '$url',
         chooserTitle: 'Example Chooser Title');
   }
-}
 
+  @override
+  void onInit() async {
+    // TODO: implement onInit
+    loginResponseData = await LocalStorageHelper.getUserData();
+    isLogin=await LocalStorageHelper.isLoggedIn();
+    update();
+    super.onInit();
+  }
+}
 
 makeLogOut() async {
   MainRepository mainRepository = MainRepository();

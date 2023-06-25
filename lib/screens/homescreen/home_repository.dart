@@ -6,7 +6,7 @@ import 'model/posts_response.dart';
 
 class HomeRepository {
   Future<PostsResponse> getPosts(Map<String, dynamic> body) async {
-    final response = await BaseAPI.get2(ApiUrl.getDeaths, {});
+    final response = await BaseAPI.get2(ApiUrl.getDeaths, body);
     ApiResponseModel apiResponseModel =
         ApiResponseModel.fromJson(response.toJson());
     return PostsResponse.fromJson(apiResponseModel.toJson());

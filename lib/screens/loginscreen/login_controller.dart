@@ -48,6 +48,8 @@ class LoginController extends GetxController {
               username: userName.text,
               password: password.text,
               token: value.data?.token ?? "");
+          await LocalStorageHelper.saveUserData(
+              user:value.data);
         }
         Get.offAll(MainScreen());
       } else {

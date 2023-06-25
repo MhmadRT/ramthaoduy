@@ -5,7 +5,6 @@ import '../loginscreen/login_screen.dart';
 import '../mainscreen/main_screen.dart';
 
 class SplashController extends GetxController {
-  UserModel? userModel;
 
   @override
   void onInit() async {

@@ -24,6 +24,7 @@ class AppImages {
   static const String starMenuIcon = "${baseurl}icon_starmenu.svg";
   static const String emptyIcon = "${baseurl}icon_empty.svg";
   static const String sucsessMassege = "${baseurl}sucsess_massege.svg";
+  static const String filterIcon = "${baseurl}filter.svg";
 
   /// GIF
   static const String loading = "${baseurl}loading.gif";

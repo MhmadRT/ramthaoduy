@@ -55,11 +55,13 @@ class User {
   String? name;
   String? username;
   bool? isBlocked;
+  String? userImage;
   List<UserRole>? userRole;
 
   User({
     this.id,
     this.name,
+    this.userImage,
     this.username,
     this.isBlocked,
     this.userRole,
@@ -68,6 +70,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["id"],
     name: json["name"],
+    userImage: json["image"],
     username: json["username"],
     isBlocked: json["is_blocked"],
     userRole: json["user_role"] == null ? [] : List<UserRole>.from(json["user_role"]!.map((x) => UserRole.fromJson(x))),
@@ -77,6 +80,7 @@ class User {
     "id": id,
     "name": name,
     "username": username,
+    "image": userImage,
     "is_blocked": isBlocked,
     "user_role": userRole == null ? [] : List<dynamic>.from(userRole!.map((x) => x.toJson())),
   };
