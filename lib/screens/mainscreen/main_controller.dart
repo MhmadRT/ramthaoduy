@@ -10,12 +10,15 @@ import 'package:ramtha/screens/loginscreen/model/login_response.dart';
 import 'package:ramtha/screens/mainscreen/main_repository.dart';
 import 'package:ramtha/screens/searchscreen/search_sceen.dart';
 import '../deathformscreen.dart/add_death_screen.dart';
+import '../homescreen/model/get_user_info.dart';
 
 class MainController extends GetxController {
   int currentIndex = 2;
   LoginResponseData? loginResponseData;
-  bool ?isLogin;
+  bool? isLogin;
   MainRepository mainRepository = MainRepository();
+  GetUserInfoResponse? userInfoResponse;
+  bool isLoadingUserData = true;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   List<Widget> screens = [
     const SearchScreen(),
@@ -47,11 +50,22 @@ class MainController extends GetxController {
         chooserTitle: 'Example Chooser Title');
   }
 
+  getUserData() async {
+    Map<String, dynamic> body = {};
+    isLoadingUserData = true;
+    update();
+    userInfoResponse = await mainRepository.getUserInfo(body);
+    isLoadingUserData = false;
+    print(body);
+    update();
+  }
+
   @override
   void onInit() async {
     // TODO: implement onInit
+    await getUserData();
     loginResponseData = await LocalStorageHelper.getUserData();
-    isLogin=await LocalStorageHelper.isLoggedIn();
+    isLogin = await LocalStorageHelper.isLoggedIn();
     update();
     super.onInit();
   }

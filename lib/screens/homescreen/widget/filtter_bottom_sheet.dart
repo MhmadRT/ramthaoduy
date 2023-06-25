@@ -24,7 +24,7 @@ class FilterBottomSheet extends StatelessWidget {
                       topRight: Radius.circular(25))),
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                 child: Column(
                   children: [
                     Row(
@@ -66,15 +66,15 @@ class FilterBottomSheet extends StatelessWidget {
                                       children: [
                                         AnimatedSwitcher(
                                           duration:
-                                              const Duration(milliseconds: 300),
+                                          const Duration(milliseconds: 300),
                                           child: controller.allPost
                                               ? const Icon(
-                                                  Icons.check_box_outlined,
-                                                  color: AppColors.mainColor)
+                                              Icons.check_box_outlined,
+                                              color: AppColors.mainColor)
                                               : const Icon(
-                                                  Icons
-                                                      .check_box_outline_blank_outlined,
-                                                  color: AppColors.mainColor),
+                                              Icons
+                                                  .check_box_outline_blank_outlined,
+                                              color: AppColors.mainColor),
                                         ),
                                         const SizedBox(
                                           width: 5,
@@ -97,7 +97,7 @@ class FilterBottomSheet extends StatelessWidget {
                                   child: GestureDetector(
                                     onTap: () {
                                       controller.isVisibleDate =
-                                          !controller.isVisibleDate;
+                                      !controller.isVisibleDate;
                                       if (controller.isVisibleGender ||
                                           controller.isVisibleDate ||
                                           controller.isVisibleDrop) {
@@ -109,15 +109,15 @@ class FilterBottomSheet extends StatelessWidget {
                                       children: [
                                         AnimatedSwitcher(
                                           duration:
-                                              const Duration(milliseconds: 300),
+                                          const Duration(milliseconds: 300),
                                           child: controller.isVisibleDate
                                               ? const Icon(
-                                                  Icons.check_box_outlined,
-                                                  color: AppColors.mainColor)
+                                              Icons.check_box_outlined,
+                                              color: AppColors.mainColor)
                                               : const Icon(
-                                                  Icons
-                                                      .check_box_outline_blank_outlined,
-                                                  color: AppColors.mainColor),
+                                              Icons
+                                                  .check_box_outline_blank_outlined,
+                                              color: AppColors.mainColor),
                                         ),
                                         const SizedBox(
                                           width: 5,
@@ -166,7 +166,7 @@ class FilterBottomSheet extends StatelessWidget {
                                   child: GestureDetector(
                                     onTap: () {
                                       controller.isVisibleGender =
-                                          !controller.isVisibleGender;
+                                      !controller.isVisibleGender;
                                       if (controller.isVisibleGender ||
                                           controller.isVisibleDate ||
                                           controller.isVisibleDrop) {
@@ -178,15 +178,15 @@ class FilterBottomSheet extends StatelessWidget {
                                       children: [
                                         AnimatedSwitcher(
                                           duration:
-                                              const Duration(milliseconds: 300),
+                                          const Duration(milliseconds: 300),
                                           child: controller.isVisibleGender
                                               ? const Icon(
-                                                  Icons.check_box_outlined,
-                                                  color: AppColors.mainColor)
+                                              Icons.check_box_outlined,
+                                              color: AppColors.mainColor)
                                               : const Icon(
-                                                  Icons
-                                                      .check_box_outline_blank_outlined,
-                                                  color: AppColors.mainColor),
+                                              Icons
+                                                  .check_box_outline_blank_outlined,
+                                              color: AppColors.mainColor),
                                         ),
                                         const SizedBox(
                                           width: 5,
@@ -207,7 +207,7 @@ class FilterBottomSheet extends StatelessWidget {
                               visible: controller.isVisibleGender,
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   InkWell(
                                     onTap: () {
@@ -219,7 +219,7 @@ class FilterBottomSheet extends StatelessWidget {
                                       height: 40,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(15),
+                                          BorderRadius.circular(15),
                                           color: controller.selectSexIndex == 1
                                               ? AppColors.mainColor
                                               : AppColors.editTextColor),
@@ -227,14 +227,14 @@ class FilterBottomSheet extends StatelessWidget {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Center(
                                             child: Text(
-                                          "ذكر",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              color:
+                                              "ذكر",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  color:
                                                   controller.selectSexIndex == 1
                                                       ? AppColors.whiteColor
                                                       : AppColors.mainColor),
-                                        )),
+                                            )),
                                       ),
                                     ),
                                   ),
@@ -248,7 +248,7 @@ class FilterBottomSheet extends StatelessWidget {
                                       height: 40,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(15),
+                                          BorderRadius.circular(15),
                                           color: controller.selectSexIndex == 2
                                               ? AppColors.mainColor
                                               : AppColors.editTextColor),
@@ -256,14 +256,14 @@ class FilterBottomSheet extends StatelessWidget {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Center(
                                             child: Text(
-                                          "انثى",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              color:
+                                              "انثى",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  color:
                                                   controller.selectSexIndex == 2
                                                       ? AppColors.whiteColor
                                                       : AppColors.mainColor),
-                                        )),
+                                            )),
                                       ),
                                     ),
                                   ),
@@ -276,7 +276,7 @@ class FilterBottomSheet extends StatelessWidget {
                                   child: GestureDetector(
                                     onTap: () {
                                       controller.isVisibleDrop =
-                                          !controller.isVisibleDrop;
+                                      !controller.isVisibleDrop;
                                       if (controller.isVisibleDrop) {
                                         controller.getCities();
                                       }
@@ -286,21 +286,20 @@ class FilterBottomSheet extends StatelessWidget {
                                         controller.allPost = false;
                                       }
                                       controller.update();
-
                                     },
                                     child: Row(
                                       children: [
                                         AnimatedSwitcher(
                                           duration:
-                                              const Duration(milliseconds: 300),
+                                          const Duration(milliseconds: 300),
                                           child: controller.isVisibleDrop
                                               ? const Icon(
-                                                  Icons.check_box_outlined,
-                                                  color: AppColors.mainColor)
+                                              Icons.check_box_outlined,
+                                              color: AppColors.mainColor)
                                               : const Icon(
-                                                  Icons
-                                                      .check_box_outline_blank_outlined,
-                                                  color: AppColors.mainColor),
+                                              Icons
+                                                  .check_box_outline_blank_outlined,
+                                              color: AppColors.mainColor),
                                         ),
                                         const SizedBox(
                                           width: 5,
@@ -339,7 +338,7 @@ class FilterBottomSheet extends StatelessWidget {
                                       isRequired: true,
                                       label: 'الواء',
                                       listItems:
-                                          controller.brigades.brigades ?? [],
+                                      controller.brigades.brigades ?? [],
                                       selectedItem: controller.selectedBrigade,
                                       onSelected: (v) {
                                         controller.selectedBrigade = v;
@@ -353,7 +352,7 @@ class FilterBottomSheet extends StatelessWidget {
                                       isRequired: true,
                                       label: 'المنطقة',
                                       listItems:
-                                          controller.districts.districts ?? [],
+                                      controller.districts.districts ?? [],
                                       selectedItem: controller.selectedDistrict,
                                       onSelected: (v) {
                                         controller.selectedDistrict = v;
@@ -375,13 +374,19 @@ class FilterBottomSheet extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 100, vertical: 20),
                             child: CustomButton(
-                              color: AppColors.mainColor,
+                              color:controller.isVisibleDrop ||
+                                  controller.allPost ||
+                                  controller.isVisibleGender ||
+                                  controller.isVisibleDate? AppColors.mainColor:AppColors.mainColor.withOpacity(.5),
                               title: "بحث",
                               colorTitle: AppColors.whiteColor,
-                              pressed: () {
+                              pressed: controller.isVisibleDrop ||
+                                  controller.allPost ||
+                                  controller.isVisibleGender ||
+                                  controller.isVisibleDate ? () {
                                 controller.getPosts();
                                 Get.back();
-                              },
+                              }:(){},
                               height: 40,
                             ),
                           ),

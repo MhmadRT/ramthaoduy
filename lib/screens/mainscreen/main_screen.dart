@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/constant/app_colors.dart';
+import 'package:ramtha/helper/custom/custom_loading.dart';
 import 'package:ramtha/helper/local_storage_helper.dart';
 import 'package:ramtha/network/api_urls.dart';
 import 'package:ramtha/screens/ratescreen/rate_screen.dart';
 import 'package:ramtha/screens/reviewsscreen/reviews_screen.dart';
-  import 'package:ramtha/constant/app_images.dart';
+import 'package:ramtha/constant/app_images.dart';
 import '../../helper/custom/user_image.dart';
 import '../../helper/custom_no_have_permission.dart';
 
+import '../loginscreen/login_screen.dart';
 import 'main_controller.dart';
 
 class MainScreen extends StatelessWidget {
@@ -37,51 +39,87 @@ class MainScreen extends StatelessWidget {
                           const SizedBox(
                             height: 100,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Row(
-                                children: [
-                                  UserImage(
-                                      userImage: '',
-                                      gender: controller.loginResponseData?.user?.userImage,
-                                      radius: 25,
-                                      size: 40),
-                             const SizedBox(
-                                    width: 10,
-                                  ),
-                                  const  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("احمد محمد احمد",
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              color: AppColors.mainColor,
-                                              fontWeight: FontWeight.w600)),
-                                      Text("الرمثا",
-                                          style: TextStyle(
-                                              color: AppColors.mainColor,
-                                              fontWeight: FontWeight.w600)),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  SvgPicture.asset(
-                                    AppImages.editIcon,
-                                    height: 20,
-                                  ),
-                                  Text("تعديل",
-                                      style: TextStyle(
-                                          color: Colors.grey.withOpacity(.5),
-                                          fontWeight: FontWeight.normal)),
-                                ],
-                              )
-                            ],
-                          ),
+                          controller.isLoadingUserData
+                              ? loadingUserData(controller)
+                              : Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          UserImage(
+                                              userImage: controller
+                                                      .userInfoResponse
+                                                      ?.data
+                                                      ?.user
+                                                      ?.image ??
+                                                  "",
+                                              gender: controller
+                                                  .userInfoResponse
+                                                  ?.data
+                                                  ?.user
+                                                  ?.gender,
+                                              radius: 25,
+                                              size: 40),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                    controller
+                                                            .userInfoResponse
+                                                            ?.data
+                                                            ?.user
+                                                            ?.name ??
+                                                        "",
+                                                    style: const TextStyle(
+                                                        fontSize: 17,
+                                                        color:
+                                                            AppColors.mainColor,
+                                                        fontWeight:
+                                                            FontWeight.w600)),
+                                                Text(
+                                                    controller
+                                                            .userInfoResponse
+                                                            ?.data
+                                                            ?.user
+                                                            ?.address ??
+                                                        "",
+                                                    style: const TextStyle(
+                                                        color:
+                                                            AppColors.mainColor,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 14)),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          AppImages.editIcon,
+                                          height: 20,
+                                        ),
+                                        Text("تعديل",
+                                            style: TextStyle(
+                                                color:
+                                                    Colors.grey.withOpacity(.5),
+                                                fontWeight: FontWeight.normal)),
+                                      ],
+                                    )
+                                  ],
+                                ),
                           const SizedBox(
                             height: 50,
                           ),
@@ -89,7 +127,8 @@ class MainScreen extends StatelessWidget {
                             thickness: 1,
                           ),
                           Visibility(
-                            visible: LocalStorageHelper.checkRole(),
+                            visible: LocalStorageHelper.checkRole() &&
+                                controller.isLogin == true,
                             child: Column(
                               children: [
                                 const SizedBox(
@@ -203,27 +242,55 @@ class MainScreen extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          GetBuilder<MainController>(builder: (con) {
-                            return InkWell(
-                              onTap: () {
-                                makeLogOut();
-                              },
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(AppImages.loginMenuIcon,
-                                      height: 20),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  const Text("تسجيل خروج",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.w600)),
-                                ],
-                              ),
-                            );
-                          }),
+                          if (controller.isLogin == true)
+                            GetBuilder<MainController>(builder: (con) {
+                              return InkWell(
+                                onTap: () {
+                                  makeLogOut();
+                                },
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(AppImages.loginMenuIcon,
+                                        height: 20),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const Text("تسجيل خروج",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.w600)),
+                                  ],
+                                ),
+                              );
+                            }),
+                          if (controller.isLogin == false)
+                            GetBuilder<MainController>(builder: (con) {
+                              return InkWell(
+                                onTap: () {
+                                  Get.offAll(() => const LoginScreen());
+                                },
+                                child: Row(
+                                  children: [
+                                    RotatedBox(
+                                      quarterTurns: 2,
+                                      child: SvgPicture.asset(
+                                          AppImages.loginMenuIcon,
+                                          height: 20,
+                                          color: AppColors.mainColor),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const Text("تسجيل الدخول",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: AppColors.mainColor,
+                                            fontWeight: FontWeight.w600)),
+                                  ],
+                                ),
+                              );
+                            }),
                           const SizedBox(
                             height: 10,
                           ),
@@ -475,5 +542,66 @@ class MainScreen extends StatelessWidget {
                     })),
           );
         });
+  }
+
+  Row loadingUserData(MainController controller) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomLoading(
+                height: 40,
+                width: 40,
+                radius: 1000,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomLoading(
+                      height: 10,
+                      width: Get.width / 3,
+                      radius: 5,
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    CustomLoading(
+                      height: 10,
+                      width: Get.width / 2.5,
+                      radius: 5,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const Column(
+          children: [
+            CustomLoading(
+              height: 20,
+              width: 20,
+              radius: 2,
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            CustomLoading(
+              height: 10,
+              width: 50,
+              radius: 5,
+            ),
+          ],
+        )
+      ],
+    );
   }
 }

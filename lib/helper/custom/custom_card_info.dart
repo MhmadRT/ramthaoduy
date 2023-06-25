@@ -9,10 +9,13 @@ import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/constant/app_images.dart';
 import 'package:ramtha/helper/custom/user_image.dart';
 import 'package:ramtha/network/api_urls.dart';
+import 'package:ramtha/screens/homescreen/home_conrtoller.dart';
+import 'package:ramtha/screens/mainscreen/main_controller.dart';
 
 import '../../constant/const_var.dart';
 import '../../screens/homescreen/model/posts_response.dart';
 import '../../screens/post_detealis/post_detealis_screen.dart';
+import '../custom_no_have_permission.dart';
 import 'custom_button.dart';
 import '../../screens/post_detealis/custom_comments_bottomsheet.dart';
 
@@ -28,6 +31,7 @@ class CustomCardInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   bool? isLogin=Get.find<MainController>().isLogin;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Padding(
@@ -141,12 +145,14 @@ class CustomCardInfo extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
-                            onTap: () {
+                            onTap: isLogin??false?() {
                               Get.bottomSheet(
                                   CustomCommentsBottomSheet(
                                     post: post,
                                   ),
                                   isScrollControlled: true);
+                            }:() {
+                              Get.dialog(const DialogPermission());
                             },
                             child: Row(
                               children: [
@@ -157,8 +163,16 @@ class CustomCardInfo extends StatelessWidget {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                const Text(" 2 تعليق",
-                                    style: TextStyle(color: Colors.grey)),
+                                  Row(
+                                    children: [
+                                      if(post.numberOfComments!=0)
+                                      Text("${post.numberOfComments}",
+                                          style: TextStyle(color: Colors.grey)),
+                                      const SizedBox(width: 5,),
+                                      const Text("تعليق",
+                                        style: TextStyle(color: Colors.grey)),
+                                    ],
+                                  ),
                               ],
                             ),
                           ),
