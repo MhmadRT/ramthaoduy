@@ -15,30 +15,32 @@ class UpdateRequest {
   final String? brigadeId;
   final String? districtId;
   final String? image;
+  final String? email;
 
-  UpdateRequest({
-    this.name,
-    this.cityId,
-    this.brigadeId,
-    this.districtId,
-    this.image
-  });
+  UpdateRequest(
+      {this.name,
+      this.cityId,
+      this.brigadeId,
+      this.districtId,
+      this.image,
+      this.email});
 
   factory UpdateRequest.fromJson(Map<String, dynamic> json) => UpdateRequest(
-    name: json["name"],
-    brigadeId: json["brigade_id"],
-    cityId: json["city_id"],
-    districtId: json["district_id"],
-    image: json["image"],
-  );
+        name: json["name"],
+        brigadeId: json["brigade_id"],
+        cityId: json["city_id"],
+        districtId: json["district_id"],
+        image: json["image"],
+      );
 
   Map<String, String> toJson() {
     Map<String, String> data = {
-      "name": name??"",
-      "brigade_id": brigadeId??"",
-      "city_id": cityId??"",
-      "district_id": districtId??"",
-      "image": image??"",
+      "name": name ?? "",
+      "brigade_id": brigadeId ?? "",
+      "city_id": cityId ?? "",
+      "district_id": districtId ?? "",
+      "image": image ?? "",
+      "email": email ?? "",
     };
     data.removeWhere((key, value) => value == "");
     return data;

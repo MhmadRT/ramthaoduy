@@ -82,6 +82,20 @@ class CreateAccountScreen extends StatelessWidget {
                           if (v?.isEmpty ?? true) return 'الحقل فارخ';
                           return null;
                         },
+                      ),const SizedBox(
+                        height: 10,
+                      ),
+                      CustomTextField<String>(
+                        controller: controller.email,
+                        isRequired: true,
+                        suffixSvgIconName: '',
+                        title: "البريد الاكتروني",
+                        hintText: 'example@gmail.com',
+                        lightLabel: true,
+                        validator: (v) {
+                          if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          return null;
+                        },
                       ),
                       const SizedBox(
                         height: 10,
@@ -198,6 +212,8 @@ class CreateAccountScreen extends StatelessWidget {
                             controller.makeRegister();
                           }
                         },
+                      ),const SizedBox(
+                        height: 50,
                       ),
                     ]),
                   ),

@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/screens/createaccountscreen/create_account_screen.dart';
+import 'package:ramtha/screens/forgetpasswordscreen/forget_password_screen.dart';
 import 'package:ramtha/screens/mainscreen/main_screen.dart';
 
 import '../../constant/app_images.dart';
@@ -213,10 +214,15 @@ class LoginScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const Text(
-                              "نسيت كلمة السر ؟",
-                              style: TextStyle(
-                                color: AppColors.whiteColor,
+                            InkWell(
+                              onTap: (){
+                                Get.to(()=>const ForgetPasswordScreen());
+                              },
+                              child: const Text(
+                                "نسيت كلمة السر ؟",
+                                style: TextStyle(
+                                  color: AppColors.whiteColor,
+                                ),
                               ),
                             ),
                           ],
