@@ -53,9 +53,9 @@ class FormDeathController extends GetxController {
 
   bool hasThreeSpaces(String text) {
     int spaceCount = 0;
-
-    for (int i = 0; i < text.length; i++) {
-      if (text[i] == ' ') {
+    String  newText = text.trim().replaceAll("  ", "");
+    for (int i = 0; i < newText.length; i++) {
+      if (newText[i] == ' ') {
         spaceCount++;
       }
 
