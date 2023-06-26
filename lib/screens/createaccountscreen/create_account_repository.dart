@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:ramtha/network/api_response_model.dart';
 import 'package:ramtha/network/api_urls.dart';
 import 'package:ramtha/network/base_api.dart';
@@ -12,7 +13,10 @@ class CreateAccountRepository {
     final response = await BaseAPI.post2(ApiUrl.register, body);
     return CreateResponse.fromJson(response.toJson());
   }
-
+  Future<ApiResponseModel> updateUserInfo(Map<String, String> body,XFile?file) async {
+    final response = await BaseAPI.postMultipartRequest(ApiUrl.editUser, body,file);
+    return ApiResponseModel.fromJson(response.toJson());
+  }
   Future<Cities> getCities() async {
     final response = await BaseAPI.get2(ApiUrl.getCities,{});
     ApiResponseModel apiResponseModel =

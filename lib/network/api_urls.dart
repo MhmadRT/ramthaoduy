@@ -5,6 +5,8 @@ class ApiUrl {
   static const userInfo = '${apiUrl}get_user_info';
   static const logOut = '${apiUrl}logout';
   static const register = '${apiUrl}register';
+  static const editUser = '${apiUrl}edit_user';
+  static const addDeath = '${apiUrl}add_death';
   static const getCities = '${apiUrl}get_cities';
   static const getBrigades = '${apiUrl}get_brigades';
   static const getDistricts = '${apiUrl}get_districts';

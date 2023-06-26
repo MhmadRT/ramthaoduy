@@ -62,6 +62,7 @@ class CustomCommentsBottomSheet extends StatelessWidget {
                         children: [
                           Expanded(
                               child: CustomTextField(
+                                maxLines: 1,
                             showTitle: false,
                             hintText: 'أضف تعليق',
                             controller: controller.comment,

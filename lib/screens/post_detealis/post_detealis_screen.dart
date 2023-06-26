@@ -39,6 +39,7 @@ class PostDetailsScreen extends StatelessWidget {
                             child: CustomTextField(
                           showTitle: false,
                           hintText: 'أضف تعليق',
+                          maxLines: 1,
                           controller: controller.comment,
                           onchange: (v) {
                             controller.update();
@@ -166,7 +167,8 @@ class PostDetailsScreen extends StatelessWidget {
                       ),
                       Text(
                         'الموقع',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                     ],
                   ),
@@ -187,7 +189,8 @@ class PostDetailsScreen extends StatelessWidget {
                       ),
                       const Text(
                         'التعليقات',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                     ],
                   ),
@@ -196,7 +199,8 @@ class PostDetailsScreen extends StatelessWidget {
                       builder: (controller) {
                         return controller.isLoadingComment
                             ? loading()
-                            : commentsWidget(controller.commentPosts, controller);
+                            : commentsWidget(
+                                controller.commentPosts, controller);
                       }),
                 ],
               ),
@@ -209,7 +213,6 @@ class PostDetailsScreen extends StatelessWidget {
               onPressed: () {
                 Get.back();
               },
-
               color: AppColors.mainColor,
               child: const Icon(Icons.arrow_forward),
             ),

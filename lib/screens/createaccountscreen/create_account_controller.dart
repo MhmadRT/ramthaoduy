@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ramtha/helper/custom/custom_drop_down.dart';
 import 'package:ramtha/helper/custom/custom_loading.dart';
 import 'package:ramtha/network/api_response_model.dart';
@@ -9,20 +12,28 @@ import 'package:ramtha/screens/createaccountscreen/models/cities.dart';
 import 'package:ramtha/screens/createaccountscreen/models/create_request.dart';
 import 'package:ramtha/screens/createaccountscreen/models/create_response.dart';
 import 'package:ramtha/screens/createaccountscreen/models/districts.dart';
+import 'package:ramtha/screens/mainscreen/main_controller.dart';
 
 import '../../helper/custom/custom_toast_massage.dart';
 import '../../helper/local_storage_helper.dart';
+import '../homescreen/model/get_user_info.dart';
+import '../homescreen/model/update_data_request.dart';
 import '../mainscreen/main_screen.dart';
 
 class CreateAccountController extends GetxController {
   bool visiblePassword = true;
   bool visiblePasswordConfirm = true;
+  late MainController mainController;
+
   TextEditingController userNameFromThreeSection = TextEditingController();
   TextEditingController userNameForRegister = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController passwordConfirm = TextEditingController();
   TextEditingController email = TextEditingController();
+  TextEditingController editNameController = TextEditingController();
   CreateAccountRepository repository = CreateAccountRepository();
+
+  String lastName = "";
   Cities cities = Cities(cities: []);
   Item selectedCity = Item(name: 'أختر المحافظة');
   Districts districts = Districts(districts: []);
@@ -31,11 +42,43 @@ class CreateAccountController extends GetxController {
   Item selectedBrigade = Item(name: 'أختر الواء');
   final formKey = GlobalKey<FormState>();
 
+  XFile? imagePath;
+
   @override
   void onInit() async {
     // TODO: implement onInit
+
+    if (Get.isRegistered<MainController>()) {
+      mainController = Get.find<MainController>();
+      editNameController.text =
+          mainController.userInfoResponse?.data?.user?.name ?? "";
+      update();
+    }
     Future.delayed(Duration.zero).then((value) => getCities());
     super.onInit();
+  }
+
+  updateUserInfo() async {
+    loading();
+    UpdateRequest updateRequest = UpdateRequest(
+      name: editNameController.text,
+      image: imagePath?.path,
+      brigadeId: selectedBrigade.id,
+      cityId: selectedCity.id,
+      districtId: selectedDistrict.id,
+    );
+    ApiResponseModel apiResponseModel =
+        await repository.updateUserInfo(updateRequest.toJson(), imagePath);
+    closeLoading();
+    if (apiResponseModel.status != '1') {
+      CustomSnackBar.showCustomSnackBar(
+        message: apiResponseModel.message,
+      );
+    } else {
+      Get.back();
+      await Get.find<MainController>().getUserData();
+    }
+    update();
   }
 
   getCities() async {

@@ -34,7 +34,7 @@ dependencies:
   alice: ^0.3.3
   shared_preferences: ^2.1.2
   cached_network_image: ^3.2.3
-
+  image_picker: ^0.8.9
 dependency_overrides:
   intl: ^0.18.1
   http: ^1.0.0

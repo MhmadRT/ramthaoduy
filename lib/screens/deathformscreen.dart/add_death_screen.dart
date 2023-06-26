@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/helper/custom/custom_text_feild.dart';
 
@@ -8,6 +11,7 @@ import '../../constant/app_images.dart';
 import '../../helper/custom/custom_button.dart';
 import '../../helper/custom/custom_date_picker.dart';
 import '../../helper/custom/custom_drop_down.dart';
+import '../../helper/custom/user_image.dart';
 import '../locationscreen/location_screen.dart';
 import 'death_controller.dart';
 
@@ -32,6 +36,105 @@ class FormDeathScreen extends StatelessWidget {
                     title: "الأسم الثلاثي للشخص المتوفى",
                   ),
                   _buildSelectSex(controller),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            controller.selectSexIndex == 1
+                                ? "صورة المتوفي"
+                                : "صورة المتوفية",
+                            style: TextStyle(color: AppColors.mainColor),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                controller.imagePath == null
+                                    ? Container(
+                                        width: Get.width,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          color: AppColors.mainColor
+                                              .withOpacity(.2),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: UserImage(
+                                              userImage: "",
+                                              gender:
+                                                  controller.selectSexIndex == 1
+                                                      ? "ذكر"
+                                                      : "انثى",
+                                              radius: 0,
+                                              boxFit: BoxFit.cover,
+                                              size: 200),
+                                        ),
+                                      )
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: SizedBox(
+                                            height: Get.height / 3.8,
+                                            width: Get.width,
+                                            child: Image.file(
+                                              File(controller.imagePath!.path),
+                                              fit: BoxFit.cover,
+                                            ))),
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: InkWell(
+                                    onTap: () {
+                                      if(controller.imagePath == null){
+                                        ImagePicker()
+                                            .pickImage(
+                                            source: ImageSource.gallery)
+                                            .then((value) {
+                                          if (value != null) {
+                                            controller.imagePath = value;
+                                          }
+                                          controller.update();
+                                        });
+                                      }else{
+                                        controller.imagePath=null;
+                                        controller.update();
+                                      }
+
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: AppColors.mainColor
+                                              .withOpacity(.8),
+                                          borderRadius: const BorderRadius.only(
+                                            bottomRight: Radius.circular(15),
+                                            bottomLeft: Radius.circular(15),
+                                          )),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                            controller.imagePath == null
+                                                ? "اختر صورة"
+                                                : "حذف الصورة",
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                color: AppColors.whiteColor)),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                   CustomDateField(
                     label: 'تاريخ الوفاه',
                     onConfirm: (v) {
@@ -50,6 +153,11 @@ class FormDeathScreen extends StatelessWidget {
                       label: 'المحافظة',
                       onSelected: (v) {
                         controller.selectedCity = v;
+                        if (v.name != "") {
+                          controller.selectedCity.isSelected = true;
+                        } else {
+                          controller.selectedCity.isSelected = false;
+                        }
                         controller.update();
                         controller.getBrigades();
                       }),
@@ -57,7 +165,7 @@ class FormDeathScreen extends StatelessWidget {
                     height: 10,
                   ),
                   CustomDropdown(
-                      isRequired: true,
+                      isRequired: false,
                       label: 'الواء',
                       listItems: controller.brigades.brigades ?? [],
                       selectedItem: controller.selectedBrigade,
@@ -70,7 +178,7 @@ class FormDeathScreen extends StatelessWidget {
                     height: 10,
                   ),
                   CustomDropdown(
-                      isRequired: true,
+                      isRequired: false,
                       label: 'المنطقة',
                       listItems: controller.districts.districts ?? [],
                       selectedItem: controller.selectedDistrict,
@@ -119,6 +227,7 @@ class FormDeathScreen extends StatelessWidget {
                 width: Get.width - 20,
                 colorTitle: AppColors.whiteColor,
                 pressed: () {
+                  controller.validateForm();
                   // Get.to(()=> CreateAccountScreen());
                 },
               ),
@@ -238,10 +347,10 @@ class FormDeathScreen extends StatelessWidget {
   _buildSelectSex(FormDeathController controller) {
     return Column(
       children: [
-        const Row(
+         Row(
           children: [
-            Text("الجنس",
-                style: TextStyle(
+            Text(controller.selectSexIndex==1?"الجنس المتوفي":"جنس المتوفية",
+                style: const TextStyle(
                     fontSize: 15,
                     color: AppColors.mainColor,
                     fontWeight: FontWeight.w500)),

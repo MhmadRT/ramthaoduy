@@ -47,7 +47,7 @@ loading() {
             Card(
               child: Container(
                 width: 100,
-                decoration: BoxDecoration(color: AppColors.whiteColor,borderRadius: BorderRadius.circular(5)),
+                decoration: BoxDecoration(color: Colors.black45,borderRadius: BorderRadius.circular(5)),
                 child: const Padding(
                   padding: EdgeInsets.all(15.0),
                   child: Dialog(

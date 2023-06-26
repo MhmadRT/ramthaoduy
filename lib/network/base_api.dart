@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:alice/core/alice_http_extensions.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:ramtha/network/api_response_model.dart';
 import '../helper/local_storage_helper.dart';
 import '../screens/mainscreen/main_controller.dart';
@@ -69,7 +70,31 @@ class BaseAPI {
       return ApiResponseModel(message: 'حدث خطاء', status: '0', data: {});
     }
   }
+  static Future<ApiResponseModel> postMultipartRequest(
+      String url, Map<String, String> body, XFile? file) async {
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.headers.addAll(await getHeader());
+      request.fields.addAll(body);
+      if (file != null) {
+        request.files
+            .addAll({await http.MultipartFile.fromPath('image', file.path)});
+      }
+      http.StreamedResponse response = await request.send();
+      var responseBody = await response.stream.bytesToString();
 
+      log(
+        'START',
+        name: 'post $url API $body',
+      );
+      Future.delayed(const Duration(seconds: 1))
+          .then((value) => print(responseBody));
+
+      return ApiResponseModel.fromJson(json.decode(responseBody));
+    } catch (e) {
+      return ApiResponseModel(message: 'حدث خطاء', status: '0', data: {});
+    }
+  }
   static Future<ApiResponseModel> get2(
       String url, Map<String, dynamic> body) async {
     try {

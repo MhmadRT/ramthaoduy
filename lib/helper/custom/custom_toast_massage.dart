@@ -11,7 +11,8 @@ class CustomSnackBar  {
      Duration? duration,
   }) {
     Get.rawSnackbar(
-      borderRadius: 25,
+      borderRadius: 0,
+
       icon: InkWell(
           onTap: () {
             Get.back();
@@ -24,7 +25,7 @@ class CustomSnackBar  {
         style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: backgroundColor??AppColors.blueButtonColor,
-      duration: duration,
+      duration: duration??const Duration(seconds: 2),
     );
   }
 }

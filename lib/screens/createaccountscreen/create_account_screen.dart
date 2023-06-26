@@ -108,7 +108,7 @@ class CreateAccountScreen extends StatelessWidget {
                           ),
                         ),
                         validator: (v) {
-                          if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          if (v?.isEmpty ?? true) return 'الحقل فارغ';
                           return null;
                         },
                       ),

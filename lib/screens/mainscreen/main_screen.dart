@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/helper/custom/custom_loading.dart';
+import 'package:ramtha/screens/homescreen/widget/edit_user_data_dialog.dart';
 import 'package:ramtha/helper/local_storage_helper.dart';
 import 'package:ramtha/network/api_urls.dart';
 import 'package:ramtha/screens/ratescreen/rate_screen.dart';
@@ -105,18 +106,24 @@ class MainScreen extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    Column(
-                                      children: [
-                                        SvgPicture.asset(
-                                          AppImages.editIcon,
-                                          height: 20,
-                                        ),
-                                        Text("تعديل",
-                                            style: TextStyle(
-                                                color:
-                                                    Colors.grey.withOpacity(.5),
-                                                fontWeight: FontWeight.normal)),
-                                      ],
+                                    InkWell(
+                                      onTap:  controller.isLogin == true?() {
+                                        Get.dialog(  EditUserDataDialog(user: controller.userInfoResponse,));
+                                      }:null,
+                                      child: Column(
+                                        children: [
+                                          SvgPicture.asset(
+                                            AppImages.editIcon,
+                                            height: 20,
+                                          ),
+                                          Text("تعديل",
+                                              style: TextStyle(
+                                                  color: Colors.grey
+                                                      .withOpacity(.5),
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                        ],
+                                      ),
                                     )
                                   ],
                                 ),
