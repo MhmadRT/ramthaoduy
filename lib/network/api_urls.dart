@@ -18,4 +18,5 @@ class ApiUrl {
   static const rate = '${apiUrl}add_note';
   static const addComment = '${apiUrl}add_comment';
   static const deleteComment = '${apiUrl}delete_comment';
+  static const forgetPassword = '${apiUrl}forgetPassword';
 }

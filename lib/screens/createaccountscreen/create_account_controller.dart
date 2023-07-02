@@ -58,6 +58,22 @@ class CreateAccountController extends GetxController {
     super.onInit();
   }
 
+  bool hasThreeSpaces(String text) {
+    int spaceCount = 0;
+    String newText = text.trim().replaceAll("  ", "");
+    for (int i = 0; i < newText.length; i++) {
+      if (newText[i] == ' ') {
+        spaceCount++;
+      }
+
+      if (spaceCount >= 2) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   updateUserInfo() async {
     loading();
     UpdateRequest updateRequest = UpdateRequest(
@@ -66,6 +82,7 @@ class CreateAccountController extends GetxController {
       brigadeId: selectedBrigade.id,
       cityId: selectedCity.id,
       districtId: selectedDistrict.id,
+      email: email.text,
     );
     ApiResponseModel apiResponseModel =
         await repository.updateUserInfo(updateRequest.toJson(), imagePath);
@@ -113,6 +130,21 @@ class CreateAccountController extends GetxController {
   }
 
   makeRegister() async {
+    if (selectedCity.id == null) {
+      return CustomSnackBar.showCustomSnackBar(
+        message: "الرجاء اختيار المحافظة",
+      );
+    }
+    if (selectedBrigade.id == null) {
+      return CustomSnackBar.showCustomSnackBar(
+        message: "الرجاء اختيار اللواء",
+      );
+    }
+    if (selectedDistrict.id == null) {
+      return CustomSnackBar.showCustomSnackBar(
+        message: "الرجاء اختيار المنطقة",
+      );
+    }
     loading();
     CreateRequest createRequest = CreateRequest(
         name: userNameFromThreeSection.text,
@@ -122,7 +154,7 @@ class CreateAccountController extends GetxController {
         password: password.text,
         username: userNameForRegister.text,
         deviceToken: 'sfdsfds',
-        gender: selectSexIndex==1?"1":"2",
+        gender: selectSexIndex == 1 ? "1" : "2",
         platform: GetPlatform.isAndroid ? "android" : 'ios');
     CreateResponse createResponse =
         await repository.createAccountAPI(createRequest.toJson());

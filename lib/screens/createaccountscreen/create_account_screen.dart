@@ -61,6 +61,9 @@ class CreateAccountScreen extends StatelessWidget {
                         lightLabel: true,
                         validator: (v) {
                           if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          if (!controller.hasThreeSpaces(v ?? "")) {
+                            return "الرجاء ادخال الأسم من ثلاث مقاطع";
+                          }
                           return null;
                         },
                       ),
@@ -82,7 +85,8 @@ class CreateAccountScreen extends StatelessWidget {
                           if (v?.isEmpty ?? true) return 'الحقل فارخ';
                           return null;
                         },
-                      ),const SizedBox(
+                      ),
+                      const SizedBox(
                         height: 10,
                       ),
                       _buildSelectSex(controller),
@@ -98,6 +102,9 @@ class CreateAccountScreen extends StatelessWidget {
                         lightLabel: true,
                         validator: (v) {
                           if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          if (!GetUtils.isEmail(v ?? '')) {
+                            return 'البريد الاكتروني غير صحيح';
+                          }
                           return null;
                         },
                       ),
@@ -127,6 +134,9 @@ class CreateAccountScreen extends StatelessWidget {
                         ),
                         validator: (v) {
                           if (v?.isEmpty ?? true) return 'الحقل فارغ';
+                          if ((v?.length ?? 0) < 6) {
+                            return 'يجب ان تتكون كلمة المرور من 6 مقاطع او اكثر';
+                          }
                           return null;
                         },
                       ),
@@ -155,6 +165,9 @@ class CreateAccountScreen extends StatelessWidget {
                         lightLabel: true,
                         validator: (v) {
                           if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          if ((v?.length ?? 0) < 6) {
+                            return 'يجب ان تتكون كلمة المرور من 6 مقاطع او اكثر';
+                          }
                           if (v != controller.password.text) {
                             return 'كلمة السر غير مطابقه';
                           }
@@ -216,7 +229,8 @@ class CreateAccountScreen extends StatelessWidget {
                             controller.makeRegister();
                           }
                         },
-                      ),const SizedBox(
+                      ),
+                      const SizedBox(
                         height: 50,
                       ),
                     ]),
@@ -227,6 +241,7 @@ class CreateAccountScreen extends StatelessWidget {
       ),
     );
   }
+
   _buildSelectSex(CreateAccountController controller) {
     return Column(
       children: [
@@ -260,13 +275,13 @@ class CreateAccountScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
                       child: Text(
-                        "ذكر",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: controller.selectSexIndex == 1
-                                ? AppColors.whiteColor
-                                : AppColors.mainColor),
-                      )),
+                    "ذكر",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: controller.selectSexIndex == 1
+                            ? AppColors.whiteColor
+                            : AppColors.mainColor),
+                  )),
                 ),
               ),
             ),
@@ -287,13 +302,13 @@ class CreateAccountScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
                       child: Text(
-                        "انثى",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: controller.selectSexIndex == 2
-                                ? AppColors.whiteColor
-                                : AppColors.mainColor),
-                      )),
+                    "انثى",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: controller.selectSexIndex == 2
+                            ? AppColors.whiteColor
+                            : AppColors.mainColor),
+                  )),
                 ),
               ),
             ),

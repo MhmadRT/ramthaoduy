@@ -4,15 +4,11 @@
 
 import 'dart:convert';
 
-CreateRequest createRequestFromJson(String str) => CreateRequest.fromJson(json.decode(str));
 
-String createRequestToJson(CreateRequest data) => json.encode(data.toJson());
-
-class CreateRequest {
+class ForgetPasswordResponse {
   String? name;
   String? username;
   String? password;
-  String? email;
   String? cityId;
   String? brigadeId;
   String? districtId;
@@ -20,9 +16,8 @@ class CreateRequest {
   String? platform;
   String? gender;
 
-  CreateRequest({
+  ForgetPasswordResponse({
     this.name,
-    this.email,
     this.username,
     this.password,
     this.cityId,
@@ -33,9 +28,8 @@ class CreateRequest {
     this.gender,
   });
 
-  factory CreateRequest.fromJson(Map<String, dynamic> json) => CreateRequest(
+  factory ForgetPasswordResponse.fromJson(Map<String, dynamic> json) => ForgetPasswordResponse(
     name: json["name"],
-    email: json["email"],
     username: json["username"],
     password: json["password"],
     cityId: json["city_id"],
@@ -47,7 +41,6 @@ class CreateRequest {
 
   Map<String, dynamic> toJson() => {
     "name": name,
-    "email": email,
     "username": username,
     "password": password,
     "city_id": cityId,

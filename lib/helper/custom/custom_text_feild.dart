@@ -36,7 +36,7 @@ class CustomTextField<T> extends StatefulWidget {
   final Widget? suffixIcon;
   final TextInputType? inputType;
   final ValueChanged? onchange;
-  final FormFieldValidator<T>? validator;
+  final FormFieldValidator<String?>? validator;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -68,6 +68,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           maxLines: widget.maxLines,
           autofocus: widget.autoFocus ?? false,
           keyboardType: widget.inputType,
+          validator: widget.validator,
           onChanged: widget.onchange,
           controller: widget.controller,
           inputFormatters: widget.inputFormatters,
