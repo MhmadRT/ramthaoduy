@@ -10,6 +10,7 @@ import 'package:ramtha/screens/loginscreen/model/login_response.dart';
 import 'package:ramtha/screens/mainscreen/main_repository.dart';
 import 'package:ramtha/screens/searchscreen/search_sceen.dart';
 import '../deathformscreen.dart/add_death_screen.dart';
+import '../homescreen/home_conrtoller.dart';
 import '../homescreen/model/get_user_info.dart';
 
 class MainController extends GetxController {
@@ -20,6 +21,7 @@ class MainController extends GetxController {
   GetUserInfoResponse? userInfoResponse;
   bool isLoadingUserData = true;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   List<Widget> screens = [
     const SearchScreen(),
     const FormDeathScreen(),
@@ -67,6 +69,7 @@ class MainController extends GetxController {
     loginResponseData = await LocalStorageHelper.getUserData();
     isLogin = await LocalStorageHelper.isLoggedIn();
     update();
+
     super.onInit();
   }
 }

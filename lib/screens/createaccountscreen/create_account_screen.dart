@@ -85,6 +85,10 @@ class CreateAccountScreen extends StatelessWidget {
                       ),const SizedBox(
                         height: 10,
                       ),
+                      _buildSelectSex(controller),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       CustomTextField<String>(
                         controller: controller.email,
                         isRequired: true,
@@ -221,6 +225,81 @@ class CreateAccountScreen extends StatelessWidget {
               );
             }),
       ),
+    );
+  }
+  _buildSelectSex(CreateAccountController controller) {
+    return Column(
+      children: [
+        const Row(
+          children: [
+            Text("الجنس",
+                style: TextStyle(
+                    fontSize: 15,
+                    color: AppColors.whiteColor,
+                    fontWeight: FontWeight.w500)),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () {
+                controller.selectSexIndex = 1;
+                print(controller.selectSexIndex);
+                controller.update();
+              },
+              child: Container(
+                width: Get.width / 2.6,
+                height: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: controller.selectSexIndex == 1
+                        ? AppColors.yellow
+                        : AppColors.editTextColor),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                      child: Text(
+                        "ذكر",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: controller.selectSexIndex == 1
+                                ? AppColors.whiteColor
+                                : AppColors.mainColor),
+                      )),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                controller.selectSexIndex = 2;
+                controller.update();
+              },
+              child: Container(
+                width: Get.width / 2.6,
+                height: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: controller.selectSexIndex == 2
+                        ? AppColors.yellow
+                        : AppColors.editTextColor),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                      child: Text(
+                        "انثى",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: controller.selectSexIndex == 2
+                                ? AppColors.whiteColor
+                                : AppColors.mainColor),
+                      )),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

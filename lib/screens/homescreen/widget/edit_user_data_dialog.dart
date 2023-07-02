@@ -53,7 +53,8 @@ class EditUserDataDialog extends StatelessWidget {
                                   : UserImage(
                                       userImage: user?.data?.user?.image ?? "",
                                       gender: user?.data?.user?.gender,
-                                      radius: 25,
+                                      radius: 400,
+                                      boxFit: BoxFit.cover,
                                       size: 100),
                               Positioned(
                                   bottom: 0,

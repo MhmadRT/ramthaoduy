@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/helper/custom/custom_loading.dart';
+import 'package:ramtha/screens/homescreen/home_conrtoller.dart';
 import 'package:ramtha/screens/homescreen/widget/edit_user_data_dialog.dart';
 import 'package:ramtha/helper/local_storage_helper.dart';
 import 'package:ramtha/network/api_urls.dart';
@@ -43,90 +44,129 @@ class MainScreen extends StatelessWidget {
                           controller.isLoadingUserData
                               ? loadingUserData(controller)
                               : Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
                                   children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Get.dialog(Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Dialog(
+                                              backgroundColor: Colors.transparent,
+                                              elevation: 0,
+                                              child:UserImage(
+                                                userImage: controller
+                                                    .userInfoResponse
+                                                    ?.data
+                                                    ?.user
+                                                    ?.image ??
+                                                    "",
+                                                boxFit:
+                                                BoxFit.cover,
+                                                gender: controller
+                                                    .userInfoResponse
+                                                    ?.data
+                                                    ?.user
+                                                    ?.gender,
+                                                radius: 50000,
+                                                size: Get.height/2,),
+                                            ),
+                                          ],
+                                        ));
+                                      },
+                                      child: UserImage(
+                                          userImage: controller
+                                              .userInfoResponse
+                                              ?.data
+                                              ?.user
+                                              ?.image ??
+                                              "",
+                                          boxFit: BoxFit.cover,
+                                          gender: controller
+                                              .userInfoResponse
+                                              ?.data
+                                              ?.user
+                                              ?.gender,
+                                          radius: 25,
+                                          size: 40),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
                                     Expanded(
-                                      child: Row(
+                                      child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
-                                          UserImage(
-                                              userImage: controller
-                                                      .userInfoResponse
-                                                      ?.data
-                                                      ?.user
-                                                      ?.image ??
-                                                  "",
-                                              gender: controller
+                                          Text(
+                                              controller
                                                   .userInfoResponse
                                                   ?.data
                                                   ?.user
-                                                  ?.gender,
-                                              radius: 25,
-                                              size: 40),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                    controller
-                                                            .userInfoResponse
-                                                            ?.data
-                                                            ?.user
-                                                            ?.name ??
-                                                        "",
-                                                    style: const TextStyle(
-                                                        fontSize: 17,
-                                                        color:
-                                                            AppColors.mainColor,
-                                                        fontWeight:
-                                                            FontWeight.w600)),
-                                                Text(
-                                                    controller
-                                                            .userInfoResponse
-                                                            ?.data
-                                                            ?.user
-                                                            ?.address ??
-                                                        "",
-                                                    style: const TextStyle(
-                                                        color:
-                                                            AppColors.mainColor,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 14)),
-                                              ],
-                                            ),
-                                          ),
+                                                  ?.name ??
+                                                  "بدون اسم",
+                                              style: const TextStyle(
+                                                  fontSize: 17,
+                                                  color:
+                                                  AppColors.mainColor,
+                                                  fontWeight:
+                                                  FontWeight.w600)),
+                                          Text(
+                                              controller
+                                                  .userInfoResponse
+                                                  ?.data
+                                                  ?.user
+                                                  ?.address ??
+                                                  "بدون عنوان",
+                                              style: const TextStyle(
+                                                  color:
+                                                  AppColors.mainColor,
+                                                  fontWeight:
+                                                  FontWeight.w600,
+                                                  fontSize: 14)),
                                         ],
                                       ),
                                     ),
-                                    InkWell(
-                                      onTap:  controller.isLogin == true?() {
-                                        Get.dialog(  EditUserDataDialog(user: controller.userInfoResponse,));
-                                      }:null,
-                                      child: Column(
-                                        children: [
-                                          SvgPicture.asset(
-                                            AppImages.editIcon,
-                                            height: 20,
-                                          ),
-                                          Text("تعديل",
-                                              style: TextStyle(
-                                                  color: Colors.grey
-                                                      .withOpacity(.5),
-                                                  fontWeight:
-                                                      FontWeight.normal)),
-                                        ],
-                                      ),
-                                    )
                                   ],
                                 ),
+                              ),
+                              InkWell(
+                                onTap: controller.isLogin == true
+                                    ? () {
+                                  Get.dialog(EditUserDataDialog(
+                                    user:
+                                    controller.userInfoResponse,
+                                  ));
+                                }
+                                    : () {
+                                  Get.dialog(
+                                      const DialogPermission());
+                                },
+                                child: Column(
+                                  children: [
+                                    SvgPicture.asset(
+                                      AppImages.editIcon,
+                                      height: 20,
+                                    ),
+                                    Text("تعديل",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                                .withOpacity(.5),
+                                            fontWeight:
+                                            FontWeight.normal)),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                           const SizedBox(
                             height: 50,
                           ),
@@ -329,7 +369,7 @@ class MainScreen extends StatelessWidget {
                                           horizontal: 20),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           InkWell(
                                             onTap: () {
@@ -338,7 +378,7 @@ class MainScreen extends StatelessWidget {
                                             },
                                             child: Padding(
                                               padding:
-                                                  const EdgeInsets.all(8.0),
+                                              const EdgeInsets.all(8.0),
                                               child: SvgPicture.asset(
                                                   AppImages.menuIcon,
                                                   height: 12),
@@ -363,18 +403,18 @@ class MainScreen extends StatelessWidget {
                                                   },
                                                   child: Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 4),
                                                     child: SvgPicture.asset(
                                                       AppImages
                                                           .notificationDownIcon,
                                                       height: 20,
                                                       color: controller
-                                                                  .currentIndex ==
-                                                              3
+                                                          .currentIndex ==
+                                                          3
                                                           ? AppColors.yellow
                                                           : AppColors
-                                                              .whiteColor,
+                                                          .whiteColor,
                                                     ),
                                                   ),
                                                 ),
@@ -383,13 +423,13 @@ class MainScreen extends StatelessWidget {
                                                   bottom: 5,
                                                   child: Container(
                                                     decoration:
-                                                        const BoxDecoration(
+                                                    const BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       color: AppColors.yellow,
                                                     ),
                                                     child: const Padding(
                                                       padding:
-                                                          EdgeInsets.all(3),
+                                                      EdgeInsets.all(3),
                                                       child: Text(
                                                         "2",
                                                         style: TextStyle(
@@ -397,8 +437,8 @@ class MainScreen extends StatelessWidget {
                                                             color: AppColors
                                                                 .whiteColor,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                            FontWeight
+                                                                .bold),
                                                       ),
                                                     ),
                                                   ),
@@ -412,26 +452,38 @@ class MainScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  physics: const BouncingScrollPhysics(),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 20),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          child: controller
-                                              .screens[controller.currentIndex],
+                              GetBuilder<HomeController>(
+                                  init: HomeController(),
+                                  builder: (homeController) {
+                                    return Expanded(
+                                      child: RefreshIndicator(
+                                        onRefresh: () async {
+                                          if (controller.currentIndex == 2) {
+                                            await homeController.getPosts();
+                                          }
+                                        },
+                                        child: SingleChildScrollView(
+                                          physics:
+                                          const BouncingScrollPhysics(),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 20),
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  child: controller.screens[
+                                                  controller.currentIndex],
+                                                ),
+                                                const SizedBox(
+                                                  height: 100,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                        const SizedBox(
-                                          height: 100,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
+                                      ),
+                                    );
+                                  })
                             ],
                           ),
                           Positioned(
@@ -451,7 +503,7 @@ class MainScreen extends StatelessWidget {
                                       vertical: 9, horizontal: 30),
                                   child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         InkWell(
                                           child: Column(
@@ -459,17 +511,17 @@ class MainScreen extends StatelessWidget {
                                               SvgPicture.asset(
                                                 AppImages.homeIcon,
                                                 color:
-                                                    controller.currentIndex == 2
-                                                        ? AppColors.yellow
-                                                        : AppColors.whiteColor,
+                                                controller.currentIndex == 2
+                                                    ? AppColors.yellow
+                                                    : AppColors.whiteColor,
                                                 height: 15,
                                               ),
                                               Text(
                                                 "الرئيسية",
                                                 style: TextStyle(
                                                     color: controller
-                                                                .currentIndex ==
-                                                            2
+                                                        .currentIndex ==
+                                                        2
                                                         ? AppColors.yellow
                                                         : AppColors.whiteColor,
                                                     fontFamily: ""),
@@ -487,17 +539,17 @@ class MainScreen extends StatelessWidget {
                                               SvgPicture.asset(
                                                 AppImages.searchIcon,
                                                 color:
-                                                    controller.currentIndex == 0
-                                                        ? AppColors.yellow
-                                                        : AppColors.whiteColor,
+                                                controller.currentIndex == 0
+                                                    ? AppColors.yellow
+                                                    : AppColors.whiteColor,
                                                 height: 15,
                                               ),
                                               Text(
                                                 "البحث",
                                                 style: TextStyle(
                                                     color: controller
-                                                                .currentIndex ==
-                                                            0
+                                                        .currentIndex ==
+                                                        0
                                                         ? AppColors.yellow
                                                         : AppColors.whiteColor,
                                                     fontFamily: ""),
@@ -523,12 +575,12 @@ class MainScreen extends StatelessWidget {
                                 backgroundColor: AppColors.mainColor,
                                 onPressed: controller.isLogin == true
                                     ? () {
-                                        controller.currentIndex = 1;
-                                        controller.update();
-                                      }
+                                  controller.currentIndex = 1;
+                                  controller.update();
+                                }
                                     : () {
-                                        Get.dialog(const DialogPermission());
-                                      },
+                                  Get.dialog(const DialogPermission());
+                                },
                                 child: Container(
                                     decoration: const BoxDecoration(
                                       shape: BoxShape.circle,

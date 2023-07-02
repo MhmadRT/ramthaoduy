@@ -24,7 +24,7 @@ class CreateAccountController extends GetxController {
   bool visiblePassword = true;
   bool visiblePasswordConfirm = true;
   late MainController mainController;
-
+  int selectSexIndex = 1;
   TextEditingController userNameFromThreeSection = TextEditingController();
   TextEditingController userNameForRegister = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -122,6 +122,7 @@ class CreateAccountController extends GetxController {
         password: password.text,
         username: userNameForRegister.text,
         deviceToken: 'sfdsfds',
+        gender: selectSexIndex==1?"1":"2",
         platform: GetPlatform.isAndroid ? "android" : 'ios');
     CreateResponse createResponse =
         await repository.createAccountAPI(createRequest.toJson());

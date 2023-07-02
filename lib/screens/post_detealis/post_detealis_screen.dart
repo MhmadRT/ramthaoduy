@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/screens/post_detealis/post_controller.dart';
-
 import '../../constant/app_images.dart';
 import '../../constant/const_var.dart';
 import '../../helper/custom/custom_loading.dart';
@@ -13,7 +12,6 @@ import '../../helper/custom/location_card.dart';
 import '../../helper/custom/user_image.dart';
 import '../homescreen/model/comments_response.dart';
 import '../homescreen/model/posts_response.dart';
-import 'custom_comments_bottomsheet.dart';
 
 class PostDetailsScreen extends StatelessWidget {
   const PostDetailsScreen({Key? key, required this.post}) : super(key: key);
@@ -21,7 +19,7 @@ class PostDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(resizeToAvoidBottomInset: false,
       bottomNavigationBar: GetBuilder<PostController>(
           init: PostController(post),
           builder: (controller) {
@@ -81,142 +79,249 @@ class PostDetailsScreen extends StatelessWidget {
           }),
       body: Stack(
         children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: Get.width,
-                    height: 200,
-                    child: Stack(
-                      children: [
-                        UserImage(
-                            userImage: post.image,
-                            gender: post.gender,
-                            size: Get.width),
-                        Opacity(
-                          opacity: .8,
-                          child: Image.asset(AppImages.blackLine,
-                              height: 40, width: 45),
-                        ),
-                      ],
+          Column(
+            children: [
+              Container(
+                height: 80,
+                decoration: const BoxDecoration(
+                    color: AppColors.mainColor,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15))),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 45,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    post.deadName ?? "",
-                    style: const TextStyle(
-                        color: AppColors.mainColor,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    post.buryDescription ?? "",
-                    maxLines: 3,
-                    style: const TextStyle(
-                        color: AppColors.mainColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal),
-                  ),
-                  // Row(
-                  //   children: [
-                  //     UserImage(
-                  //         userImage: '', gender: post.gender, radius: 25, size: 40),
-                  //     const SizedBox(
-                  //       width: 20,
-                  //     ),
-                  //     Expanded(
-                  //       child: Column(
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           Text(post.nameOfRequester ?? ""),
-                  //           Visibility(
-                  //             visible: GetUtils.isDateTime(
-                  //                 post.createdDate?.toIso8601String() ?? ""),
-                  //             child: Text(
-                  //               ConstVars.format.format(post.createdDate!),
-                  //               style: TextStyle(
-                  //                 color: AppColors.mainColor.withOpacity(.5),
-                  //                 fontSize: 12,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Row(
-                    children: [
-                      Icon(
-                        Icons.location_on_rounded,
-                        color: AppColors.red,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: const Icon(Icons.arrow_back_ios,
+                                color: AppColors.whiteColor, size: 20),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            child: const Text(
+                              "تفاصيل الوفاة",
+                              style: TextStyle(
+                                  color: AppColors.whiteColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        'الموقع',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
-                    ],
-                  ),
-                  LocationMapWidget(
-                      lat: double.parse(post.latatude ?? '0'),
-                      lng: double.parse(post.longitude ?? '0')),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        AppImages.commentIcon,
-                        height: 17,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      const Text(
-                        'التعليقات',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
-                    ],
-                  ),
-                  GetBuilder<PostController>(
-                      init: PostController(post),
-                      builder: (controller) {
-                        return controller.isLoadingComment
-                            ? loading()
-                            : commentsWidget(
-                                controller.commentPosts, controller);
-                      }),
-                ],
+                    ),
+                  ],
+                ),
               ),
-            ),
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      
+                      Padding(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    post.deadName ?? "",
+                                    style: const TextStyle(
+                                        color: AppColors.mainColor,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                                Text(
+                                  ConstVars.format.format(post.createdDate!),
+                                  style: TextStyle(
+                                    color: AppColors.mainColor.withOpacity(.5),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              post.buryDescription ?? "",
+                              maxLines: 3,
+                              style: const TextStyle(
+                                  color: AppColors.mainColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              width: Get.width,
+                              height: 200,
+                              child: Stack(
+                                children: [
+                                  UserImage(
+                                      radius: 20,
+                                      userImage: post.image,
+                                      gender: post.gender,
+                                      size: Get.width),
+                                  Opacity(
+                                    opacity: .8,
+                                    child: Image.asset(AppImages.blackLine,
+                                        height: 40, width: 45),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on_rounded,
+                                  color: AppColors.red,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  'الموقع',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 18),
+                                ),
+                              ],
+                            ),
+                            LocationMapWidget(
+                                lat: double.parse(post.latatude ?? '0'),
+                                lng: double.parse(post.longitude ?? '0')),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.phone,
+                                        color: AppColors.mainColor,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        'رقم الهاتف',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () async {
+                                    Get.find<PostController>().launchPhoneDialer(
+                                        post.phoneNumber.toString());
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        post.phoneNumber ?? "",
+                                        style: const TextStyle(
+                                            color: AppColors.blueButtonColor,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            decoration: TextDecoration.underline),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.person, color: AppColors.mainColor),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        'اسم صاحب الرقم',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Text(
+                                  post.nameOfRequester ?? "",
+                                  style: const TextStyle(
+                                      color: AppColors.mainColor,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  AppImages.commentIcon,
+                                  height: 17,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                const Text(
+                                  'التعليقات',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 18),
+                                ),
+                              ],
+                            ),
+                            GetBuilder<PostController>(
+                                init: PostController(post),
+                                builder: (controller) {
+                                  return controller.isLoadingComment
+                                      ? loading()
+                                      : commentsWidget(
+                                          controller.commentPosts, controller);
+                                }),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          Positioned(
-            left: 20,
-            top: 50,
-            child: MaterialButton(
-              onPressed: () {
-                Get.back();
-              },
-              color: AppColors.mainColor,
-              child: const Icon(Icons.arrow_forward),
-            ),
-          )
         ],
       ),
     );

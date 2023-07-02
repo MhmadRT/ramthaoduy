@@ -111,7 +111,7 @@ class BaseAPI {
           );
       log(response.body, name: 'STATUS CODE ${response.statusCode}');
       if (response.statusCode == 401) {
-        makeLogOut();
+        // makeLogOut();
       }
 
       return ApiResponseModel.fromJson(json.decode(response.body));

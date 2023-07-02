@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ramtha/helper/custom/custom_loading.dart';
 import 'package:ramtha/screens/homescreen/home_repository.dart';
 import 'package:ramtha/screens/homescreen/model/posts_response.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../helper/custom/custom_toast_massage.dart';
 import '../homescreen/model/comments_response.dart';
@@ -19,6 +20,12 @@ class PostController extends GetxController {
   void onInit() {
     getComment();
     super.onInit();
+  }
+
+  void launchPhoneDialer(String phoneNumber) async {
+    final url = 'tel:$phoneNumber';
+
+    await launchUrl(Uri.parse(url));
   }
 
   PostController(this.post);
@@ -51,7 +58,7 @@ class PostController extends GetxController {
         closeLoading();
         if (value.status == '1') {
           await getComment();
-          comment.clear() ;
+          comment.clear();
           await Future.delayed(Duration(seconds: 1));
           _scrollDown();
         } else {
@@ -65,7 +72,7 @@ class PostController extends GetxController {
     }
   }
 
-  deleteComment(String ?commentId) async {
+  deleteComment(String? commentId) async {
     loading();
     Map<String, dynamic> body = {
       "comment_id": commentId,
