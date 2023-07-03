@@ -36,24 +36,27 @@ class FormDeathController extends GetxController {
   CreateAccountRepository repository = CreateAccountRepository();
   DeathFormRepository deathFormRepository = DeathFormRepository();
   Cities cities = Cities(cities: []);
-  Item selectedCity = Item(name: 'أختر المحافظة');
+  Item selectedCity = Item(
+    name: 'أختر المحافظة',
+    id: '4',
+  );
   Districts districts = Districts(districts: []);
   Item selectedDistrict = Item(name: 'أختر المنطقة');
   Brigades brigades = Brigades(brigades: []);
-  Item selectedBrigade = Item(name: 'أختر الواء');
+  Item selectedBrigade = Item(name: 'أختر الواء', id: '2');
   final formKey = GlobalKey<FormState>();
   XFile? imagePath;
 
   @override
   void onInit() async {
     // TODO: implement onInit
-    Future.delayed(Duration.zero).then((value) => getCities());
+    Future.delayed(Duration.zero).then((value) => getDistrict());
     super.onInit();
   }
 
   bool hasThreeSpaces(String text) {
     int spaceCount = 0;
-    String  newText = text.trim().replaceAll("  ", "");
+    String newText = text.trim().replaceAll("  ", "");
     for (int i = 0; i < newText.length; i++) {
       if (newText[i] == ' ') {
         spaceCount++;
@@ -83,7 +86,7 @@ class FormDeathController extends GetxController {
         message: "الرجاء اختيار تاريخ صحيح",
       );
     }
-    if (selectedCity.isSelected == false) {
+    if (selectedDistrict.id == null) {
       return CustomSnackBar.showCustomSnackBar(
         message: "الرجاء اختيار المحافظة",
       );
@@ -113,7 +116,7 @@ class FormDeathController extends GetxController {
 
     AddDeathsRequest addDeathsRequest = AddDeathsRequest(
       cityId: selectedCity.id,
-       phoneNumber: theMobileNumberOfTheDeceasedFamily.text,
+      phoneNumber: theMobileNumberOfTheDeceasedFamily.text,
       longitude: locationInfo.lat.toString(),
       latatude: locationInfo.lng.toString(),
       birthDate: date.toIso8601String(),

@@ -10,11 +10,13 @@ import 'models/districts.dart';
 
 class CreateAccountRepository {
   Future<CreateResponse> createAccountAPI(Map<String, dynamic> body) async {
+    print(body.toString());
     final response = await BaseAPI.post2(ApiUrl.register, body);
     return CreateResponse.fromJson(response.toJson());
   }
-  Future<ApiResponseModel> updateUserInfo(Map<String, String> body,XFile?file) async {
-    final response = await BaseAPI.postMultipartRequest(ApiUrl.editUser, body,file);
+  Future<ApiResponseModel> updateUserInfo(
+      {Map<String, String> ?body, XFile? file}) async {
+    final response = await BaseAPI.postMultipartRequest(ApiUrl.editUser, body??{},file);
     return ApiResponseModel.fromJson(response.toJson());
   }
   Future<Cities> getCities() async {

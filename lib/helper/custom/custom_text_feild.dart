@@ -19,6 +19,7 @@ class CustomTextField<T> extends StatefulWidget {
       this.inputType,
       this.suffixIcon,
       this.showTitle,
+      this.isSecure,
       this.onchange,
       this.isRequired})
       : super(key: key);
@@ -28,6 +29,7 @@ class CustomTextField<T> extends StatefulWidget {
   final int? maxLines;
   final String? title;
   final bool? isRequired;
+  final bool? isSecure;
   final bool? showTitle;
   final bool? autoFocus;
   final bool? lightLabel;
@@ -65,12 +67,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ),
         ),
         TextFormField(
-          maxLines: widget.maxLines,
+          maxLines: widget.isSecure==true?1:widget.maxLines,
           autofocus: widget.autoFocus ?? false,
           keyboardType: widget.inputType,
           validator: widget.validator,
           onChanged: widget.onchange,
           controller: widget.controller,
+          obscureText: widget.isSecure ?? false,
           inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
             contentPadding:

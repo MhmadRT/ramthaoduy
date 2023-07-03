@@ -7,6 +7,7 @@ class ApiUrl {
   static const register = '${apiUrl}register';
   static const editUser = '${apiUrl}edit_user';
   static const addDeath = '${apiUrl}add_death';
+  static const userHistory = '${apiUrl}get_by_user';
   static const getCities = '${apiUrl}get_cities';
   static const getBrigades = '${apiUrl}get_brigades';
   static const getDistricts = '${apiUrl}get_districts';
@@ -18,5 +19,5 @@ class ApiUrl {
   static const rate = '${apiUrl}add_note';
   static const addComment = '${apiUrl}add_comment';
   static const deleteComment = '${apiUrl}delete_comment';
-  static const forgetPassword = '${apiUrl}forgetPassword';
+  static const forgetPassword = '${apiUrl}forgot_password';
 }

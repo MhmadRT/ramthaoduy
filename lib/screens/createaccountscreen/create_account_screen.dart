@@ -174,34 +174,34 @@ class CreateAccountScreen extends StatelessWidget {
                           return null;
                         },
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomDropdown(
-                          listItems: controller.cities.cities ?? [],
-                          selectedItem: controller.selectedCity,
-                          lightLabel: true,
-                          isRequired: true,
-                          label: 'المحافظة',
-                          onSelected: (v) {
-                            controller.selectedCity = v;
-                            controller.update();
-                            controller.getBrigades();
-                          }),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomDropdown(
-                          lightLabel: true,
-                          isRequired: true,
-                          label: 'الواء',
-                          listItems: controller.brigades.brigades ?? [],
-                          selectedItem: controller.selectedBrigade,
-                          onSelected: (v) {
-                            controller.selectedBrigade = v;
-                            controller.update();
-                            controller.getDistrict();
-                          }),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // CustomDropdown(
+                      //     listItems: controller.cities.cities ?? [],
+                      //     selectedItem: controller.selectedCity,
+                      //     lightLabel: true,
+                      //     isRequired: true,
+                      //     label: 'المحافظة',
+                      //     onSelected: (v) {
+                      //       controller.selectedCity = v;
+                      //       controller.update();
+                      //       controller.getBrigades();
+                      //     }),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // CustomDropdown(
+                      //     lightLabel: true,
+                      //     isRequired: true,
+                      //     label: 'الواء',
+                      //     listItems: controller.brigades.brigades ?? [],
+                      //     selectedItem: controller.selectedBrigade,
+                      //     onSelected: (v) {
+                      //       controller.selectedBrigade = v;
+                      //       controller.update();
+                      //       controller.getDistrict();
+                      //     }),
                       const SizedBox(
                         height: 10,
                       ),

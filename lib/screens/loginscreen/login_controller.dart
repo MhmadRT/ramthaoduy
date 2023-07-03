@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/constant/app_colors.dart';
@@ -18,6 +19,7 @@ class LoginController extends GetxController {
   LoginRepository loginRepository = LoginRepository();
   TextEditingController userName = TextEditingController();
   TextEditingController password = TextEditingController();
+  String deviceToken = 'empty';
 
   login() async {
     if (userName.text.isEmpty) {
@@ -33,24 +35,24 @@ class LoginController extends GetxController {
       return;
     }
     LoginRequest loginRequest = LoginRequest(
-        deviceToken: 'sdsdsds',
+        deviceToken: deviceToken,
         password: password.text,
         platform: GetPlatform.isAndroid ? "android" : "ios",
         username: userName.text);
     loading();
+    deviceToken = await FirebaseMessaging.instance.getToken() ?? "empty";
     await loginRepository
         .makeLoginAPI(loginRequest.toJson())
         .then((value) async {
       closeLoading();
       if (value.status == '1') {
-        if (isRememberMe) {
-          await LocalStorageHelper.saveCredentials(
-              username: userName.text,
-              password: password.text,
-              token: value.data?.token ?? "");
-          await LocalStorageHelper.saveUserData(
-              user:value.data);
-        }
+        await LocalStorageHelper.saveRememberMe(isRememberMe: isRememberMe);
+        await LocalStorageHelper.saveCredentials(
+            username: userName.text,
+            password: password.text,
+            token: value.data?.token ?? "");
+
+        await LocalStorageHelper.saveUserData(user: value.data);
         Get.offAll(MainScreen());
       } else {
         CustomSnackBar.showCustomSnackBar(

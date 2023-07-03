@@ -10,7 +10,7 @@ class SplashController extends GetxController {
   void onInit() async {
     super.onInit();
     await Future.delayed(const Duration(seconds: 1));
-    if (await LocalStorageHelper.isLoggedIn()) {
+    if (await LocalStorageHelper.isRememberMe()) {
       Get.offAll(MainScreen());
     } else {
       Get.offAll(const LoginScreen());

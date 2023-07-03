@@ -35,11 +35,11 @@ class CreateAccountController extends GetxController {
 
   String lastName = "";
   Cities cities = Cities(cities: []);
-  Item selectedCity = Item(name: 'أختر المحافظة');
+  Item selectedCity = Item(name: 'أختر المحافظة',id: '4');
   Districts districts = Districts(districts: []);
   Item selectedDistrict = Item(name: 'أختر المنطقة');
   Brigades brigades = Brigades(brigades: []);
-  Item selectedBrigade = Item(name: 'أختر الواء');
+  Item selectedBrigade = Item(name: 'أختر الواء',id: '2');
   final formKey = GlobalKey<FormState>();
 
   XFile? imagePath;
@@ -54,7 +54,7 @@ class CreateAccountController extends GetxController {
           mainController.userInfoResponse?.data?.user?.name ?? "";
       update();
     }
-    Future.delayed(Duration.zero).then((value) => getCities());
+    Future.delayed(Duration.zero).then((value) => getDistrict());
     super.onInit();
   }
 
@@ -84,8 +84,8 @@ class CreateAccountController extends GetxController {
       districtId: selectedDistrict.id,
       email: email.text,
     );
-    ApiResponseModel apiResponseModel =
-        await repository.updateUserInfo(updateRequest.toJson(), imagePath);
+    ApiResponseModel apiResponseModel = await repository.updateUserInfo(
+        body: updateRequest.toJson(), file: imagePath);
     closeLoading();
     if (apiResponseModel.status != '1') {
       CustomSnackBar.showCustomSnackBar(
@@ -151,6 +151,7 @@ class CreateAccountController extends GetxController {
         brigadeId: selectedBrigade.id,
         cityId: selectedCity.id,
         districtId: selectedDistrict.id,
+        email: email.text,
         password: password.text,
         username: userNameForRegister.text,
         deviceToken: 'sfdsfds',

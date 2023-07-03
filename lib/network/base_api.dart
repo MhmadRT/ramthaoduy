@@ -54,7 +54,7 @@ class BaseAPI {
 
   static Future<ApiResponseModel> post2(String url,
       Map<String, dynamic> body) async {
-    // try {
+    try {
       var response = await http
           .post(Uri.parse(url), headers: await getHeader(), body: body)
           .interceptWithAlice(alice, body: body)
@@ -67,10 +67,10 @@ class BaseAPI {
       log(response.body, name: 'Body');
 
       return ApiResponseModel.fromJson(json.decode(response.body));
-    // } catch (e) {
-    //   log(e.toString(), error: 'ERROR $url');
-    //   return ApiResponseModel(message: 'حدث خطاء', status: '0', data: {});
-    // }
+    } catch (e) {
+      log(e.toString(), error: 'ERROR $url');
+      return ApiResponseModel(message: 'حدث خطاء', status: '0', data: {});
+    }
   }
 
   static Future<ApiResponseModel> postMultipartRequest(String url,

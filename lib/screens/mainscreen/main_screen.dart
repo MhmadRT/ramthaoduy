@@ -11,9 +11,11 @@ import 'package:ramtha/network/api_urls.dart';
 import 'package:ramtha/screens/ratescreen/rate_screen.dart';
 import 'package:ramtha/screens/reviewsscreen/reviews_screen.dart';
 import 'package:ramtha/constant/app_images.dart';
+import '../../helper/custom/topics_dialog.dart';
 import '../../helper/custom/user_image.dart';
 import '../../helper/custom_no_have_permission.dart';
 
+import '../changepassword/change_password_screen.dart';
 import '../loginscreen/login_screen.dart';
 import 'main_controller.dart';
 
@@ -207,6 +209,41 @@ class MainScreen extends StatelessWidget {
                               ],
                             ),
                           ),
+                          Visibility(
+                            visible:  controller.isLogin == true,
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                   Get.to(const ChangePasswordScreen());
+                                  },
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(AppImages.iconUnVisible,
+                                          height: 20),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      const Text("تغير كلمة المرور",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: AppColors.mainColor,
+                                              fontWeight: FontWeight.w600)),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const Divider(
+                                  thickness: 1,
+                                ),
+                              ],
+                            ),
+                          ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -263,7 +300,7 @@ class MainScreen extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              Get.to(() => const RateScreen());
+                            Get.dialog(const SubscribeDialog());
                             },
                             child: Row(
                               children: [
@@ -272,7 +309,7 @@ class MainScreen extends StatelessWidget {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                const Text("تقييم التطبيق",
+                                const Text("الاهتمامات",
                                     style: TextStyle(
                                         fontSize: 15,
                                         color: AppColors.mainColor,
@@ -315,6 +352,7 @@ class MainScreen extends StatelessWidget {
                             GetBuilder<MainController>(builder: (con) {
                               return InkWell(
                                 onTap: () {
+                                   LocalStorageHelper.clearCredentials();
                                   Get.offAll(() => const LoginScreen());
                                 },
                                 child: Row(

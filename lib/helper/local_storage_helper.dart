@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/screens/loginscreen/model/login_response.dart';
@@ -24,14 +25,25 @@ class LocalStorageHelper {
     await secureStorage.write(key: StorageKeys.token, value: token);
   }
 
-  static Future<void> clearCredentials() async {
-    await secureStorage.delete(key: StorageKeys.token);
-    await secureStorage.delete(key: StorageKeys.userNameKey);
-    await secureStorage.delete(key: StorageKeys.passwordKey);
+  static Future<void> saveRememberMe({required bool isRememberMe}) async {
+    await secureStorage.write(
+        key: StorageKeys.isRememberMe, value: isRememberMe ? '1' : '0');
   }
 
   static Future<String?> getToken() async {
     return await secureStorage.read(key: StorageKeys.token);
+  }
+
+  static Future<void> clearCredentials() async {
+    await secureStorage.delete(key: StorageKeys.token);
+    await secureStorage.delete(key: StorageKeys.userNameKey);
+    await secureStorage.delete(key: StorageKeys.passwordKey);
+    await secureStorage.delete(key: StorageKeys.userData);
+    await secureStorage.delete(key: StorageKeys.isRememberMe);
+  }
+
+  static Future<bool> isRememberMe() async {
+    return await secureStorage.read(key: StorageKeys.isRememberMe) == '1';
   }
 
   static Future<bool> isLoggedIn() async {
@@ -43,6 +55,33 @@ class LocalStorageHelper {
     return token.isNotEmpty && userName.isNotEmpty && password.isNotEmpty;
   }
 
+  static Future<void> saveTopics(List<String>? topics) async {
+    await pref.setStringList(StorageKeys.subscribedTopics, topics ?? []);
+  }
+
+  static Future<List<String>?> getTopics() async {
+    List<String>? topics = [];
+    topics = pref.getStringList(StorageKeys.subscribedTopics);
+    return topics;
+  }
+
+  static Future<void> clickTopic(String topic) async {
+    List<String> topics = await getTopics() ?? [];
+    if (topics.contains(topic)) {
+      await FirebaseMessaging.instance.unsubscribeFromTopic(topic);
+      topics.removeWhere((element) => element == topic);
+    } else {
+      await FirebaseMessaging.instance.subscribeToTopic(topic);
+      topics.add(topic);
+    }
+    saveTopics(topics);
+  }
+
+  static Future<bool> topicIsSubscribed(String topic) async {
+    List<String> topics = await getTopics() ?? [];
+    return topics.contains(topic);
+  }
+
   static saveUserData({LoginResponseData? user}) async {
     await secureStorage.write(
         key: StorageKeys.userData, value: json.encode(user?.toJson()));
@@ -50,7 +89,7 @@ class LocalStorageHelper {
 
   static Future<LoginResponseData?> getUserData() async {
     String? data = await secureStorage.read(key: StorageKeys.userData);
-    log(data??"",name: 'User Data');
+    log(data ?? "", name: 'User Data');
     LoginResponseData loginResponseData =
         LoginResponseData.fromJson(json.decode((data ?? '{}')));
     return loginResponseData;
@@ -72,7 +111,11 @@ class LocalStorageHelper {
 
 class StorageKeys {
   static String userNameKey = '1';
-  static String userData = '44';
   static String passwordKey = '2';
   static String token = '3';
+  static String userData = '4';
+  static String isRememberMe = '5';
+
+  static String lastNotification = '6';
+  static String subscribedTopics = '7';
 }

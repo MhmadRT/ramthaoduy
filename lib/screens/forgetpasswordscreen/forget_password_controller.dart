@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/helper/custom/custom_loading.dart';
+import 'package:ramtha/network/api_response_model.dart';
 import 'package:ramtha/screens/forgetpasswordscreen/forget_password_repository.dart';
 import 'package:ramtha/screens/forgetpasswordscreen/model/forget_password_request.dart';
-import 'package:ramtha/screens/forgetpasswordscreen/model/forget_password_response.dart';
 
 import '../../helper/custom/custom_toast_massage.dart';
 
@@ -22,10 +22,20 @@ class ForgetPasswordController extends GetxController {
       );
     }
     loading();
-    ForgetPasswordResponse forgetPasswordResponse =
+    ApiResponseModel forgetPasswordResponse =
         await ForgetPasswordRepository().forgetPasswordAPI(
             ForgetPasswordRequest(email: emailController.text).toJson());
-    emailController.clear();
     closeLoading();
+    if(forgetPasswordResponse.status=='1'){
+      CustomSnackBar.showCustomSnackBar(
+        message:'تم ارسال كلمة المرور الجديده عبر البريد الالكتروني بنجاح',
+      );
+    }else{
+      CustomSnackBar.showCustomSnackBar(
+        message:forgetPasswordResponse.message??"حدث خطاء",
+      );
+    }
+    emailController.clear();
+
   }
 }

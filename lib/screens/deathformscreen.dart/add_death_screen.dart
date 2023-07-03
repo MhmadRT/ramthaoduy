@@ -143,40 +143,40 @@ class FormDeathScreen extends StatelessWidget {
                     },
                     required: true,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomDropdown(
-                      listItems: controller.cities.cities ?? [],
-                      selectedItem: controller.selectedCity,
-                      isRequired: true,
-                      label: 'المحافظة',
-                      onSelected: (v) {
-                        controller.selectedCity = v;
-                        if (v.name != "") {
-                          controller.selectedCity.isSelected = true;
-                        } else {
-                          controller.selectedCity.isSelected = false;
-                        }
-                        controller.update();
-                        controller.getBrigades();
-                      }),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomDropdown(
-                      isRequired: false,
-                      label: 'الواء',
-                      listItems: controller.brigades.brigades ?? [],
-                      selectedItem: controller.selectedBrigade,
-                      onSelected: (v) {
-                        controller.selectedBrigade = v;
-                        controller.update();
-                        controller.getDistrict();
-                      }),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
+                  // CustomDropdown(
+                  //     listItems: controller.cities.cities ?? [],
+                  //     selectedItem: controller.selectedCity,
+                  //     isRequired: true,
+                  //     label: 'المحافظة',
+                  //     onSelected: (v) {
+                  //       controller.selectedCity = v;
+                  //       if (v.name != "") {
+                  //         controller.selectedCity.isSelected = true;
+                  //       } else {
+                  //         controller.selectedCity.isSelected = false;
+                  //       }
+                  //       controller.update();
+                  //       controller.getBrigades();
+                  //     }),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
+                  // CustomDropdown(
+                  //     isRequired: false,
+                  //     label: 'الواء',
+                  //     listItems: controller.brigades.brigades ?? [],
+                  //     selectedItem: controller.selectedBrigade,
+                  //     onSelected: (v) {
+                  //       controller.selectedBrigade = v;
+                  //       controller.update();
+                  //       controller.getDistrict();
+                  //     }),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
                   CustomDropdown(
                       isRequired: false,
                       label: 'المنطقة',
