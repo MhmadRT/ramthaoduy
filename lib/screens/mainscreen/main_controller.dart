@@ -9,6 +9,7 @@ import 'package:ramtha/screens/loginscreen/login_screen.dart';
 import 'package:ramtha/screens/loginscreen/model/login_response.dart';
 import 'package:ramtha/screens/mainscreen/main_repository.dart';
 import 'package:ramtha/screens/searchscreen/search_sceen.dart';
+import '../../helper/custom/topics_dialog.dart';
 import '../deathformscreen.dart/add_death_screen.dart';
 import '../homescreen/home_conrtoller.dart';
 import '../homescreen/model/get_user_info.dart';
@@ -69,6 +70,12 @@ class MainController extends GetxController {
     loginResponseData = await LocalStorageHelper.getUserData();
     isLogin = await LocalStorageHelper.isLoggedIn();
     update();
+    LocalStorageHelper.getTopics().then((value) {
+      if(value?.isEmpty??true){
+        Get.dialog(const SubscribeDialog());
+
+      }
+    });
 
     super.onInit();
   }

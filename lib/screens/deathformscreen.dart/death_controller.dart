@@ -134,11 +134,11 @@ class FormDeathController extends GetxController {
       massage: apiResponseModel.status == "1"
           ? " تم القبول ${apiResponseModel.message}"
           : " تم الرفض ${apiResponseModel.message}",
-    )).then((value) => () {
-          mainController.currentIndex = 2;
-          mainController.update();
-        });
-
+    ));
+    if (apiResponseModel.status == '1') {
+      mainController.currentIndex = 2;
+      mainController.update();
+    }
     update();
   }
 

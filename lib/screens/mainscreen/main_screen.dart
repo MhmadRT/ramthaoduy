@@ -17,6 +17,7 @@ import '../../helper/custom_no_have_permission.dart';
 
 import '../changepassword/change_password_screen.dart';
 import '../loginscreen/login_screen.dart';
+import '../myhistory/history_screen.dart';
 import 'main_controller.dart';
 
 class MainScreen extends StatelessWidget {
@@ -222,7 +223,7 @@ class MainScreen extends StatelessWidget {
                                   },
                                   child: Row(
                                     children: [
-                                      SvgPicture.asset(AppImages.iconUnVisible,
+                                      Image.asset(AppImages.posts,
                                           height: 20),
                                       const SizedBox(
                                         width: 10,
@@ -271,6 +272,33 @@ class MainScreen extends StatelessWidget {
                           ),
                           const Divider(
                             thickness: 1,
+                          ), const SizedBox(
+                            height: 10,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Get.to(const MyHistoryScreen());
+                            },
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(AppImages.editIcon,
+                                    height: 20),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                const Text("منشوراتي",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: AppColors.mainColor,
+                                        fontWeight: FontWeight.w600)),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Divider(
+                            thickness: 1,
                           ),
                           const SizedBox(
                             height: 10,
@@ -295,6 +323,7 @@ class MainScreen extends StatelessWidget {
                           const Divider(
                             thickness: 1,
                           ),
+
                           const SizedBox(
                             height: 10,
                           ),
@@ -497,10 +526,14 @@ class MainScreen extends StatelessWidget {
                                       child: RefreshIndicator(
                                         onRefresh: () async {
                                           if (controller.currentIndex == 2) {
+                                            homeController.pageNumber=1;
+                                            homeController.posts.posts?.posts?.clear();
+                                            homeController.update();
                                             await homeController.getPosts();
                                           }
                                         },
                                         child: SingleChildScrollView(
+                                          controller: homeController.scrollController,
                                           physics:
                                           const BouncingScrollPhysics(),
                                           child: Padding(

@@ -1,5 +1,4 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +7,6 @@ import 'package:ramtha/helper/custom/custom_loading.dart';
 import 'package:ramtha/helper/local_storage_helper.dart';
 
 import '../../screens/createaccountscreen/create_account_repository.dart';
-import '../../screens/createaccountscreen/models/cities.dart';
 import '../../screens/createaccountscreen/models/districts.dart';
 
 class SubscribeDialog extends StatefulWidget {
@@ -49,23 +47,31 @@ class _SubscribeDialogState extends State<SubscribeDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-      insetPadding: EdgeInsets.all(20),
+      insetPadding: const EdgeInsets.all(20),
       child: SizedBox(
         height: Get.height/1.5,
         width: Get.width,
-        child: Column(
-          children: [
-            isLoading
-                ? const Center(child: CupertinoActivityIndicator())
-                : ListView.builder(
-              padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount: districts.districts?.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return topicWidget(districts.districts![index]);
-                    },
-                  ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('أختر مناطق الاهتمام',style: TextStyle(fontWeight: FontWeight.bold),),
+              Expanded(
+                child: isLoading
+                    ? const Center(child: CupertinoActivityIndicator())
+                    : ListView.builder(
+                  padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        itemCount: districts.districts?.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return topicWidget(districts.districts![index]);
+                        },
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );

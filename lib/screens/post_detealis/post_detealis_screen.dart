@@ -277,12 +277,15 @@ class PostDetailsScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                Text(
-                                  post.nameOfRequester ?? "",
-                                  style: const TextStyle(
-                                      color: AppColors.mainColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600),
+                                Expanded(
+                                  child: Text(
+                                    post.nameOfRequester ?? "",
+                                    textAlign: TextAlign.end,
+                                    style: const TextStyle(
+                                        color: AppColors.mainColor,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600),
+                                  ),
                                 ),
                               ],
                             ),

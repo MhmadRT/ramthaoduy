@@ -56,6 +56,7 @@ class Post {
   final String? city;
   final int? numberOfComments;
   final String? image;
+  final int? status;
   final String? gender;
   final String? buryDescription;
   final String? latatude;
@@ -66,6 +67,7 @@ class Post {
 
   Post({
     this.id,
+    this.status,
     this.deadName,
     this.createdDate,
     this.ageInYears,
@@ -83,6 +85,7 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
     id: json["id"],
+    status: json["status"],
     deadName: json["dead_name"],
     createdDate: json["created_date"] == null ? null : DateTime.parse(json["created_date"]),
     ageInYears: json["age_in_years"],
@@ -101,6 +104,7 @@ class Post {
   Map<String, dynamic> toJson() => {
     "id": id,
     "dead_name": deadName,
+    "status": status,
     "created_date": "${createdDate!.year.toString().padLeft(4, '0')}-${createdDate!.month.toString().padLeft(2, '0')}-${createdDate!.day.toString().padLeft(2, '0')}",
     "age_in_years": ageInYears,
     "city": city,

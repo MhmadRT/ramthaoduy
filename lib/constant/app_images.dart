@@ -6,6 +6,7 @@ class AppImages {
   static const String map = "${baseurl}map.jpg";
   static const String iconProfile = "${baseurl}icon_profile.svg";
   static const String iconUnVisible = "${baseurl}icon_invisible.svg";
+  static const String posts = "${baseurl}posts.png";
   static const String iconVisible = "${baseurl}icon_visible.svg";
   static const String dropDownIcon = "${baseurl}drop_down_icon.svg";
   static const String notificationDownIcon = "${baseurl}icon_notification.svg";

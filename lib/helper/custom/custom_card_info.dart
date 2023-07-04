@@ -22,16 +22,18 @@ import '../../screens/post_detealis/custom_comments_bottomsheet.dart';
 class CustomCardInfo extends StatelessWidget {
   final Post post;
   final bool isReview;
+  final bool? showStatus;
 
   const CustomCardInfo({
     super.key,
     required this.post,
+    this.showStatus,
     required this.isReview,
   });
 
   @override
   Widget build(BuildContext context) {
-   bool? isLogin=Get.find<MainController>().isLogin;
+    bool? isLogin = Get.find<MainController>().isLogin;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Padding(
@@ -145,15 +147,17 @@ class CustomCardInfo extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
-                            onTap: isLogin??false?() {
-                              Get.bottomSheet(
-                                  CustomCommentsBottomSheet(
-                                    post: post,
-                                  ),
-                                  isScrollControlled: true);
-                            }:() {
-                              Get.dialog(const DialogPermission());
-                            },
+                            onTap: isLogin ?? false
+                                ? () {
+                                    Get.bottomSheet(
+                                        CustomCommentsBottomSheet(
+                                          post: post,
+                                        ),
+                                        isScrollControlled: true);
+                                  }
+                                : () {
+                                    Get.dialog(const DialogPermission());
+                                  },
                             child: Row(
                               children: [
                                 SvgPicture.asset(
@@ -163,16 +167,18 @@ class CustomCardInfo extends StatelessWidget {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                  Row(
-                                    children: [
-                                      if(post.numberOfComments!=0)
+                                Row(
+                                  children: [
+                                    if (post.numberOfComments != 0)
                                       Text("${post.numberOfComments}",
                                           style: TextStyle(color: Colors.grey)),
-                                      const SizedBox(width: 5,),
-                                      const Text("تعليق",
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    const Text("تعليق",
                                         style: TextStyle(color: Colors.grey)),
-                                    ],
-                                  ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -193,7 +199,30 @@ class CustomCardInfo extends StatelessWidget {
                           ),
                         ],
                       ),
-                    )
+                    ),
+                  Visibility(
+                      visible: showStatus == true && isReview == true,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 20,
+                              width: 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: statusColor(),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(status()),
+                          ],
+                        ),
+                      )),
                 ],
               ),
             ),
@@ -201,5 +230,31 @@ class CustomCardInfo extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String status() {
+    switch (post.status) {
+      case 0:
+        return 'قيد المراجعه';
+      case 1:
+        return 'مقبول';
+      case 2:
+        return 'مرفوض';
+      default:
+        return '';
+    }
+  }
+
+  Color statusColor() {
+    switch (post.status) {
+      case 0:
+        return AppColors.yellow;
+      case 1:
+        return Colors.green;
+      case 2:
+        return Colors.red;
+      default:
+        return Colors.transparent;
+    }
   }
 }

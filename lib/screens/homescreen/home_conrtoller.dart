@@ -18,9 +18,9 @@ class HomeController extends GetxController {
   bool isVisibleGender = false;
   HomeRepository repository = HomeRepository();
   CreateAccountRepository createAccountRepository = CreateAccountRepository();
-  PostsResponse? posts;
+  PostsResponse posts = PostsResponse(posts: PostsModel(posts: []));
   bool isLoading = true;
-  ScrollController? scrollController;
+  late ScrollController scrollController;
   DateTime fromDate = DateTime.now();
   int selectSexIndex = 1;
   Cities cities = Cities(cities: []);
@@ -31,18 +31,27 @@ class HomeController extends GetxController {
   Item selectedBrigade = Item(name: 'أختر الواء');
   var formatter = DateFormat('dd/MM/yyyy');
   var formatterDots = DateFormat('dd.MM.yyyy');
+  int pageNumber = 1;
+  int countPerPage = 10;
+
+  bool isMoreLoad = false;
 
   getPosts() async {
     isLoading = true;
     update();
     PostsRequest postsRequest = PostsRequest(
+      page: pageNumber.toString(),
       cityId: isVisibleDrop ? selectedCity.id : null,
       fromDate: isVisibleDate ? fromDate.toIso8601String() : null,
       gender: isVisibleGender ? selectSexIndex.toString() : null,
       toDate: isVisibleDate ? fromDate.toIso8601String() : null,
     );
 
-    posts = await repository.getPosts(postsRequest.toJson());
+    PostsResponse currentPosts =
+        await repository.getPosts(postsRequest.toJson());
+    isMoreLoad = currentPosts.posts?.posts?.length == countPerPage;
+    pageNumber++;
+    posts.posts?.posts?.addAll(currentPosts.posts?.posts ?? []);
     isLoading = false;
     update();
   }
@@ -79,9 +88,18 @@ class HomeController extends GetxController {
     closeLoading();
   }
 
+  void _scrollListener() {
+    if ((scrollController.position.extentAfter) < 250 && isMoreLoad) {
+      isMoreLoad = false;
+      getPosts();
+    }
+  }
+
   @override
   void onInit() {
     // TODO: implement onInit
+    scrollController = ScrollController()..addListener(_scrollListener);
+
     getPosts();
     super.onInit();
   }

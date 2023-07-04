@@ -53,9 +53,8 @@ class HomeScreen extends StatelessWidget {
                   )
                 ],
               ),
-              if (controller.isLoading) loading(),
               posts(
-                  controller.posts?.posts ?? PostsModel(posts: []), controller),
+                  controller.posts.posts ?? PostsModel(posts: []), controller),
             ],
           );
         });
@@ -65,7 +64,7 @@ class HomeScreen extends StatelessWidget {
     return ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: 4,
+        itemCount: 2,
         padding: EdgeInsets.zero,
         itemBuilder: (context, index) {
           return Padding(
@@ -163,7 +162,7 @@ class HomeScreen extends StatelessWidget {
                             Opacity(
                               opacity: .8,
                               child: Image.asset(AppImages.blackLine,
-                                  height: 40, width: 45,color: Colors.black12),
+                                  height: 40, width: 45, color: Colors.black12),
                             ),
                           ],
                         ),
@@ -178,21 +177,21 @@ class HomeScreen extends StatelessWidget {
   }
 
   posts(PostsModel postsModel, HomeController controller) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        await controller.getPosts();
-      },
-      child: ListView.builder(
-          padding: EdgeInsets.zero,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: postsModel.posts?.length,
-          itemBuilder: (context, index) {
-            return CustomCardInfo(
-              isReview: false,
-              post: postsModel.posts![index],
-            );
-          }),
-    );
+    return ListView.builder(
+        padding: EdgeInsets.zero,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: controller.isLoading
+            ? (postsModel.posts?.length ?? 0) + 1
+            : postsModel.posts?.length,
+        itemBuilder: (context, index) {
+          if (controller.isLoading && index == postsModel.posts?.length) {
+            return loading();
+          }
+          return CustomCardInfo(
+            isReview: false,
+            post: postsModel.posts![index],
+          );
+        });
   }
 }
