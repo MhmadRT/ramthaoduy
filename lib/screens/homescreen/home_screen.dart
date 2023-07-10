@@ -1,3 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -7,7 +10,11 @@ import 'package:ramtha/helper/custom/custom_card_info.dart';
 import 'package:ramtha/helper/custom/custom_loading.dart';
 import 'package:ramtha/screens/homescreen/home_conrtoller.dart';
 import 'package:ramtha/screens/homescreen/model/posts_response.dart';
+import 'package:ramtha/screens/homescreen/widget/carouselwidget/carousel_slider_controller.dart';
 import 'package:ramtha/screens/homescreen/widget/filtter_bottom_sheet.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import 'widget/carouselwidget/carousel_slider_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -177,21 +184,161 @@ class HomeScreen extends StatelessWidget {
   }
 
   posts(PostsModel postsModel, HomeController controller) {
-    return ListView.builder(
-        padding: EdgeInsets.zero,
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: controller.isLoading
-            ? (postsModel.posts?.length ?? 0) + 1
-            : postsModel.posts?.length,
-        itemBuilder: (context, index) {
-          if (controller.isLoading && index == postsModel.posts?.length) {
-            return loading();
-          }
-          return CustomCardInfo(
-            isReview: false,
-            post: postsModel.posts![index],
-          );
+    return GetBuilder<CarouselSliderController>(
+        init: CarouselSliderController(),
+        builder: (controllerCarousel) {
+          return ListView.builder(
+              padding: EdgeInsets.zero,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: controller.isLoading
+                  ? (postsModel.posts?.length ?? 0) + 1
+                  : postsModel.posts?.length,
+              itemBuilder: (context, index) {
+                if (controller.isLoading && index == postsModel.posts?.length) {
+                  return loading();
+                }
+                return Column(
+                  children: [
+                    CustomCardInfo(
+                      isReview: false,
+                      post: postsModel.posts![index],
+                    ),
+                    if ((index + 1) % 5 == 0)
+                      Column(
+                        children: [
+                          CarouselSlider(
+                            options: CarouselOptions(
+                              onPageChanged: (index, r) {
+                                controller.inActiveBox = index;
+                                controller.update();
+                              },
+                              enlargeCenterPage: true,
+                              autoPlay: true,
+                              enableInfiniteScroll: true,
+                              viewportFraction: 1,
+                            ),
+                            items: controllerCarousel.sliderList.map((i) {
+                              return Builder(
+                                builder: (BuildContext context) {
+                                  return SizedBox(
+                                    height: 200,
+                                    width: double.infinity,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: AppColors.whiteColor,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: AppColors.mainColor
+                                                      .withOpacity(0.1),
+                                                  spreadRadius: 5,
+                                                  blurRadius: 4,
+                                                  offset: const Offset(0,
+                                                      1), // changes position of shadow
+                                                ),
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            width: double.infinity,
+                                            height: 200,
+                                            child: Stack(
+                                              children: [
+                                                ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                    child: CachedNetworkImage(
+                                                        width: double.infinity,
+                                                        height: double.infinity,
+                                                        fit: BoxFit.fill,
+                                                        imageUrl: i.image ?? '',
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            const CupertinoActivityIndicator(),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            SizedBox()))
+                                              ],
+                                            ),
+                                          ),
+                                          if (i.url?.isNotEmpty ?? false)
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: [
+                                                      Opacity(
+                                                        opacity: .8,
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            controllerCarousel
+                                                                .launchUrlFromApi(
+                                                                    i.url ?? "");
+                                                          },
+                                                          child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColors
+                                                                      .mainColor,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5)),
+                                                              child:
+                                                                  const Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(5.0),
+                                                                child: Text(
+                                                                  "اضغط هنا",
+                                                                  style: TextStyle(
+                                                                      color: AppColors
+                                                                          .whiteColor),
+                                                                ),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            }).toList(),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          AnimatedSmoothIndicator(
+                            activeIndex: controller.inActiveBox,
+                            count: controllerCarousel.sliderList.length,
+                            effect: const SlideEffect(
+                              dotHeight: 10,
+                              activeDotColor: AppColors.mainColor,
+                              dotWidth: 10,
+                            ),
+                          )
+                        ],
+                      )
+                  ],
+                );
+              });
         });
   }
 }

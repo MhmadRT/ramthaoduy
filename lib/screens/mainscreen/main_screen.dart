@@ -15,6 +15,7 @@ import '../../helper/custom/topics_dialog.dart';
 import '../../helper/custom/user_image.dart';
 import '../../helper/custom_no_have_permission.dart';
 
+import '../about_screen/about_screen.dart';
 import '../changepassword/change_password_screen.dart';
 import '../loginscreen/login_screen.dart';
 import '../myhistory/history_screen.dart';
@@ -282,7 +283,7 @@ class MainScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 SvgPicture.asset(AppImages.editIcon,
-                                    height: 20),
+                                    height: 20,color: AppColors.mainColor),
                                 const SizedBox(
                                   width: 10,
                                 ),
@@ -310,11 +311,16 @@ class MainScreen extends StatelessWidget {
                               const SizedBox(
                                 width: 10,
                               ),
-                              const Text("عن التطبيق",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: AppColors.mainColor,
-                                      fontWeight: FontWeight.w600)),
+                              InkWell(
+                               onTap: (){
+                                 Get.to(()=>AboutScreen());
+                               },
+                                child: const Text("عن التطبيق",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: AppColors.mainColor,
+                                        fontWeight: FontWeight.w600)),
+                              ),
                             ],
                           ),
                           const SizedBox(
@@ -487,7 +493,7 @@ class MainScreen extends StatelessWidget {
                                                 ),
                                                 Positioned(
                                                   left: 12,
-                                                  bottom: 5,
+                                                  bottom: 1,
                                                   child: Container(
                                                     decoration:
                                                     const BoxDecoration(

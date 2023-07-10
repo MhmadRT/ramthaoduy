@@ -58,6 +58,8 @@ class Post {
   final String? image;
   final int? status;
   final String? gender;
+  final String? userImage;
+  final String? userGender;
   final String? buryDescription;
   final String? latatude;
   final String? longitude;
@@ -79,12 +81,16 @@ class Post {
     this.latatude,
     this.longitude,
     this.description,
+    this.userGender,
+    this.userImage,
     this.phoneNumber,
     this.nameOfRequester,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
     id: json["id"],
+    userImage: json["user_image"],
+    userGender: json["user_image"],
     status: json["status"],
     deadName: json["dead_name"],
     createdDate: json["created_date"] == null ? null : DateTime.parse(json["created_date"]),

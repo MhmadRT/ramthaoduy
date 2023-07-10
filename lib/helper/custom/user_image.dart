@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/constant/app_images.dart';
 
 import '../../network/api_urls.dart';
@@ -31,19 +33,20 @@ class UserImage extends StatelessWidget {
         child: CachedNetworkImage(
           imageUrl: ApiUrl.baseUrl + (userImage ?? ""),
           fit: boxFit,
-          progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-              child: Image.asset(
-            fit: boxFit,
-            gender == "ذكر" ? AppImages.male : AppImages.female,
-            height: size,
-            width: size,
-          )),
+          progressIndicatorBuilder: (context, url, downloadProgress) =>
+              const Center(child: CupertinoActivityIndicator()),
           errorWidget: (context, url, error) => Center(
-              child: Image.asset(
-            fit: boxFit,
-            gender == "ذكر" ? AppImages.male : AppImages.female,
-            height: size,
-            width: size,
+              child: Container(
+            decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(15)),
+            child: SvgPicture.asset(
+              color: AppColors.mainColor.withOpacity(.65),
+              // fit: BoxFit.cover,
+              gender == "ذكر" ? AppImages.maleSvg : AppImages.femaleSvg,
+              height: size,
+              width: size,
+            ),
           )),
         ),
       ),

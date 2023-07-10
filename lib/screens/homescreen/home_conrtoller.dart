@@ -14,6 +14,7 @@ import '../createaccountscreen/models/districts.dart';
 class HomeController extends GetxController {
   bool allPost = true;
   bool isVisibleDate = false;
+  int inActiveBox = 0;
   bool isVisibleDrop = false;
   bool isVisibleGender = false;
   HomeRepository repository = HomeRepository();

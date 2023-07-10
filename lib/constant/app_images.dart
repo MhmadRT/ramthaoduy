@@ -26,15 +26,15 @@ class AppImages {
   static const String emptyIcon = "${baseurl}icon_empty.svg";
   static const String sucsessMassege = "${baseurl}sucsess_massege.svg";
   static const String filterIcon = "${baseurl}filter.svg";
+  static const String femaleSvg = "${baseurl}female.svg";
+  static const String maleSvg = "${baseurl}male.svg";
 
   /// GIF
   static const String loading = "${baseurl}loading.gif";
 
-
   ///png
   static const String blackLine = "${baseurl}black_line.png";
   static const String iconPin = "${baseurl}icon_pin.png";
-
 
   ///jpg
   static const String male = "${baseurl}male.jpg";

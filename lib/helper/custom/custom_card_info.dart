@@ -54,9 +54,10 @@ class CustomCardInfo extends StatelessWidget {
                   Row(
                     children: [
                       UserImage(
-                          userImage: '',
+                          userImage: post.userImage,
                           gender: post.gender,
-                          radius: 25,
+                          radius: 5000,
+                          boxFit: BoxFit.cover,
                           size: 40),
                       const SizedBox(
                         width: 20,
