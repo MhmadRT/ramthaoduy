@@ -52,7 +52,7 @@ class PostController extends GetxController {
       loading();
       Map<String, dynamic> body = {
         "content": comment.text,
-        "post_id": "9",
+        "post_id": post.id,
       };
       await repository.addComment(body).then((value) async {
         closeLoading();

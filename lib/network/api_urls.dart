@@ -12,6 +12,10 @@ class ApiUrl {
   static const getBrigades = '${apiUrl}get_brigades';
   static const getDistricts = '${apiUrl}get_districts';
   static const getDeaths = '${apiUrl}get_deaths';
+  static const getNotifications = '${apiUrl}get_user_notifications';
+  static const numberNumberReaded = '${apiUrl}number_not_readed';
+  static const readNotification = '${apiUrl}read_notification';
+  static const getBanners = '${apiUrl}get_banners';
   static const getPaddingDeaths = '${apiUrl}get_pending_deaths';
   static const getComment = '${apiUrl}get_comments';
   static const approveOrReject = '${apiUrl}approve_or_reject_post';

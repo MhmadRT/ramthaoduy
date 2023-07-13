@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ramtha/screens/homescreen/home_repository.dart';
+import 'package:ramtha/screens/homescreen/model/get_banner_response.dart';
 import 'package:ramtha/screens/homescreen/model/posts_request.dart';
 import 'package:ramtha/screens/homescreen/model/posts_response.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import '../createaccountscreen/create_account_repository.dart';
 import '../createaccountscreen/models/brigades.dart';
 import '../createaccountscreen/models/cities.dart';
 import '../createaccountscreen/models/districts.dart';
+import 'model/get_number_readed_notification.dart';
 
 class HomeController extends GetxController {
   bool allPost = true;
@@ -18,8 +20,10 @@ class HomeController extends GetxController {
   bool isVisibleDrop = false;
   bool isVisibleGender = false;
   HomeRepository repository = HomeRepository();
+  GetNumberNotReaded getNumberNotReaded = GetNumberNotReaded();
   CreateAccountRepository createAccountRepository = CreateAccountRepository();
   PostsResponse posts = PostsResponse(posts: PostsModel(posts: []));
+  GetBannerResponse getBannerResponse = GetBannerResponse(data: []);
   bool isLoading = true;
   late ScrollController scrollController;
   DateTime fromDate = DateTime.now();
@@ -54,6 +58,21 @@ class HomeController extends GetxController {
     pageNumber++;
     posts.posts?.posts?.addAll(currentPosts.posts?.posts ?? []);
     isLoading = false;
+    update();
+  }
+
+  getBanners() async {
+    // isLoading = true;
+    update();
+
+    getBannerResponse = await repository.getBanner({});
+    // isLoading = false;
+    update();
+  }
+
+  getNumberNotifications() async {
+    update();
+    getNumberNotReaded = await repository.getNumberNotifications({});
     update();
   }
 
@@ -100,8 +119,10 @@ class HomeController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     scrollController = ScrollController()..addListener(_scrollListener);
-
+    getNumberNotifications();
     getPosts();
+    getBanners();
+
     super.onInit();
   }
 }

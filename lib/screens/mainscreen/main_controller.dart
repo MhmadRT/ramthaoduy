@@ -12,7 +12,10 @@ import 'package:ramtha/screens/searchscreen/search_sceen.dart';
 import '../../helper/custom/topics_dialog.dart';
 import '../deathformscreen.dart/add_death_screen.dart';
 import '../homescreen/home_conrtoller.dart';
+import '../homescreen/home_repository.dart';
+import '../homescreen/model/get_number_readed_notification.dart';
 import '../homescreen/model/get_user_info.dart';
+import '../notifcation/notifcation_screen.dart';
 
 class MainController extends GetxController {
   int currentIndex = 2;
@@ -20,18 +23,16 @@ class MainController extends GetxController {
   bool? isLogin;
   MainRepository mainRepository = MainRepository();
   GetUserInfoResponse? userInfoResponse;
+  HomeRepository repository = HomeRepository();
+  GetNumberNotReaded getNumberNotReaded = GetNumberNotReaded();
   bool isLoadingUserData = true;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
+  bool isLoadingCount = false;
   List<Widget> screens = [
     const SearchScreen(),
     const FormDeathScreen(),
     const HomeScreen(),
-    Container(
-      height: 100,
-      width: Get.width,
-      color: Colors.yellow,
-    ),
+    const NotificationScreen()
   ];
   List<String> title = ["البحث", "اضافة وفاة", "الرئيسية", "الأشعارات"];
 
@@ -63,17 +64,25 @@ class MainController extends GetxController {
     update();
   }
 
+  getNumberNotifications() async {
+    update();
+    isLoadingCount = true;
+    getNumberNotReaded = await repository.getNumberNotifications({});
+    isLoadingCount = false;
+    update();
+  }
+
   @override
   void onInit() async {
     // TODO: implement onInit
     await getUserData();
+    await getNumberNotifications();
     loginResponseData = await LocalStorageHelper.getUserData();
     isLogin = await LocalStorageHelper.isLoggedIn();
     update();
     LocalStorageHelper.getTopics().then((value) {
-      if(value?.isEmpty??true){
+      if (value?.isEmpty ?? true) {
         Get.dialog(const SubscribeDialog());
-
       }
     });
 

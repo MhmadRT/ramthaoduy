@@ -15,4 +15,5 @@ class MainRepository {
     ApiResponseModel.fromJson(response.toJson());
     return GetUserInfoResponse.fromJson(apiResponseModel.toJson());
   }
+
 }

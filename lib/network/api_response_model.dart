@@ -1,5 +1,5 @@
 class ApiResponseModel {
-  Map<String,dynamic>? data;
+  dynamic data;
   String? status;
   String? message;
 

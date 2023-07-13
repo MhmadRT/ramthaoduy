@@ -14,6 +14,7 @@ import 'package:ramtha/screens/homescreen/widget/carouselwidget/carousel_slider_
 import 'package:ramtha/screens/homescreen/widget/filtter_bottom_sheet.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../network/api_urls.dart';
 import 'widget/carouselwidget/carousel_slider_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -205,136 +206,149 @@ class HomeScreen extends StatelessWidget {
                       post: postsModel.posts![index],
                     ),
                     if ((index + 1) % 5 == 0)
-                      Column(
-                        children: [
-                          CarouselSlider(
-                            options: CarouselOptions(
-                              onPageChanged: (index, r) {
-                                controller.inActiveBox = index;
-                                controller.update();
-                              },
-                              enlargeCenterPage: true,
-                              autoPlay: true,
-                              enableInfiniteScroll: true,
-                              viewportFraction: 1,
-                            ),
-                            items: controllerCarousel.sliderList.map((i) {
-                              return Builder(
-                                builder: (BuildContext context) {
-                                  return SizedBox(
-                                    height: 200,
-                                    width: double.infinity,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Stack(
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              color: AppColors.whiteColor,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: AppColors.mainColor
-                                                      .withOpacity(0.1),
-                                                  spreadRadius: 5,
-                                                  blurRadius: 4,
-                                                  offset: const Offset(0,
-                                                      1), // changes position of shadow
-                                                ),
-                                              ],
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            width: double.infinity,
-                                            height: 200,
-                                            child: Stack(
-                                              children: [
-                                                ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    child: CachedNetworkImage(
-                                                        width: double.infinity,
-                                                        height: double.infinity,
-                                                        fit: BoxFit.fill,
-                                                        imageUrl: i.image ?? '',
-                                                        placeholder: (context,
-                                                                url) =>
-                                                            const CupertinoActivityIndicator(),
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            SizedBox()))
-                                              ],
-                                            ),
-                                          ),
-                                          if (i.url?.isNotEmpty ?? false)
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.center,
-                                                    children: [
-                                                      Opacity(
-                                                        opacity: .8,
-                                                        child: InkWell(
-                                                          onTap: () {
-                                                            controllerCarousel
-                                                                .launchUrlFromApi(
-                                                                    i.url ?? "");
-                                                          },
-                                                          child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  color: AppColors
-                                                                      .mainColor,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              5)),
-                                                              child:
-                                                                  const Padding(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(5.0),
-                                                                child: Text(
-                                                                  "اضغط هنا",
-                                                                  style: TextStyle(
-                                                                      color: AppColors
-                                                                          .whiteColor),
-                                                                ),
-                                                              )),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                        ],
-                                      ),
-                                    ),
-                                  );
+                      Visibility(
+                        visible:
+                            controller.getBannerResponse.data?.isNotEmpty ??
+                                true,
+                        child: Column(
+                          children: [
+                            CarouselSlider(
+                              options: CarouselOptions(
+                                onPageChanged: (index, r) {
+                                  controller.inActiveBox = index;
+                                  controller.update();
                                 },
-                              );
-                            }).toList(),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          AnimatedSmoothIndicator(
-                            activeIndex: controller.inActiveBox,
-                            count: controllerCarousel.sliderList.length,
-                            effect: const SlideEffect(
-                              dotHeight: 10,
-                              activeDotColor: AppColors.mainColor,
-                              dotWidth: 10,
+                                enlargeCenterPage: true,
+                                autoPlay: true,
+                                enableInfiniteScroll: true,
+                                viewportFraction: 1,
+                              ),
+                              items:
+                                  controller.getBannerResponse.data?.map((i) {
+                                return Builder(
+                                  builder: (BuildContext context) {
+                                    return SizedBox(
+                                      height: 200,
+                                      width: double.infinity,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: AppColors.whiteColor,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: AppColors.mainColor
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 4,
+                                                    offset: const Offset(0,
+                                                        1), // changes position of shadow
+                                                  ),
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              width: double.infinity,
+                                              height: 200,
+                                              child: Stack(
+                                                children: [
+                                                  ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      child: CachedNetworkImage(
+                                                          width:
+                                                              double.infinity,
+                                                          height:
+                                                              double.infinity,
+                                                          fit: BoxFit.fill,
+                                                          imageUrl:
+                                                              "${ApiUrl.baseUrl}${i.image}",
+                                                          placeholder: (context,
+                                                                  url) =>
+                                                              const CupertinoActivityIndicator(),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              SizedBox()))
+                                                ],
+                                              ),
+                                            ),
+                                            if (i.link?.isNotEmpty ?? false)
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Opacity(
+                                                          opacity: .8,
+                                                          child: InkWell(
+                                                            onTap: () {
+                                                              controllerCarousel
+                                                                  .launchUrlFromApi(
+                                                                      i.link ??
+                                                                          "");
+                                                            },
+                                                            child: Container(
+                                                                decoration: BoxDecoration(
+                                                                    color: AppColors
+                                                                        .mainColor,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5)),
+                                                                child:
+                                                                    const Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              5.0),
+                                                                  child: Text(
+                                                                    "اضغط هنا",
+                                                                    style: TextStyle(
+                                                                        color: AppColors
+                                                                            .whiteColor),
+                                                                  ),
+                                                                )),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }).toList(),
                             ),
-                          )
-                        ],
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            AnimatedSmoothIndicator(
+                              activeIndex: controller.inActiveBox,
+                              count: controllerCarousel.sliderList.length,
+                              effect: const SlideEffect(
+                                dotHeight: 10,
+                                activeDotColor: AppColors.mainColor,
+                                dotWidth: 10,
+                              ),
+                            )
+                          ],
+                        ),
                       )
                   ],
                 );
