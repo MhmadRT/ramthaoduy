@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -35,11 +36,11 @@ class CreateAccountController extends GetxController {
 
   String lastName = "";
   Cities cities = Cities(cities: []);
-  Item selectedCity = Item(name: 'أختر المحافظة',id: '4');
+  Item selectedCity = Item(name: 'أختر المحافظة', id: '4');
   Districts districts = Districts(districts: []);
   Item selectedDistrict = Item(name: 'أختر المنطقة');
   Brigades brigades = Brigades(brigades: []);
-  Item selectedBrigade = Item(name: 'أختر الواء',id: '2');
+  Item selectedBrigade = Item(name: 'أختر الواء', id: '2');
   final formKey = GlobalKey<FormState>();
 
   XFile? imagePath;
@@ -154,7 +155,7 @@ class CreateAccountController extends GetxController {
         email: email.text,
         password: password.text,
         username: userNameForRegister.text,
-        deviceToken: 'sfdsfds',
+        deviceToken: await FirebaseMessaging.instance.getToken() ?? "empty",
         gender: selectSexIndex == 1 ? "1" : "2",
         platform: GetPlatform.isAndroid ? "android" : 'ios');
     CreateResponse createResponse =

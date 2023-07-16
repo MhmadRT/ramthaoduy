@@ -34,7 +34,7 @@ class CreateAccountRepository {
   }
 
   Future<Districts> getDistricts({required String brigadeId}) async {
-    final response = await BaseAPI.get2(ApiUrl.getDistricts, {"brigade_id": brigadeId});
+    final response = await BaseAPI.get2(ApiUrl.getDistricts, {"brigade_id": '1'});
     ApiResponseModel apiResponseModel =
         ApiResponseModel.fromJson(response.toJson());
     return Districts.fromJson(apiResponseModel.toJson());

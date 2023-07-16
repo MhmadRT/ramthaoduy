@@ -278,7 +278,7 @@ class FilterBottomSheet extends StatelessWidget {
                                       controller.isVisibleDrop =
                                       !controller.isVisibleDrop;
                                       if (controller.isVisibleDrop) {
-                                        controller.getCities();
+                                        controller.getDistrict();
                                       }
                                       if (controller.isVisibleGender ||
                                           controller.isVisibleDate ||
@@ -321,33 +321,33 @@ class FilterBottomSheet extends StatelessWidget {
                               child: Wrap(
                                 runSpacing: 20,
                                 children: [
-                                  CustomDropdown(
-                                      listItems: controller.cities.cities ?? [],
-                                      selectedItem: controller.selectedCity,
-                                      isRequired: true,
-                                      label: 'المحافظة',
-                                      onSelected: (v) {
-                                        controller.selectedCity = v;
-                                        controller.update();
-                                        controller.getBrigades();
-                                      }),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  CustomDropdown(
-                                      isRequired: true,
-                                      label: 'الواء',
-                                      listItems:
-                                      controller.brigades.brigades ?? [],
-                                      selectedItem: controller.selectedBrigade,
-                                      onSelected: (v) {
-                                        controller.selectedBrigade = v;
-                                        controller.update();
-                                        controller.getDistrict();
-                                      }),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
+                                  // CustomDropdown(
+                                  //     listItems: controller.cities.cities ?? [],
+                                  //     selectedItem: controller.selectedCity,
+                                  //     isRequired: true,
+                                  //     label: 'المحافظة',
+                                  //     onSelected: (v) {
+                                  //       controller.selectedCity = v;
+                                  //       controller.update();
+                                  //       controller.getBrigades();
+                                  //     }),
+                                  // const SizedBox(
+                                  //   height: 10,
+                                  // ),
+                                  // CustomDropdown(
+                                  //     isRequired: true,
+                                  //     label: 'الواء',
+                                  //     listItems:
+                                  //     controller.brigades.brigades ?? [],
+                                  //     selectedItem: controller.selectedBrigade,
+                                  //     onSelected: (v) {
+                                  //       controller.selectedBrigade = v;
+                                  //       controller.update();
+                                  //       controller.getDistrict();
+                                  //     }),
+                                  // const SizedBox(
+                                  //   height: 10,
+                                  // ),
                                   CustomDropdown(
                                       isRequired: true,
                                       label: 'المنطقة',

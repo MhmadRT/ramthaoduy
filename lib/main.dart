@@ -20,6 +20,7 @@ void main() async {
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(
       _firebaseMessagingBackgroundHandler);
+  await setupFlutterNotifications();
   await initialFireBaseMessages();
   await LocalStorageHelper.init();
 

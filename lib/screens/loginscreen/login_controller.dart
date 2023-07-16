@@ -34,13 +34,14 @@ class LoginController extends GetxController {
       );
       return;
     }
+    deviceToken = await FirebaseMessaging.instance.getToken() ?? "empty";
     LoginRequest loginRequest = LoginRequest(
         deviceToken: deviceToken,
         password: password.text,
         platform: GetPlatform.isAndroid ? "android" : "ios",
         username: userName.text);
     loading();
-    deviceToken = await FirebaseMessaging.instance.getToken() ?? "empty";
+
     await loginRepository
         .makeLoginAPI(loginRequest.toJson())
         .then((value) async {

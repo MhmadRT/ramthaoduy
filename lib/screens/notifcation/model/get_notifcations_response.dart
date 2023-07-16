@@ -6,9 +6,9 @@ class GetNotificationsResponse {
   GetNotificationsResponse({this.data, this.status, this.message});
 
   GetNotificationsResponse.fromJson(Map<String, dynamic> json) {
-    if (json['data'] != null) {
+    if (json['data']['notifications'] != null) {
       data = <DataNotifications>[];
-      json['data'].forEach((v) {
+      json['data']['notifications'].forEach((v) {
         data!.add(DataNotifications.fromJson(v));
       });
     }

@@ -19,11 +19,11 @@ class SubscribeDialog extends StatefulWidget {
 class _SubscribeDialogState extends State<SubscribeDialog> {
   Item selectedCity = Item(
     name: 'أختر المحافظة',
-    id: '4',
+    id: '1',
   );
   Districts districts = Districts(districts: []);
   Item selectedDistrict = Item(name: 'أختر المنطقة');
-  Item selectedBrigade = Item(name: 'أختر الواء', id: '2');
+  Item selectedBrigade = Item(name: 'أختر الواء', id: '1');
   bool isLoading = true;
 
   @override

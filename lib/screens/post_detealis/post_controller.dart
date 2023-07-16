@@ -33,7 +33,7 @@ class PostController extends GetxController {
   getComment() async {
     isLoadingComment = true;
     update();
-    commentPosts = await repository.getComment(postId: '9');
+    commentPosts = await repository.getComment(postId: post.id.toString());
     isLoadingComment = false;
     update();
   }
