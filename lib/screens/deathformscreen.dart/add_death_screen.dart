@@ -136,6 +136,7 @@ class FormDeathScreen extends StatelessWidget {
                     ],
                   ),
                   CustomDateField(
+                    initialTime: controller.date,
                     label: 'تاريخ الوفاه',
                     onConfirm: (v) {
                       controller.date = v;
@@ -143,40 +144,7 @@ class FormDeathScreen extends StatelessWidget {
                     },
                     required: true,
                   ),
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
-                  // CustomDropdown(
-                  //     listItems: controller.cities.cities ?? [],
-                  //     selectedItem: controller.selectedCity,
-                  //     isRequired: true,
-                  //     label: 'المحافظة',
-                  //     onSelected: (v) {
-                  //       controller.selectedCity = v;
-                  //       if (v.name != "") {
-                  //         controller.selectedCity.isSelected = true;
-                  //       } else {
-                  //         controller.selectedCity.isSelected = false;
-                  //       }
-                  //       controller.update();
-                  //       controller.getBrigades();
-                  //     }),
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
-                  // CustomDropdown(
-                  //     isRequired: false,
-                  //     label: 'الواء',
-                  //     listItems: controller.brigades.brigades ?? [],
-                  //     selectedItem: controller.selectedBrigade,
-                  //     onSelected: (v) {
-                  //       controller.selectedBrigade = v;
-                  //       controller.update();
-                  //       controller.getDistrict();
-                  //     }),
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
+
                   CustomDropdown(
                       isRequired: false,
                       label: 'المنطقة',
@@ -292,64 +260,14 @@ class FormDeathScreen extends StatelessWidget {
     );
   }
 
-  Column _buildDate(BuildContext context, FormDeathController controller) {
-    return Column(
-      children: [
-        const Row(
-          children: [
-            Text("التاريخ",
-                style: TextStyle(
-                    fontSize: 15,
-                    color: AppColors.mainColor,
-                    fontWeight: FontWeight.w500)),
-          ],
-        ),
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-              color: AppColors.editTextColor.withOpacity(.8),
-              borderRadius: BorderRadius.circular(18.0),
-              border: Border.all(color: AppColors.mainColor)),
-          child: MaterialButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)),
-              // onPressed: () => _showDateDialog(context, 1, controller),
-              onPressed: () => _showDateDialog(context, controller),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(controller.getFormattedDots(isDotes: true) ?? "",
-                      style: const TextStyle(
-                          fontSize: 15,
-                          color: AppColors.mainColor,
-                          fontWeight: FontWeight.w700)),
-                ],
-              )),
-        ),
-      ],
-    );
-  }
 
-  _showDateDialog(
-    BuildContext context,
-    FormDeathController controller,
-  ) {
-    var initialTime = DateTime.now();
-    initialTime = controller.date;
-    FormDeathController.showDatePicker(
-        initialTime: initialTime,
-        onConfirm: (value) {
-          controller.date = value;
-          controller.update();
-        });
-  }
 
   _buildSelectSex(FormDeathController controller) {
     return Column(
       children: [
          Row(
           children: [
-            Text(controller.selectSexIndex==1?"الجنس المتوفي":"جنس المتوفية",
+            Text(controller.selectSexIndex==1?"جنس المتوفي":"جنس المتوفية",
                 style: const TextStyle(
                     fontSize: 15,
                     color: AppColors.mainColor,

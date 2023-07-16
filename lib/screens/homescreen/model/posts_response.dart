@@ -66,11 +66,13 @@ class Post {
   final String? description;
   final String? phoneNumber;
   final String? nameOfRequester;
+  final int? genderOfRequester;
 
   Post({
     this.id,
     this.status,
     this.deadName,
+    this.genderOfRequester,
     this.createdDate,
     this.ageInYears,
     this.city,
@@ -105,6 +107,7 @@ class Post {
     description: json["description"],
     phoneNumber: json["phone_number"],
     nameOfRequester: json["name_of_requester"],
+    genderOfRequester: json["gender_of_requester"]??1,
   );
 
   Map<String, dynamic> toJson() => {

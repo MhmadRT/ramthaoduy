@@ -50,6 +50,8 @@ class Comments {
   String? username;
   String? content;
   String? createdAt;
+  int? gender;
+  String? image;
 
   Comments({this.id, this.username, this.content, this.createdAt});
 
@@ -58,6 +60,8 @@ class Comments {
     username = json['username'];
     content = json['content'];
     createdAt = json['created_at'];
+    gender = json['gender']??1;
+    image = json['image']??"";
   }
 
   Map<String, dynamic> toJson() {

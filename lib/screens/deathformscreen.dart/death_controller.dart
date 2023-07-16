@@ -181,48 +181,4 @@ class FormDeathController extends GetxController {
     }
   }
 
-  static void showDatePicker(
-      {DateTime? initialTime, ValueChanged<DateTime>? onConfirm}) {
-    showRoundedDatePicker(
-      textPositiveButton: "موافق",
-      textNegativeButton: "الغاء",
-      height: 250,
-      context: Get.context!,
-      initialDate: initialTime,
-      firstDate: DateTime(DateTime.now().year - 100),
-      lastDate: DateTime(DateTime.now().year + 100),
-      borderRadius: 16,
-      theme: ThemeData(
-        primaryColor: AppColors.mainColor,
-      ),
-      styleYearPicker: MaterialRoundedYearPickerStyle(),
-      builderDay: (dateTime, isCurrentDay, selected, defaultTextStyle) =>
-          Container(
-        decoration: BoxDecoration(
-          color: selected ? AppColors.mainColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Center(
-          child: Text(
-            // DateFormat.d(Get.locale?.languageCode == 'ar' ? 'ar_SA' : 'en_USA')
-            //     .format(dateTime),
-            DateFormat.d(
-                    Get.locale?.languageCode == 'en_USA' ? 'en_USA' : 'en_USA')
-                .format(dateTime),
-            style: defaultTextStyle.copyWith(
-              color: selected
-                  ? AppColors.whiteColor
-                  : isCurrentDay
-                      ? AppColors.mainColor
-                      : Colors.black,
-            ),
-          ),
-        ),
-      ),
-    ).then((value) {
-      if (value != null) {
-        onConfirm?.call(value);
-      }
-    });
-  }
 }

@@ -15,29 +15,31 @@ class Pickers {
       firstDate: DateTime(DateTime.now().year - 100),
       lastDate: DateTime(DateTime.now().year + 100),
       borderRadius: 16,
+      height: Get.height / 2,
       styleYearPicker: MaterialRoundedYearPickerStyle(),
       builderDay: (dateTime, isCurrentDay, selected, defaultTextStyle) =>
           Container(
-            decoration: BoxDecoration(
-              color: selected ? AppColors.yellow : Colors.transparent,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Center(
-              child: Text(
-                // DateFormat.d(Get.locale?.languageCode == 'ar' ? 'ar_SA' : 'en_USA')
-                //     .format(dateTime),
-                DateFormat.d(Get.locale?.languageCode == 'en_USA' ? 'en_USA' : 'en_USA')
-                    .format(dateTime),
-                style: defaultTextStyle.copyWith(
-                  color: selected
-                      ? AppColors.whiteColor
-                      : isCurrentDay
+        decoration: BoxDecoration(
+          color: selected ? AppColors.yellow : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Center(
+          child: Text(
+            // DateFormat.d(Get.locale?.languageCode == 'ar' ? 'ar_SA' : 'en_USA')
+            //     .format(dateTime),
+            DateFormat.d(
+                    Get.locale?.languageCode == 'en_USA' ? 'en_USA' : 'en_USA')
+                .format(dateTime),
+            style: defaultTextStyle.copyWith(
+              color: selected
+                  ? AppColors.whiteColor
+                  : isCurrentDay
                       ? AppColors.defaultButtonColor
                       : Colors.black,
-                ),
-              ),
             ),
           ),
+        ),
+      ),
     ).then((value) {
       if (value != null) {
         onConfirm?.call(value);

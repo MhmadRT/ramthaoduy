@@ -36,11 +36,11 @@ class CreateAccountController extends GetxController {
 
   String lastName = "";
   Cities cities = Cities(cities: []);
-  Item selectedCity = Item(name: 'أختر المحافظة', id: '4');
+  Item selectedCity = Item(name: 'أختر المحافظة', id: '1');
   Districts districts = Districts(districts: []);
   Item selectedDistrict = Item(name: 'أختر المنطقة');
   Brigades brigades = Brigades(brigades: []);
-  Item selectedBrigade = Item(name: 'أختر الواء', id: '2');
+  Item selectedBrigade = Item(name: 'أختر الواء', id: '1');
   final formKey = GlobalKey<FormState>();
 
   XFile? imagePath;

@@ -24,11 +24,12 @@ class PostDetailsScreen extends StatelessWidget {
           init: PostController(post),
           builder: (controller) {
             return SizedBox(
-              height: 70,
+              height:70,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,6 +73,7 @@ class PostDetailsScreen extends StatelessWidget {
                         )
                       ],
                     ),
+
                   ],
                 ),
               ),

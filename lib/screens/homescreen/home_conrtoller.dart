@@ -27,6 +27,7 @@ class HomeController extends GetxController {
   bool isLoading = true;
   late ScrollController scrollController;
   DateTime fromDate = DateTime.now();
+  DateTime toDate = DateTime.now();
   int selectSexIndex = 1;
   Cities cities = Cities(cities: []);
   Item selectedCity = Item(name: 'أختر المحافظة',id: '1');
@@ -44,12 +45,13 @@ class HomeController extends GetxController {
   getPosts() async {
     isLoading = true;
     update();
+
     PostsRequest postsRequest = PostsRequest(
       page: pageNumber.toString(),
       cityId: isVisibleDrop ? selectedCity.id : null,
       fromDate: isVisibleDate ? fromDate.toIso8601String() : null,
       gender: isVisibleGender ? selectSexIndex.toString() : null,
-      toDate: isVisibleDate ? fromDate.toIso8601String() : null,
+      toDate: isVisibleDate ? toDate.toIso8601String() : null,
     );
 
     PostsResponse currentPosts =

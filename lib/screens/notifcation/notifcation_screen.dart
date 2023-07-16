@@ -42,7 +42,15 @@ class NotificationScreen extends StatelessWidget {
                               0,
                         );
                       })
-                  : loadingNotification()
+                  : loadingNotification(),
+              Visibility(
+                visible: (controller.getNotificationsResponse.data?.isEmpty??false) &&
+                    controller.isLoading == false,
+                child: const Center(
+                    child: NoDataWidget(
+                  title: "لا يوجد اشعارات",
+                )),
+              )
             ],
           );
         });
@@ -91,11 +99,15 @@ class NotificationScreen extends StatelessWidget {
                                   width: 100,
                                 ),
                               ),
-                              SizedBox(width: 10,),
+                              SizedBox(
+                                width: 10,
+                              ),
                               CustomLoading(height: 5, radius: 5, width: 80),
                             ],
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           CustomLoading(height: 10, radius: 5, width: 100),
                         ],
                       ),

@@ -27,7 +27,6 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return GetBuilder<MainController>(
         init: MainController(),
         builder: (controller) {
@@ -100,7 +99,7 @@ class MainScreen extends StatelessWidget {
                                                     .userInfoResponse
                                                     ?.data
                                                     ?.user
-                                                    ?.gender,
+                                                    ?.gender??"ذكر",
                                                 radius: 25,
                                                 size: 40),
                                           ),
@@ -470,72 +469,79 @@ class MainScreen extends StatelessWidget {
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 17),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Stack(
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    controller.currentIndex = 3;
-                                                    controller.update();
-                                                  },
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 4),
-                                                    child: SvgPicture.asset(
-                                                      AppImages
-                                                          .notificationDownIcon,
-                                                      height: 20,
-                                                      color: controller
-                                                                  .currentIndex ==
-                                                              3
-                                                          ? AppColors.yellow
-                                                          : AppColors
-                                                              .whiteColor,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                  visible: (controller
-                                                              .getNumberNotReaded
-                                                              .data
-                                                              ?.count ??
-                                                          0) >
-                                                      0,
-                                                  child: Positioned(
-                                                    left: 12,
-                                                    bottom: 1,
-                                                    child: Container(
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: AppColors.yellow,
+                                          InkWell(
+                                            onTap: () {
+                                              controller.currentIndex = 3;
+                                              controller.update();
+                                            },
+                                            child: SizedBox(
+
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Stack(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets
+                                                                  .symmetric(
+                                                              horizontal: 4),
+                                                      child: SvgPicture.asset(
+                                                        AppImages
+                                                            .notificationDownIcon,
+                                                        height: 20,
+                                                        color: controller
+                                                                    .currentIndex ==
+                                                                3
+                                                            ? AppColors.yellow
+                                                            : AppColors
+                                                                .whiteColor,
                                                       ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(3),
-                                                        child: Text(
-                                                          controller
+                                                    ),
+                                                    Visibility(
+                                                      visible: (controller
                                                                   .getNumberNotReaded
                                                                   .data
-                                                                  ?.count
-                                                                  .toString() ??
-                                                              "",
-                                                          style: const TextStyle(
-                                                              fontSize: 12,
-                                                              color: AppColors
-                                                                  .whiteColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                                  ?.count ??
+                                                              0) >
+                                                          0,
+                                                      child: Positioned(
+                                                        left: 12,
+                                                        bottom: 1,
+                                                        child: Container(
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            color: AppColors
+                                                                .yellow,
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(3),
+                                                            child: Text(
+                                                              controller
+                                                                      .getNumberNotReaded
+                                                                      .data
+                                                                      ?.count
+                                                                      .toString() ??
+                                                                  "",
+                                                              style: const TextStyle(
+                                                                  fontSize: 12,
+                                                                  color: AppColors
+                                                                      .whiteColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ],

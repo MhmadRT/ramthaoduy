@@ -33,7 +33,6 @@ class CustomCardInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool? isLogin = Get.find<MainController>().isLogin;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Padding(
@@ -55,9 +54,9 @@ class CustomCardInfo extends StatelessWidget {
                     children: [
                       UserImage(
                           userImage: post.userImage,
-                          gender: post.gender,
+                          gender: post.genderOfRequester == 1 ? "ذكر" : "انثى",
                           radius: 5000,
-                          boxFit: BoxFit.cover,
+                          // boxFit: BoxFit.cover,
                           size: 40),
                       const SizedBox(
                         width: 20,
@@ -129,6 +128,7 @@ class CustomCardInfo extends StatelessWidget {
                         Hero(
                           tag: post.id.toString(),
                           child: UserImage(
+                              radius: 10,
                               userImage: post.image,
                               gender: post.gender,
                               size: Get.width),
@@ -147,42 +147,45 @@ class CustomCardInfo extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          InkWell(
-                            onTap: isLogin ?? false
-                                ? () {
-                                    Get.bottomSheet(
-                                        CustomCommentsBottomSheet(
-                                          post: post,
-                                        ),
-                                        isScrollControlled: true);
-                                  }
-                                : () {
-                                    Get.dialog(const DialogPermission());
-                                  },
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  AppImages.commentIcon,
-                                  height: 17,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    if (post.numberOfComments != 0)
-                                      Text("${post.numberOfComments}",
+                          GetBuilder<MainController>(builder: (controller) {
+                            return InkWell(
+                              onTap: controller.isLogin ?? false
+                                  ? () {
+                                      Get.bottomSheet(
+                                          CustomCommentsBottomSheet(
+                                            post: post,
+                                          ),
+                                          isScrollControlled: true);
+                                    }
+                                  : () {
+                                      Get.dialog(const DialogPermission());
+                                    },
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    AppImages.commentIcon,
+                                    height: 17,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      if (post.numberOfComments != 0)
+                                        Text("${post.numberOfComments}",
+                                            style:
+                                                TextStyle(color: Colors.grey)),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      const Text("تعليق",
                                           style: TextStyle(color: Colors.grey)),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    const Text("تعليق",
-                                        style: TextStyle(color: Colors.grey)),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
                           const Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [

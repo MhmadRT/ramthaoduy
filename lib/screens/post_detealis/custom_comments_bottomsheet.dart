@@ -232,10 +232,11 @@ class CustomCommentsBottomSheet extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           UserImage(
-                              size: 30,
-                              radius: 50,
-                              gender: comment?.username,
-                              userImage: comment?.username),
+                              userImage: comment?.image,
+                              gender: comment?.gender==1?"ذكر":"انثى",
+                              radius: 5000,
+                              boxFit: BoxFit.cover,
+                              size: 40),
                           const SizedBox(
                             width: 20,
                           ),

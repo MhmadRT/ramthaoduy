@@ -27,27 +27,30 @@ class UserImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius ?? 0),
-      child: SizedBox(
-        height: size,
-        width: size,
-        child: CachedNetworkImage(
-          imageUrl: ApiUrl.baseUrl + (userImage ?? ""),
-          fit: boxFit,
-          progressIndicatorBuilder: (context, url, downloadProgress) =>
-              const Center(child: CupertinoActivityIndicator()),
-          errorWidget: (context, url, error) => Center(
-              child: Container(
-            decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(15)),
-            child: SvgPicture.asset(
-              color: AppColors.mainColor.withOpacity(.65),
-              // fit: BoxFit.cover,
-              gender == "ذكر" ? AppImages.maleSvg : AppImages.femaleSvg,
-              height: size,
-              width: size,
-            ),
-          )),
+      child: Container(
+        color: Colors.grey.shade100,
+        child: SizedBox(
+          height: size,
+          width: size,
+          child: CachedNetworkImage(
+            imageUrl: ApiUrl.baseUrl + (userImage ?? ""),
+            fit: boxFit,
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                const Center(child: CupertinoActivityIndicator()),
+            errorWidget: (context, url, error) => Center(
+                child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(15)),
+              child: SvgPicture.asset(
+                color: AppColors.mainColor.withOpacity(.65),
+               // fit: BoxFit.cover,
+                gender == "ذكر" ? AppImages.maleSvg : AppImages.femaleSvg,
+                height: size,
+                width: size,
+              ),
+            )),
+          ),
         ),
       ),
     );
