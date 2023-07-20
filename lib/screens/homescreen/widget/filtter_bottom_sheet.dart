@@ -389,6 +389,9 @@ class FilterBottomSheet extends StatelessWidget {
                                       controller.isVisibleGender ||
                                       controller.isVisibleDate
                                   ? () {
+                                      controller.posts.posts?.posts = [];
+                                      controller.pageNumber = 1;
+                                      controller.update();
                                       controller.getPosts();
                                       Get.back();
                                     }

@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/helper/local_storage_helper.dart';
+import 'package:ramtha/screens/mainscreen/main_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late AndroidNotificationChannel channel;
@@ -105,7 +106,10 @@ Future<void> handlePayLoad(String? payload) async {
   if (payload != null && payload != '') {
     SharedPreferences ref = await SharedPreferences.getInstance();
     ref.setString(StorageKeys.lastNotification, payload);
-
+    if(Get.isRegistered<MainController>()){
+      var mainController=Get.find<MainController>();
+      mainController.checkLastNotification();
+    }
     ///TODO: Handel When Click
   }
 }
@@ -137,81 +141,25 @@ void showFlutterNotification(RemoteMessage message) {
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 class PayloadData {
-  String? msg;
-  String? fragment;
-  String? sound;
-  String? body;
-  String? title;
-  String? otherDeviceInfo;
-  String? city;
-  String? otherDeviceToken;
-  String? extra;
-  String? lang;
-  String? wfSerial;
-  String? code;
-  String? deviceType;
+  String? postId;
+  String? action;
+  String? clickAction;
 
-  PayloadData(
-      {this.msg,
-      this.fragment,
-      this.lang,
-      this.sound,
-      this.deviceType,
-      this.extra,
-      this.otherDeviceInfo,
-      this.otherDeviceToken,
-      this.city,
-      this.body,
-      this.title,
-      this.wfSerial,
-      this.code});
+  PayloadData({
+    this.postId,
+    this.action,
+    this.clickAction,
+  });
 
-  PayloadData.fromJson(Map<String, dynamic> json) {
-    otherDeviceToken = json['otherDeviceToken'];
-    otherDeviceInfo = json['otherDeviceInfo'];
-    city = json['city'];
-    msg = json['msg'];
-    lang = json['lang'];
-    fragment = json['fragment'];
-    sound = json['sound'];
-    body = json['body'];
-    title = json['title'];
-    wfSerial = json['wf_serial'];
-    deviceType = json['otherDeviceType'];
-    code = json['Code'];
-    extra = json['extra'];
-    if (code == '69') {
-      List<String> listData = [];
-      listData = extra?.split(',') ?? [];
-      try {
-        if (listData.isNotEmpty) {
-          otherDeviceInfo = '${listData[0]} ${listData[1]}';
-          deviceType = listData[1];
-          city = listData[2];
-          otherDeviceToken = listData[3];
-          lang = listData[4];
-        }
-      } catch (e) {
-        print('${e}Error payload');
-      }
-    }
-  }
+  factory PayloadData.fromJson(Map<String, dynamic> json) => PayloadData(
+    postId: json["post_id"],
+    action: json["action"],
+    clickAction: json["click_action"],
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['city'] = city;
-    data['otherDeviceInfo'] = otherDeviceInfo;
-    data['otherDeviceToken'] = otherDeviceToken;
-    data['otherDeviceType'] = deviceType;
-    data['msg'] = msg;
-    data['fragment'] = fragment;
-    data['sound'] = sound;
-    data['body'] = body;
-    data['title'] = title;
-    data['wf_serial'] = wfSerial;
-    data['Code'] = code;
-    data['extra'] = extra;
-    data['lang'] = lang;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "post_id": postId,
+    "action": action,
+    "click_action": clickAction,
+  };
 }
