@@ -9,7 +9,7 @@ PostsResponse postsResponseFromJson(String str) => PostsResponse.fromJson(json.d
 String postsResponseToJson(PostsResponse data) => json.encode(data.toJson());
 
 class PostsResponse {
-  final PostsModel? posts;
+  late final PostsModel? posts;
   final String? status;
   final String? message;
 
@@ -33,7 +33,7 @@ class PostsResponse {
 }
 
 class PostsModel {
-  final List<Post>? posts;
+   List<Post>? posts;
 
   PostsModel({
     this.posts,

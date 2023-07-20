@@ -5,6 +5,7 @@ class ApiUrl {
   static const userInfo = '${apiUrl}get_user_info';
   static const logOut = '${apiUrl}logout';
   static const register = '${apiUrl}register';
+  static const getPostById = '${apiUrl}get_post_by_id';
   static const editUser = '${apiUrl}edit_user';
   static const addDeath = '${apiUrl}add_death';
   static const userHistory = '${apiUrl}get_by_user';

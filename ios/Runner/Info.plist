@@ -14,6 +14,10 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>ramtha</string>
+	<key>com.apple.developer.associated-domains</key>
+      <array>
+        <string>applinks:https://alzoubi.xyz</string>
+      </array>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

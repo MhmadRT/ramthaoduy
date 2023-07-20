@@ -18,9 +18,9 @@ class BaseAPI {
   };
 
   static Alice alice = Alice(
-    showNotification: true,
-    showInspectorOnShake: true,
-    darkTheme: true,
+    showNotification: false,
+    showInspectorOnShake: false,
+    darkTheme: false,
     maxCallsCount: 10,
   );
   static const int _timeOutValueSeconds = 1000;
