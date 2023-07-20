@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/constant/app_colors.dart';
+import 'package:ramtha/screens/mainscreen/main_controller.dart';
 import 'package:ramtha/screens/post_detealis/post_controller.dart';
 import '../../constant/app_images.dart';
 import '../../constant/const_var.dart';
@@ -227,9 +228,14 @@ class PostDetailsScreen extends StatelessWidget {
                                 ),
                                 InkWell(
                                   onTap: () async {
+                                    String? name = Get.find<MainController>()
+                                        .userInfoResponse
+                                        ?.data
+                                        ?.user
+                                        ?.name;
                                     Get.find<PostController>().openSms(
                                         post.phoneNumber.toString(),
-                                        "عظم الله اجركم ورحم ميتكم واسكنه فسيح جناته");
+                                        " عظم الله اجركم ورحم ميتكم واسكنه فسيح جناته $name");
                                   },
                                   child: const Column(
                                     children: [

@@ -113,7 +113,6 @@ class FormDeathController extends GetxController {
   addDeath() async {
     MainController mainController = Get.find<MainController>();
     loading();
-
     AddDeathsRequest addDeathsRequest = AddDeathsRequest(
       cityId: selectedDistrict.id,
       phoneNumber: theMobileNumberOfTheDeceasedFamily.text,

@@ -326,7 +326,7 @@ class ReviewsScreen extends StatelessWidget {
               SizedBox(
                 height: Get.height / 3.5,
               ),
-              NoDataWidget(
+              const NoDataWidget(
                 title: "لا يوجد منوشرات تحتاج موافقة",
               ),
             ],
