@@ -74,6 +74,7 @@ class MainController extends GetxController {
 
   @override
   void onInit() async {
+
     // TODO: implement onInit
     await getUserData();
     await getNumberNotifications();

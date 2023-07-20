@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../helper/custom/custom_toast_massage.dart';
@@ -10,14 +11,19 @@ class NotificationController extends GetxController {
   NotificationsRepository notificationsRepository = NotificationsRepository();
   GetNotificationsResponse getNotificationsResponse =
       GetNotificationsResponse(data: []);
-  bool? isLoading = false;
+  bool isLoading = false;
   GetNumberNotReaded getNumberNotReaded = GetNumberNotReaded();
   HomeRepository homeRepository = HomeRepository();
+  int pageNumber = 1;
+  int countPerPage = 10;
+  bool isMoreLoad = false;
+  late ScrollController scrollController;
 
   @override
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
+    scrollController = ScrollController()..addListener(_scrollListener);
     await getNotification();
     await readNotification();
   }
@@ -43,12 +49,17 @@ class NotificationController extends GetxController {
   }
 
   getNotification() async {
+    Map<String, dynamic> body = {"page": pageNumber.toString()};
     isLoading = true;
     update();
-    await notificationsRepository.getNotifications({}).then((value) async {
+
+    await notificationsRepository.getNotifications(body).then((value) async {
+      isMoreLoad = value.data?.length== 10;
+      pageNumber++;
+
       isLoading = false;
       if (value.status == '1') {
-        getNotificationsResponse = value;
+        getNotificationsResponse.data?.addAll(value.data??[]);
       } else {
         CustomSnackBar.showCustomSnackBar(
           message: value.message,
@@ -56,5 +67,14 @@ class NotificationController extends GetxController {
       }
     });
     update();
+  }
+
+  void _scrollListener()async {
+    print('MRT${((scrollController.position.extentAfter) < 250 && isMoreLoad) } $isMoreLoad');
+    if ((scrollController.position.extentAfter) < 250 && isMoreLoad) {
+      print('true');
+      isMoreLoad = false;
+    await  getNotification();
+    }
   }
 }

@@ -5,6 +5,7 @@ import 'package:ramtha/screens/homescreen/model/get_banner_response.dart';
 import 'package:ramtha/screens/homescreen/model/posts_request.dart';
 import 'package:ramtha/screens/homescreen/model/posts_response.dart';
 import 'package:flutter/material.dart';
+import 'package:ramtha/screens/notifcation/notifcation_controller.dart';
 import '../../helper/custom/custom_drop_down.dart';
 import '../../helper/custom/custom_loading.dart';
 import '../createaccountscreen/create_account_repository.dart';
@@ -39,6 +40,7 @@ class HomeController extends GetxController {
   var formatterDots = DateFormat('dd.MM.yyyy');
   int pageNumber = 1;
   int countPerPage = 10;
+  NotificationController notificationController=Get.put(NotificationController());
 
   bool isMoreLoad = false;
 

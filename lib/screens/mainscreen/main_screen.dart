@@ -19,6 +19,7 @@ import '../about_screen/about_screen.dart';
 import '../changepassword/change_password_screen.dart';
 import '../loginscreen/login_screen.dart';
 import '../myhistory/history_screen.dart';
+import '../notifcation/notifcation_controller.dart';
 import 'main_controller.dart';
 
 class MainScreen extends StatelessWidget {
@@ -96,10 +97,11 @@ class MainScreen extends StatelessWidget {
                                                     "",
                                                 boxFit: BoxFit.cover,
                                                 gender: controller
-                                                    .userInfoResponse
-                                                    ?.data
-                                                    ?.user
-                                                    ?.gender??"ذكر",
+                                                        .userInfoResponse
+                                                        ?.data
+                                                        ?.user
+                                                        ?.gender ??
+                                                    "ذكر",
                                                 radius: 25,
                                                 size: 40),
                                           ),
@@ -470,22 +472,37 @@ class MainScreen extends StatelessWidget {
                                                 fontSize: 17),
                                           ),
                                           InkWell(
-                                            onTap: () {
+                                            onTap: () async {
                                               controller.currentIndex = 3;
                                               controller.update();
+
+                                              var homeController =
+                                                  Get.find<HomeController>();
+                                              homeController
+                                                  .notificationController
+                                                  .pageNumber = 1;
+                                              homeController
+                                                  .notificationController
+                                                  .getNotificationsResponse
+                                                  .data
+                                                  ?.clear();
+                                              homeController
+                                                  .notificationController
+                                                  .update();
+                                              await homeController
+                                                  .notificationController
+                                                  .getNotification();
                                             },
                                             child: SizedBox(
-
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
                                                 child: Stack(
                                                   children: [
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets
-                                                                  .symmetric(
-                                                              horizontal: 4),
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 4),
                                                       child: SvgPicture.asset(
                                                         AppImages
                                                             .notificationDownIcon,
@@ -555,37 +572,63 @@ class MainScreen extends StatelessWidget {
                                   builder: (homeController) {
                                     return Expanded(
                                       child: RefreshIndicator(
-                                        onRefresh: () async {
-                                          if (controller.currentIndex == 2) {
-                                            homeController.pageNumber = 1;
-                                            homeController.posts.posts?.posts
-                                                ?.clear();
-                                            homeController.update();
-                                            await homeController.getPosts();
-                                          }
-                                        },
-                                        child: SingleChildScrollView(
-                                          controller:
-                                              homeController.scrollController,
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 20),
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  child: controller.screens[
-                                                      controller.currentIndex],
-                                                ),
-                                                const SizedBox(
-                                                  height: 100,
-                                                ),
-                                              ],
+                                          onRefresh: () async {
+                                            if (controller.currentIndex == 2) {
+                                              homeController.pageNumber = 1;
+                                              homeController.posts.posts?.posts
+                                                  ?.clear();
+                                              homeController.update();
+                                              await homeController.getPosts();
+                                            }
+                                            if (controller.currentIndex == 3) {
+                                              homeController
+                                                  .notificationController
+                                                  .pageNumber = 1;
+                                              homeController
+                                                  .notificationController
+                                                  .getNotificationsResponse
+                                                  .data
+                                                  ?.clear();
+                                              homeController
+                                                  .notificationController
+                                                  .update();
+                                              await homeController
+                                                  .notificationController
+                                                  .getNotification();
+                                            }
+                                          },
+                                          child: SingleChildScrollView(
+                                            controller: (controller
+                                                        .currentIndex ==
+                                                    2)
+                                                ? homeController
+                                                    .scrollController
+                                                : controller.currentIndex == 3
+                                                    ? homeController
+                                                        .notificationController
+                                                        .scrollController
+                                                    : null,
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 20),
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(
+                                                    child: controller.screens[
+                                                        controller
+                                                            .currentIndex],
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 100,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
+                                          )),
                                     );
                                   })
                             ],

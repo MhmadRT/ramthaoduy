@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/helper/custom/custom_loading.dart';
 import 'package:ramtha/helper/custom/no_data_widget.dart';
+import 'package:ramtha/screens/homescreen/home_conrtoller.dart';
 
 import '../../constant/app_colors.dart';
 import '../../constant/app_images.dart';
@@ -14,46 +15,47 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<NotificationController>(
-        init: NotificationController(),
-        builder: (controller) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              controller.isLoading == false
-                  ? ListView.builder(
-                      itemCount:
-                          controller.getNotificationsResponse.data?.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        return NotificationCardWidget(
-                          title: controller.getNotificationsResponse
-                                  .data?[index].title ??
-                              "",
-                          date: controller.getNotificationsResponse.data?[index]
-                                  .createdAt ??
-                              "",
-                          subtitle: controller
-                                  .getNotificationsResponse.data?[index].body ??
-                              "",
-                          id: controller
-                                  .getNotificationsResponse.data?[index].id ??
-                              0,
-                        );
-                      })
-                  : loadingNotification(),
-              Visibility(
-                visible: (controller.getNotificationsResponse.data?.isEmpty??false) &&
+    return GetBuilder<NotificationController>(builder: (controller) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: controller.isLoading
+                  ? (controller.getNotificationsResponse.data?.length ?? 0) + 1
+                  : controller.getNotificationsResponse.data?.length,
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              itemBuilder: (context, index) {
+                if (controller.isLoading &&
+                    index == controller.getNotificationsResponse.data?.length) {
+                  return loadingNotification();
+                }
+                return NotificationCardWidget(
+                  title:
+                      controller.getNotificationsResponse.data?[index].title ??
+                          "",
+                  date: controller
+                          .getNotificationsResponse.data?[index].createdAt ??
+                      "",
+                  subtitle:
+                      controller.getNotificationsResponse.data?[index].body ??
+                          "",
+                  id: controller.getNotificationsResponse.data?[index].id ?? 0,
+                );
+              }),
+          Visibility(
+            visible:
+                (controller.getNotificationsResponse.data?.isEmpty ?? false) &&
                     controller.isLoading == false,
-                child: const Center(
-                    child: NoDataWidget(
-                  title: "لا يوجد اشعارات",
-                )),
-              )
-            ],
-          );
-        });
+            child: const Center(
+                child: NoDataWidget(
+              title: "لا يوجد اشعارات",
+            )),
+          )
+        ],
+      );
+    });
   }
 
   loadingNotification() {
