@@ -28,6 +28,27 @@ class PostController extends GetxController {
     await launchUrl(Uri.parse(url));
   }
 
+  void openSms(String phoneNumber, String defaultText) async {
+    final smsUri = 'sms:$phoneNumber?body=${Uri.encodeComponent(defaultText)}';
+
+    if (await launchUrl(Uri.parse(smsUri))) {
+      await launchUrl(Uri.parse(smsUri));
+    } else {
+      throw 'Could not launch SMS app.';
+    }
+  }
+
+  void openWhatsApp(String phoneNumber, String defaultText) async {
+    final whatsappUrl =
+        'https://wa.me/$phoneNumber/?text=${Uri.encodeComponent(defaultText)}';
+
+    if (await launchUrl(Uri.parse(whatsappUrl))) {
+      await launchUrl(Uri.parse(whatsappUrl));
+    } else {
+      throw 'Could not launch WhatsApp.';
+    }
+  }
+
   PostController(this.post);
 
   getComment() async {

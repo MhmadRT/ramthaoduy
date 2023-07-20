@@ -43,7 +43,10 @@ class HomeController extends GetxController {
   NotificationController notificationController=Get.put(NotificationController());
 
   bool isMoreLoad = false;
+mmm(){
 
+  loading();
+}
   getPosts() async {
     isLoading = true;
     update();
