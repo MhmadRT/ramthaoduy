@@ -5,7 +5,7 @@ import 'package:ramtha/screens/reviewsscreen/review_controller.dart';
 import '../../helper/custom/custom_button.dart';
 import '../../helper/custom/custom_card_info.dart';
 import '../../helper/custom/custom_loading.dart';
- import '../../helper/custom/no_data_widget.dart';
+import '../../helper/custom/no_data_widget.dart';
 import '../homescreen/model/posts_response.dart';
 import '../post_detealis/post_detealis_screen.dart';
 
@@ -35,8 +35,9 @@ class ReviewsScreen extends StatelessWidget {
                             height: 45,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 InkWell(
                                   onTap: () {
@@ -61,6 +62,20 @@ class ReviewsScreen extends StatelessWidget {
                                 const SizedBox(
                                   height: 20,
                                 ),
+                                InkWell(
+                                  onTap: () {
+                                    controller.getPosts();
+                                  },
+                                  child: const Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(4.0),
+                                        child: Icon(Icons.refresh,
+                                            color: AppColors.whiteColor),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -68,19 +83,24 @@ class ReviewsScreen extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20, right: 20, bottom: 100, top: 10),
-                          child: Column(
-                            children: [
-                              if (controller.isLoading) loading(),
-                              posts(
-                                  controller.posts?.posts ??
-                                      PostsModel(posts: []),
-                                  controller),
-                            ],
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          await controller.getPosts();
+                        },
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20, right: 20, bottom: 100, top: 10),
+                            child: Column(
+                              children: [
+                                if (controller.isLoading) loading(),
+                                posts(
+                                    controller.posts?.posts ??
+                                        PostsModel(posts: []),
+                                    controller),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -161,10 +181,7 @@ class ReviewsScreen extends StatelessWidget {
               child: Column(children: [
                 const Text(
                   "هل انت متاكد من هذه العملية",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 10,
@@ -257,10 +274,12 @@ class ReviewsScreen extends StatelessWidget {
               return Column(
                 children: [
                   InkWell(
-                    onTap: (){
-                      Get.to(PostDetailsScreen(
-                        post:postsModel.posts![index] ,
-                      ),transition: Transition.rightToLeftWithFade);
+                    onTap: () {
+                      Get.to(
+                          PostDetailsScreen(
+                            post: postsModel.posts![index],
+                          ),
+                          transition: Transition.rightToLeftWithFade);
                     },
                     child: CustomCardInfo(
                       isReview: true,
@@ -274,7 +293,7 @@ class ReviewsScreen extends StatelessWidget {
                           color: AppColors.red,
                           title: "رفض",
                           colorTitle: AppColors.whiteColor,
-                          height: 30,
+                          height: 40,
                           pressed: () {
                             controller.approveOrReject(
                                 status: "2",
@@ -288,7 +307,7 @@ class ReviewsScreen extends StatelessWidget {
                           color: AppColors.mainColor,
                           title: " قبول",
                           colorTitle: AppColors.whiteColor,
-                          height: 30,
+                          height: 40,
                           pressed: () {
                             controller.approveOrReject(
                                 status: "1",
@@ -300,9 +319,17 @@ class ReviewsScreen extends StatelessWidget {
                 ],
               );
             })
-        : const Center(
-            child: NoDataWidget(
-            title: "لا يوجد منوشرات تحتاج موافقة",
+        : Center(
+            child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: Get.height / 3.5,
+              ),
+              NoDataWidget(
+                title: "لا يوجد منوشرات تحتاج موافقة",
+              ),
+            ],
           ));
   }
 }

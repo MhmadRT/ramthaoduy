@@ -19,66 +19,7 @@ class PostDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(resizeToAvoidBottomInset: false,
-      bottomNavigationBar: GetBuilder<PostController>(
-          init: PostController(post),
-          builder: (controller) {
-            return SizedBox(
-              height:70,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            child: CustomTextField(
-                          showTitle: false,
-                          hintText: 'أضف تعليق',
-                          maxLines: 1,
-                          controller: controller.comment,
-                          onchange: (v) {
-                            controller.update();
-                          },
-                        )),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        InkWell(
-                          onTap: controller.comment.text.isNotEmpty
-                              ? () {
-                                  controller.addComment();
-                                }
-                              : null,
-                          child: Container(
-                            height: 45,
-                            width: 45,
-                            decoration: BoxDecoration(
-                                color: controller.comment.text.isNotEmpty
-                                    ? AppColors.mainColor
-                                    : AppColors.mainColor.withOpacity(.5),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Center(
-                                  child: Icon(
-                                Icons.send,
-                                color: AppColors.whiteColor,
-                              )),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-
-                  ],
-                ),
-              ),
-            );
-          }),
+    return Scaffold(
       body: Stack(
         children: [
           Column(
@@ -133,10 +74,9 @@ class PostDetailsScreen extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   child: Column(
                     children: [
-                      
                       Padding(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -207,7 +147,8 @@ class PostDetailsScreen extends StatelessWidget {
                                 Text(
                                   'الموقع',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 18),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
                                 ),
                               ],
                             ),
@@ -240,8 +181,9 @@ class PostDetailsScreen extends StatelessWidget {
                                 ),
                                 InkWell(
                                   onTap: () async {
-                                    Get.find<PostController>().launchPhoneDialer(
-                                        post.phoneNumber.toString());
+                                    Get.find<PostController>()
+                                        .launchPhoneDialer(
+                                            post.phoneNumber.toString());
                                   },
                                   child: Column(
                                     children: [
@@ -251,7 +193,8 @@ class PostDetailsScreen extends StatelessWidget {
                                             color: AppColors.blueButtonColor,
                                             fontSize: 15,
                                             fontWeight: FontWeight.w600,
-                                            decoration: TextDecoration.underline),
+                                            decoration:
+                                                TextDecoration.underline),
                                       ),
                                     ],
                                   ),
@@ -266,7 +209,100 @@ class PostDetailsScreen extends StatelessWidget {
                                 const Expanded(
                                   child: Row(
                                     children: [
-                                      Icon(Icons.person, color: AppColors.mainColor),
+                                      Icon(
+                                        Icons.messenger_outline,
+                                        color: AppColors.mainColor,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        'ارسال رسالة SMS',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () async {
+                                    Get.find<PostController>().openSms(
+                                        post.phoneNumber.toString(),
+                                        "عظم الله اجركم ورحم ميتكم واسكنه فسيح جناته");
+                                  },
+                                  child: const Column(
+                                    children: [
+                                      Text(
+                                        "اضغط هنا",
+                                        style: TextStyle(
+                                            color: AppColors.blueButtonColor,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            decoration:
+                                                TextDecoration.underline),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.messenger_outline,
+                                        color: AppColors.mainColor,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        'ارسال رسالة WhatsApp',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () async {
+                                    Get.find<PostController>().openWhatsApp(
+                                        post.phoneNumber.toString(),
+                                        "عظم الله اجركم ورحم ميتكم واسكنه فسيح جناته");
+                                  },
+                                  child: const Column(
+                                    children: [
+                                      Text(
+                                        "اضغط هنا",
+                                        style: TextStyle(
+                                            color: AppColors.blueButtonColor,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            decoration:
+                                                TextDecoration.underline),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.person,
+                                          color: AppColors.mainColor),
                                       SizedBox(
                                         width: 5,
                                       ),
@@ -306,9 +342,13 @@ class PostDetailsScreen extends StatelessWidget {
                                 const Text(
                                   'التعليقات',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 18),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
                                 ),
                               ],
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             GetBuilder<PostController>(
                                 init: PostController(post),
@@ -317,6 +357,58 @@ class PostDetailsScreen extends StatelessWidget {
                                       ? loading()
                                       : commentsWidget(
                                           controller.commentPosts, controller);
+                                }),
+                            GetBuilder<PostController>(
+                                init: PostController(post),
+                                builder: (controller) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                          child: CustomTextField(
+                                        showTitle: false,
+                                        hintText: 'أضف تعليق',
+                                        maxLines: 1,
+                                        controller: controller.comment,
+                                        onchange: (v) {
+                                          controller.update();
+                                        },
+                                      )),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      InkWell(
+                                        onTap:
+                                            controller.comment.text.isNotEmpty
+                                                ? () {
+                                                    controller.addComment();
+                                                  }
+                                                : null,
+                                        child: Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: BoxDecoration(
+                                              color: controller
+                                                      .comment.text.isNotEmpty
+                                                  ? AppColors.mainColor
+                                                  : AppColors.mainColor
+                                                      .withOpacity(.5),
+                                              borderRadius:
+                                                  BorderRadius.circular(12)),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Center(
+                                                child: Icon(
+                                              Icons.send,
+                                              color: AppColors.whiteColor,
+                                            )),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  );
                                 }),
                           ],
                         ),

@@ -42,23 +42,17 @@ loading() {
         onWillPop: () {
           return Future.value(false);
         },
-        child: Column(mainAxisAlignment: MainAxisAlignment.center,
+        child: const Column(mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Card(
-              child: Container(
-                width: 100,
-                decoration: BoxDecoration(color: Colors.black45,borderRadius: BorderRadius.circular(5)),
-                child: const Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: Dialog(
-                    insetPadding: EdgeInsets.zero,
-                    backgroundColor: Colors.transparent,
-                    insetAnimationDuration: Duration.zero,
-                    elevation: 0,
-                    child: Center(
-                      child: CupertinoActivityIndicator(color: AppColors.mainColor,radius: 20),
-                    ),
-                  ),
+            Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Dialog(
+                insetPadding: EdgeInsets.zero,
+                backgroundColor: Colors.transparent,
+                insetAnimationDuration: Duration.zero,
+                elevation: 0,
+                child: Center(
+                  child: CupertinoActivityIndicator(color: AppColors.mainColor,radius: 20),
                 ),
               ),
             ),
