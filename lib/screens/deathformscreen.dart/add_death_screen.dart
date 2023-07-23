@@ -90,21 +90,20 @@ class FormDeathScreen extends StatelessWidget {
                                   right: 0,
                                   child: InkWell(
                                     onTap: () {
-                                      if(controller.imagePath == null){
+                                      if (controller.imagePath == null) {
                                         ImagePicker()
                                             .pickImage(
-                                            source: ImageSource.gallery)
+                                                source: ImageSource.gallery)
                                             .then((value) {
                                           if (value != null) {
                                             controller.imagePath = value;
                                           }
                                           controller.update();
                                         });
-                                      }else{
-                                        controller.imagePath=null;
+                                      } else {
+                                        controller.imagePath = null;
                                         controller.update();
                                       }
-
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -144,7 +143,6 @@ class FormDeathScreen extends StatelessWidget {
                     },
                     required: true,
                   ),
-
                   CustomDropdown(
                       isRequired: false,
                       label: 'المنطقة',
@@ -167,6 +165,8 @@ class FormDeathScreen extends StatelessWidget {
                     title: "الدفن",
                   ),
                   _buildLocation(context, controller),
+                  _buildCondolencesMaleLocation(context, controller),
+                  _buildCondolencesFemaleLocation(context, controller),
                   CustomTextField(
                     controller: controller.theMobileNumberOfTheDeceasedFamily,
                     isRequired: true,
@@ -215,7 +215,7 @@ class FormDeathScreen extends StatelessWidget {
       children: [
         const Row(
           children: [
-            Text("الموقع",
+            Text("موقع الدفن",
                 style: TextStyle(
                     fontSize: 15,
                     color: AppColors.mainColor,
@@ -260,14 +260,115 @@ class FormDeathScreen extends StatelessWidget {
     );
   }
 
+  Column _buildCondolencesMaleLocation(
+      BuildContext context, FormDeathController controller) {
+    return Column(
+      children: [
+        const Row(
+          children: [
+            Text("موقع عزاء الرجال",
+                style: TextStyle(
+                    fontSize: 15,
+                    color: AppColors.mainColor,
+                    fontWeight: FontWeight.w500)),
+          ],
+        ),
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.editTextColor.withOpacity(.8),
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          child: MaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              // onPressed: () => _showDateDialog(context, 1, controller),
+              onPressed: () {
+                Get.to(() => PickLocationScreen(
+                      onChanged: (locationInfo) {
+                        controller.locationCondolencesMaleInfo = locationInfo;
+                      },
+                    ))?.then((value) {
+                  controller.update();
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(controller.locationInfo.streetInfo ?? "",
+                      style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w100,
+                          color: AppColors.mainColor)),
+                  SvgPicture.asset(
+                    AppImages.locationIcon,
+                    height: 20,
+                  )
+                ],
+              )),
+        ),
+      ],
+    );
+  }
 
+  Column _buildCondolencesFemaleLocation(
+      BuildContext context, FormDeathController controller) {
+    return Column(
+      children: [
+        const Row(
+          children: [
+            Text("موقع عزاء النساء",
+                style: TextStyle(
+                    fontSize: 15,
+                    color: AppColors.mainColor,
+                    fontWeight: FontWeight.w500)),
+          ],
+        ),
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.editTextColor.withOpacity(.8),
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          child: MaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              // onPressed: () => _showDateDialog(context, 1, controller),
+              onPressed: () {
+                Get.to(() => PickLocationScreen(
+                      onChanged: (locationInfo) {
+                        controller.locationCondolencesFeMaleInfo = locationInfo;
+                      },
+                    ))?.then((value) {
+                  controller.update();
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(controller.locationInfo.streetInfo ?? "",
+                      style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w100,
+                          color: AppColors.mainColor)),
+                  SvgPicture.asset(
+                    AppImages.locationIcon,
+                    height: 20,
+                  )
+                ],
+              )),
+        ),
+      ],
+    );
+  }
 
   _buildSelectSex(FormDeathController controller) {
     return Column(
       children: [
-         Row(
+        Row(
           children: [
-            Text(controller.selectSexIndex==1?"جنس المتوفي":"جنس المتوفية",
+            Text(
+                controller.selectSexIndex == 1 ? "جنس المتوفي" : "جنس المتوفية",
                 style: const TextStyle(
                     fontSize: 15,
                     color: AppColors.mainColor,

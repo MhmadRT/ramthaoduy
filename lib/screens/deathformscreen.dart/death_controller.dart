@@ -32,6 +32,8 @@ class FormDeathController extends GetxController {
   String dropdownValue = 'Test1';
 
   LocationInfo locationInfo = LocationInfo(streetInfo: "موقع المقبرة");
+  LocationInfo locationCondolencesMaleInfo = LocationInfo(streetInfo: "موقع عزاء الرجال");
+  LocationInfo locationCondolencesFeMaleInfo = LocationInfo(streetInfo: "موقع عزاء النساء");
 
   CreateAccountRepository repository = CreateAccountRepository();
   DeathFormRepository deathFormRepository = DeathFormRepository();
@@ -92,11 +94,11 @@ class FormDeathController extends GetxController {
       );
     }
 
-    if (locationInfo.lng == null || locationInfo.lng == null) {
-      return CustomSnackBar.showCustomSnackBar(
-        message: "الرجاء ادخال موقع الدفن",
-      );
-    }
+    // if (locationInfo.lng == null || locationInfo.lng == null) {
+    //   return CustomSnackBar.showCustomSnackBar(
+    //     message: "الرجاء ادخال موقع الدفن",
+    //   );
+    // }
     if (theMobileNumberOfTheDeceasedFamily.text.isEmpty) {
       return CustomSnackBar.showCustomSnackBar(
         message: "الرجاء ادخال رقم الهاتف لاهل المتوفي/ة",
