@@ -295,7 +295,7 @@ class FormDeathScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(controller.locationInfo.streetInfo ?? "",
+                  Text(controller.locationCondolencesMaleInfo.streetInfo ?? "",
                       style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w100,
@@ -346,7 +346,7 @@ class FormDeathScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(controller.locationInfo.streetInfo ?? "",
+                  Text(controller.locationCondolencesFeMaleInfo.streetInfo ?? "",
                       style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w100,
