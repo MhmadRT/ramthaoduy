@@ -10,6 +10,7 @@ import 'package:ramtha/screens/mainscreen/main_screen.dart';
 
 import '../../constant/app_images.dart';
 import '../../helper/custom/custom_button.dart';
+import '../contactus/contact_us_screen.dart';
 import 'login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -18,7 +19,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
@@ -36,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Get.offAll(() =>   MainScreen());
+                            Get.offAll(() => MainScreen());
                           },
                           child: Row(
                             children: [
@@ -192,7 +193,8 @@ class LoginScreen extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     AnimatedSwitcher(
-                                      duration: const Duration(milliseconds: 300),
+                                      duration:
+                                          const Duration(milliseconds: 300),
                                       child: controller.isRememberMe
                                           ? const Icon(Icons.check_box_outlined,
                                               color: AppColors.whiteColor)
@@ -215,8 +217,8 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: (){
-                                Get.to(()=>const ForgetPasswordScreen());
+                              onTap: () {
+                                Get.to(() => const ForgetPasswordScreen());
                               },
                               child: const Text(
                                 "نسيت كلمة السر ؟",
@@ -245,7 +247,7 @@ class LoginScreen extends StatelessWidget {
                           height: 50,
                           colorTitle: AppColors.whiteColor,
                           pressed: () {
-                            Get.to(()=> CreateAccountScreen());
+                            Get.to(() => CreateAccountScreen());
                           },
                         ),
                         Column(
@@ -259,10 +261,12 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Get.to(ContactUsScreen());
+                              },
                               child: const Center(
                                 child: Text(
-                                  " التواصل معنا",
+                                  "تواصل معنا",
                                   style: TextStyle(
                                     color: AppColors.blueButtonColor,
                                     decoration: TextDecoration.underline,

@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/constant/app_images.dart';
-import 'package:ramtha/screens/about_screen/about_screen.dart';
+import '../../aboutscreen/about_screen.dart';
 
 class NotificationCardWidget extends StatelessWidget {
   const NotificationCardWidget(

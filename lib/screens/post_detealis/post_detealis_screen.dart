@@ -280,7 +280,7 @@ class PostDetailsScreen extends StatelessWidget {
                                 InkWell(
                                   onTap: () async {
                                     Get.find<PostController>().openWhatsApp(
-                                        post.phoneNumber.toString(),
+                                        int.parse(post.phoneNumber.toString()),
                                         "عظم الله اجركم ورحم ميتكم واسكنه فسيح جناته");
                                   },
                                   child: const Column(
