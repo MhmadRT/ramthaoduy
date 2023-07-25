@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/constant/app_images.dart';
 import 'package:ramtha/screens/splashscreen/splash_controller.dart';
+import 'package:ramtha/screens/splashscreen/widget/animations.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class SplashScreen extends StatelessWidget {
       body: GetBuilder<SplashController>(
           init: SplashController(),
           builder: (controller) {
-            return Center(child: SvgPicture.asset(AppImages.logo));
+            return ChangeImageWidget();
           }),
     );
   }
