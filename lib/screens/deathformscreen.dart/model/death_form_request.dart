@@ -12,16 +12,23 @@ class AddDeathsRequest {
   String? buryDescription;
   String? latatude;
   String? longitude;
+  String? latatudeCondolencesMaleInfo;
+  String? longitudeCondolencesMaleInfo;
+  String? latatudeCondolencesFeMaleInfo;
+  String? longitudeCondolencesFeMaleInfo;
   String? description;
   String? phoneNumber;
   String? nameOfRequester;
 
   AddDeathsRequest({
     this.cityId,
+    this.latatudeCondolencesMaleInfo,
+    this.longitudeCondolencesMaleInfo,
+    this.latatudeCondolencesFeMaleInfo,
+    this.longitudeCondolencesFeMaleInfo,
     this.deadName,
     this.gender,
     this.birthDate,
-
     this.buryDescription,
     this.latatude,
     this.longitude,
@@ -29,12 +36,17 @@ class AddDeathsRequest {
     this.phoneNumber,
     this.nameOfRequester,
   });
+
   Map<String, String> toJson() => {
         "city_id": cityId ?? "",
+        "latatudeCondolencesMaleInfo": latatudeCondolencesMaleInfo ?? "",
+        "longitudeCondolencesMaleInfo": longitudeCondolencesMaleInfo ?? "",
+        "latatudeCondolencesFeMaleInfo": latatudeCondolencesFeMaleInfo ?? "",
+        "longitudeCondolencesFeMaleInfo": longitudeCondolencesFeMaleInfo ?? "",
         "dead_name": deadName ?? "",
         "gender": gender ?? "",
         "birth_date": birthDate ?? "",
-         "bury_description": buryDescription ?? "",
+        "bury_description": buryDescription ?? "",
         "latatude": latatude ?? "",
         "longitude": longitude ?? "",
         "description": description ?? "",

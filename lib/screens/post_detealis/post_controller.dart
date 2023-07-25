@@ -38,15 +38,19 @@ class PostController extends GetxController {
     }
   }
 
-  void openWhatsApp(String phoneNumber, String defaultText) async {
-    final whatsappUrl =
-        'https://wa.me/$phoneNumber/?text=${Uri.encodeComponent(defaultText)}';
-
+  void openWhatsApp(int phoneNumber, String defaultText) async {
+    var whatsappUrl = "whatsapp://send?phone=$phoneNumber";
     if (await launchUrl(Uri.parse(whatsappUrl))) {
       await launchUrl(Uri.parse(whatsappUrl));
     } else {
       throw 'Could not launch WhatsApp.';
     }
+  }
+
+  launchWhatsApp() async {
+    int phone = 0785164327;
+    var whatsappUrl = "whatsapp://send?phone=$phone";
+    await launchUrl(Uri.parse(whatsappUrl));
   }
 
   PostController(this.post);

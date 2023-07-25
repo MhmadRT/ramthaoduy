@@ -32,6 +32,10 @@ class FormDeathController extends GetxController {
   String dropdownValue = 'Test1';
 
   LocationInfo locationInfo = LocationInfo(streetInfo: "موقع المقبرة");
+  LocationInfo locationCondolencesMaleInfo =
+      LocationInfo(streetInfo: "موقع عزاء الرجال");
+  LocationInfo locationCondolencesFeMaleInfo =
+      LocationInfo(streetInfo: "موقع عزاء النساء");
 
   CreateAccountRepository repository = CreateAccountRepository();
   DeathFormRepository deathFormRepository = DeathFormRepository();
@@ -92,11 +96,11 @@ class FormDeathController extends GetxController {
       );
     }
 
-    if (locationInfo.lng == null || locationInfo.lng == null) {
-      return CustomSnackBar.showCustomSnackBar(
-        message: "الرجاء ادخال موقع الدفن",
-      );
-    }
+    // if (locationInfo.lng == null || locationInfo.lng == null) {
+    //   return CustomSnackBar.showCustomSnackBar(
+    //     message: "الرجاء ادخال موقع الدفن",
+    //   );
+    // }
     if (theMobileNumberOfTheDeceasedFamily.text.isEmpty) {
       return CustomSnackBar.showCustomSnackBar(
         message: "الرجاء ادخال رقم الهاتف لاهل المتوفي/ة",
@@ -118,6 +122,12 @@ class FormDeathController extends GetxController {
       phoneNumber: theMobileNumberOfTheDeceasedFamily.text,
       longitude: locationInfo.lat.toString(),
       latatude: locationInfo.lng.toString(),
+      latatudeCondolencesFeMaleInfo:
+          locationCondolencesFeMaleInfo.lat.toString(),
+      longitudeCondolencesFeMaleInfo:
+          locationCondolencesFeMaleInfo.lng.toString(),
+      longitudeCondolencesMaleInfo: locationCondolencesMaleInfo.lng.toString(),
+      latatudeCondolencesMaleInfo: locationCondolencesMaleInfo.lat.toString(),
       birthDate: date.toIso8601String(),
       buryDescription: burial.text,
       deadName: nameDeathFromThreeSection.text,
@@ -179,5 +189,4 @@ class FormDeathController extends GetxController {
       return formatter.format(date);
     }
   }
-
 }

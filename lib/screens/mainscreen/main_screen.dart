@@ -14,8 +14,7 @@ import 'package:ramtha/constant/app_images.dart';
 import '../../helper/custom/topics_dialog.dart';
 import '../../helper/custom/user_image.dart';
 import '../../helper/custom_no_have_permission.dart';
-
-import '../about_screen/about_screen.dart';
+import '../aboutscreen/about_screen.dart';
 import '../changepassword/change_password_screen.dart';
 import '../loginscreen/login_screen.dart';
 import '../myhistory/history_screen.dart';

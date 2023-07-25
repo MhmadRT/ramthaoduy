@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
     // static const mainColor = Color(0xFF536DFB);
      static const Color mainColor = Color(0xff15261E);
+     static const Color green = Color(0xff25d366);
   static const Color whiteColor = Color(0xffffffff);
   static const editTextColor = Color(0xffF1F0F0);
   static const cardColor = Color(0xffd3e0d7);

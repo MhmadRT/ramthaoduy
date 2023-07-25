@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         ],
         theme: ThemeData(
             scaffoldBackgroundColor: AppColors.whiteColor,
-            fontFamily: 'ArbFONTS'),
+            fontFamily: 'Tajawal'),
         supportedLocales: const [Locale('ar'), Locale('en')],
         home: const SplashScreen());
   }

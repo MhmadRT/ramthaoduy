@@ -62,9 +62,13 @@ flutter:
 
 
   fonts:
-    - family: ArbFONTS
+    - family: Tajawal
       fonts:
-        - asset: fonts/ArbFONTS-4_F0.ttf
-        - asset: fonts/ArbFONTS-4_F1.ttf
-        - asset: fonts/ArbFONTS-4_F2.ttf
+        - asset: fonts/Tajawal-Black.ttf
+        - asset: fonts/Tajawal-Bold.ttf
+        - asset: fonts/Tajawal-ExtraBold.ttf
+        - asset: fonts/Tajawal-ExtraLight.ttf
+        - asset: fonts/Tajawal-Light.ttf
+        - asset: fonts/Tajawal-Medium.ttf
+        - asset: fonts/Tajawal-Regular.ttf
           style: italic
