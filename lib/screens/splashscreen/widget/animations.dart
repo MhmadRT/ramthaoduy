@@ -29,7 +29,7 @@ class _ChangeImageWidgetState extends State<ChangeImageWidget> {
         _imageHeight = Get.height/2.2; // New height value after 2 seconds
         _imagePosition = 0.0; // New position value after 2 seconds
       });
-      _showToast('Image animation completed!');
+      // _showToast('Image animation completed!');
     });
   }
 
