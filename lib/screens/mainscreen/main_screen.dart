@@ -242,9 +242,6 @@ class MainScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
                                 const Divider(
                                   thickness: 1,
                                 ),
@@ -270,11 +267,44 @@ class MainScreen extends StatelessWidget {
                                         fontSize: 15,
                                         color: AppColors.mainColor,
                                         fontWeight: FontWeight.w600)),
+                                const SizedBox(
+                                  width: 10,
+                                ),
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
+                          Visibility(
+                            visible: controller.isLogin == true,
+                            child: Column(
+                              children: [
+                                const Divider(
+                                  thickness: 1,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(const MyHistoryScreen());
+                                  },
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(AppImages.editIcon,
+                                          height: 20,
+                                          color: AppColors.mainColor),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      const Text("منشوراتي",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: AppColors.mainColor,
+                                              fontWeight: FontWeight.w600)),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           const Divider(
                             thickness: 1,
@@ -284,50 +314,22 @@ class MainScreen extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              Get.to(const MyHistoryScreen());
+                              Get.to(() => AboutScreen());
                             },
                             child: Row(
                               children: [
-                                SvgPicture.asset(AppImages.editIcon,
-                                    height: 20, color: AppColors.mainColor),
+                                SvgPicture.asset(AppImages.aboutMenuIcon,
+                                    height: 20),
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                const Text("منشوراتي",
+                                const Text("عن التطبيق",
                                     style: TextStyle(
                                         fontSize: 15,
                                         color: AppColors.mainColor,
                                         fontWeight: FontWeight.w600)),
                               ],
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Divider(
-                            thickness: 1,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              SvgPicture.asset(AppImages.aboutMenuIcon,
-                                  height: 20),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Get.to(() => AboutScreen());
-                                },
-                                child: const Text("عن التطبيق",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: AppColors.mainColor,
-                                        fontWeight: FontWeight.w600)),
-                              ),
-                            ],
                           ),
                           const SizedBox(
                             height: 10,
@@ -358,7 +360,7 @@ class MainScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                           const Divider(
                             thickness: 1,

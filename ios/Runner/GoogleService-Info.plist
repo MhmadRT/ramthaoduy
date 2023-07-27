@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>4906441024-38g8cctdgem5tseoc3j5k8tdn52a28ja.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.4906441024-38g8cctdgem5tseoc3j5k8tdn52a28ja</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDmaM31CL_tmKHXWeyP2mNyXBISyiGeNx4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>4906441024</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ramtha.dead</string>
+	<key>PROJECT_ID</key>
+	<string>ramtha-8b0bd</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ramtha-8b0bd.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:4906441024:ios:62a549f92ad1a40ceb82a5</string>
+</dict>
+</plist>

@@ -66,10 +66,18 @@ class Post {
   final String? description;
   final String? phoneNumber;
   final String? nameOfRequester;
+  final String? latatudeCondolencesMaleInfo;
+  final String? longitudeCondolencesMaleInfo;
+  final String? latatudeCondolencesFeMaleInfo;
+  final String? longitudeCondolencesFeMaleInfo;
   final int? genderOfRequester;
 
   Post({
     this.id,
+    this.latatudeCondolencesMaleInfo,
+    this.longitudeCondolencesMaleInfo,
+    this.latatudeCondolencesFeMaleInfo,
+    this.longitudeCondolencesFeMaleInfo,
     this.status,
     this.deadName,
     this.genderOfRequester,
@@ -91,6 +99,10 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
     id: json["id"],
+    latatudeCondolencesMaleInfo: json["latatudeCondolencesMaleInfo"],
+    longitudeCondolencesMaleInfo: json["longitudeCondolencesMaleInfo"],
+    latatudeCondolencesFeMaleInfo: json["latatudeCondolencesFeMaleInfo"],
+    longitudeCondolencesFeMaleInfo: json["longitudeCondolencesFeMaleInfo"],
     userImage: json["user_image"],
     userGender: json["user_image"],
     status: json["status"],

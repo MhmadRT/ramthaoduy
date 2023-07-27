@@ -56,6 +56,7 @@ class CustomCardInfo extends StatelessWidget {
                           userImage: post.userImage,
                           gender: post.genderOfRequester == 1 ? "ذكر" : "انثى",
                           radius: 5000,
+                          boxFit: BoxFit.cover,
                           // boxFit: BoxFit.cover,
                           size: 40),
                       const SizedBox(
@@ -65,7 +66,10 @@ class CustomCardInfo extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(post.nameOfRequester ?? ""),
+                            Text(
+                              post.nameOfRequester ?? "",
+
+                            ),
                             Visibility(
                               visible: GetUtils.isDateTime(
                                   post.createdDate?.toIso8601String() ?? ""),
@@ -101,12 +105,23 @@ class CustomCardInfo extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Text(
-                    post.deadName ?? "",
-                    style: const TextStyle(
-                        color: AppColors.mainColor,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600),
+                  Row(
+                    children: [
+                      Text(
+                        post.gender=="ذكر"?  "الفقيد :":  "الفقيدة :",
+                        style: const TextStyle(
+                            color: AppColors.mainColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        post.deadName ?? "",
+                        style: const TextStyle(
+                            color: AppColors.mainColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
                   ),
                   Text(
                     post.buryDescription ?? "",

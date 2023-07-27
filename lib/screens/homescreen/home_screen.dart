@@ -8,6 +8,7 @@ import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/constant/app_images.dart';
 import 'package:ramtha/helper/custom/custom_card_info.dart';
 import 'package:ramtha/helper/custom/custom_loading.dart';
+import 'package:ramtha/helper/custom/no_data_widget.dart';
 import 'package:ramtha/screens/homescreen/home_conrtoller.dart';
 import 'package:ramtha/screens/homescreen/model/posts_response.dart';
 import 'package:ramtha/screens/homescreen/widget/carouselwidget/carousel_slider_controller.dart';
@@ -61,8 +62,12 @@ class HomeScreen extends StatelessWidget {
                   )
                 ],
               ),
-              posts(
-                  controller.posts.posts ?? PostsModel(posts: []), controller),
+              posts(controller.posts.posts ?? PostsModel(posts: []), controller)
+              // (controller.posts.posts?.posts?.isNotEmpty ?? false) &&
+              //         (controller.isLoading == false)
+              //     ? posts(controller.posts.posts ?? PostsModel(posts: []),
+              //         controller)
+              //     : const Center(child: NoDataWidget(title: "لا يوجد ملصقات")),
             ],
           );
         });

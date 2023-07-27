@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,6 +13,7 @@ import '../../helper/custom/custom_loading.dart';
 import '../../helper/custom/custom_text_feild.dart';
 import '../../helper/custom/location_card.dart';
 import '../../helper/custom/user_image.dart';
+import '../../network/api_urls.dart';
 import '../homescreen/model/comments_response.dart';
 import '../homescreen/model/posts_response.dart';
 
@@ -115,49 +118,153 @@ class PostDetailsScreen extends StatelessWidget {
                             const SizedBox(
                               height: 10,
                             ),
-                            SizedBox(
+                            CachedNetworkImage(
+                              height: Get.width - 200,
+
                               width: Get.width,
-                              height: 200,
-                              child: Stack(
+                              imageUrl: ApiUrl.baseUrl + (post.image ?? ""),
+                              fit: BoxFit.cover,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      const Center(
+                                          child: CupertinoActivityIndicator()),
+                              errorWidget: (context, url, error) => Center(
+                                  child: Container(
+                                width: Get.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey.shade100,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: SvgPicture.asset(
+                                  color: AppColors.mainColor.withOpacity(.65),
+                                  // fit: BoxFit.cover,
+                                  post.gender == "ذكر"
+                                      ? AppImages.maleSvg
+                                      : AppImages.femaleSvg,
+                                  height: Get.height / 3.2,
+                                  width: Get.width,
+                                ),
+                              )),
+                            ),
+
+                            Visibility(
+                              visible: (post.latatude?.isNotEmpty ?? false) &&
+                                  (post.longitude?.isNotEmpty ?? false),
+                              child: Column(
                                 children: [
-                                  UserImage(
-                                      radius: 20,
-                                      userImage: post.image,
-                                      gender: post.gender,
-                                      size: Get.width),
-                                  Opacity(
-                                    opacity: .8,
-                                    child: Image.asset(AppImages.blackLine,
-                                        height: 40, width: 45),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  const Row(
+                                    children: [
+                                      Icon(
+                                        Icons.location_on_rounded,
+                                        color: AppColors.red,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        'موقع المقبرة',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ],
+                                  ),
+                                  LocationMapWidget(
+                                      lat: double.parse(post.latatude ?? '0'),
+                                      lng: double.parse(post.longitude ?? '0')),
+                                  const SizedBox(
+                                    height: 20,
                                   ),
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              height: 20,
+                            Visibility(
+                              visible: (post.latatudeCondolencesMaleInfo
+                                          ?.isNotEmpty ??
+                                      false) &&
+                                  (post.latatudeCondolencesMaleInfo
+                                          ?.isNotEmpty ??
+                                      false),
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  const Row(
+                                    children: [
+                                      Icon(
+                                        Icons.location_on_rounded,
+                                        color: AppColors.red,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        'الموقع عزاء الرجال',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ],
+                                  ),
+                                  LocationMapWidget(
+                                      height: 100,
+                                      lat: double.parse(
+                                          post.latatudeCondolencesMaleInfo ??
+                                              '0'),
+                                      lng: double.parse(
+                                          post.longitudeCondolencesMaleInfo ??
+                                              '0')),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
                             ),
-                            const Row(
-                              children: [
-                                Icon(
-                                  Icons.location_on_rounded,
-                                  color: AppColors.red,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  'الموقع',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                              ],
-                            ),
-                            LocationMapWidget(
-                                lat: double.parse(post.latatude ?? '0'),
-                                lng: double.parse(post.longitude ?? '0')),
-                            const SizedBox(
-                              height: 20,
+                            Visibility(
+                              visible: (post.latatudeCondolencesFeMaleInfo
+                                          ?.isNotEmpty ??
+                                      false) &&
+                                  (post.latatudeCondolencesFeMaleInfo
+                                          ?.isNotEmpty ??
+                                      false),
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  const Row(
+                                    children: [
+                                      Icon(
+                                        Icons.location_on_rounded,
+                                        color: AppColors.red,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        'الموقع عزاء النساء',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ],
+                                  ),
+                                  LocationMapWidget(
+                                      height: 100,
+                                      lat: double.parse(
+                                          post.latatudeCondolencesMaleInfo ??
+                                              '0'),
+                                      lng: double.parse(
+                                          post.longitudeCondolencesMaleInfo ??
+                                              '0')),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
                             ),
                             Row(
                               children: [

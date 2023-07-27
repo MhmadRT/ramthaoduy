@@ -10,8 +10,10 @@ import 'package:url_launcher/url_launcher.dart';
 class LocationMapWidget extends StatelessWidget {
   final double lat;
   final double lng;
+  final double? height;
 
-  LocationMapWidget({super.key, required this.lat, required this.lng});
+  LocationMapWidget(
+      {super.key, required this.lat, required this.lng, this.height});
 
   final Set<Marker> _markers = {};
   final Completer<GoogleMapController> _controller = Completer();
@@ -28,7 +30,7 @@ class LocationMapWidget extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(22),
       child: Container(
-        height: 178,
+        height: height ?? 178,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(45)),
         child: Stack(
           children: [

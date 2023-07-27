@@ -92,10 +92,14 @@ class FormDeathController extends GetxController {
     }
     if (selectedDistrict.id == null) {
       return CustomSnackBar.showCustomSnackBar(
-        message: "الرجاء اختيار المحافظة",
+        message: "الرجاء اختيار المنطقة",
       );
     }
-
+    if (burial.text.isEmpty) {
+      return CustomSnackBar.showCustomSnackBar(
+        message: "الرجاء تعبئة النعي/وتفاصيل الدفن",
+      );
+    }
     // if (locationInfo.lng == null || locationInfo.lng == null) {
     //   return CustomSnackBar.showCustomSnackBar(
     //     message: "الرجاء ادخال موقع الدفن",
@@ -120,14 +124,14 @@ class FormDeathController extends GetxController {
     AddDeathsRequest addDeathsRequest = AddDeathsRequest(
       cityId: selectedDistrict.id,
       phoneNumber: theMobileNumberOfTheDeceasedFamily.text,
-      longitude: locationInfo.lat.toString(),
-      latatude: locationInfo.lng.toString(),
+      longitude: locationInfo.lat.toString()??"",
+      latatude: locationInfo.lng.toString()??"",
       latatudeCondolencesFeMaleInfo:
-          locationCondolencesFeMaleInfo.lat.toString(),
+          locationCondolencesFeMaleInfo.lat.toString()??"",
       longitudeCondolencesFeMaleInfo:
-          locationCondolencesFeMaleInfo.lng.toString(),
-      longitudeCondolencesMaleInfo: locationCondolencesMaleInfo.lng.toString(),
-      latatudeCondolencesMaleInfo: locationCondolencesMaleInfo.lat.toString(),
+          locationCondolencesFeMaleInfo.lng.toString()??"",
+      longitudeCondolencesMaleInfo: locationCondolencesMaleInfo.lng.toString()??"",
+      latatudeCondolencesMaleInfo: locationCondolencesMaleInfo.lat.toString()??"",
       birthDate: date.toIso8601String(),
       buryDescription: burial.text,
       deadName: nameDeathFromThreeSection.text,
@@ -135,6 +139,7 @@ class FormDeathController extends GetxController {
       nameOfRequester: mainController.userInfoResponse?.data?.user?.name,
       description: burial.text,
     );
+    print(addDeathsRequest.toJson());
     ApiResponseModel apiResponseModel = await deathFormRepository.addDeaths(
         addDeathsRequest.toJson(), imagePath);
     closeLoading();

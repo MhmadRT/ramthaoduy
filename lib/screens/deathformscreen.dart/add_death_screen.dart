@@ -144,7 +144,7 @@ class FormDeathScreen extends StatelessWidget {
                     required: true,
                   ),
                   CustomDropdown(
-                      isRequired: false,
+                      isRequired: true,
                       label: 'المنطقة',
                       listItems: controller.districts.districts ?? [],
                       selectedItem: controller.selectedDistrict,
@@ -161,8 +161,8 @@ class FormDeathScreen extends StatelessWidget {
                     suffixSvgIconName: "",
                     maxLines: 5,
                     hintText:
-                        "مثال:  وقت الدفن : صلاة الظهر في مسجد خالد بن الوليد",
-                    title: "الدفن",
+                        "لاحول ولا قوة إلا بالله، إنا لله وإنا إليه راجعون، لله ما أخذ ولله ما أعطى وكل شيء عنده بمقدار/ وقت الدفن عند صلاة الظهر في مسجد خالد بن الوليد",
+                    title: "النعي/وتفاصيل الدفن",
                   ),
                   _buildLocation(context, controller),
                   _buildCondolencesMaleLocation(context, controller),
@@ -346,7 +346,8 @@ class FormDeathScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(controller.locationCondolencesFeMaleInfo.streetInfo ?? "",
+                  Text(
+                      controller.locationCondolencesFeMaleInfo.streetInfo ?? "",
                       style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w100,
