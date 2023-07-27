@@ -253,7 +253,7 @@ class MainScreen extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              controller.share("");
+                              controller.share();
                             },
                             child: Row(
                               children: [

@@ -2,11 +2,13 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ramtha/constant/app_colors.dart';
 import 'package:ramtha/constant/app_images.dart';
+import 'package:ramtha/helper/custom/custom_loading.dart';
 import 'package:ramtha/helper/custom/user_image.dart';
 import 'package:ramtha/network/api_urls.dart';
 import 'package:ramtha/screens/homescreen/home_conrtoller.dart';
@@ -201,20 +203,41 @@ class CustomCardInfo extends StatelessWidget {
                               ),
                             );
                           }),
-                          const Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.share,
-                                color: AppColors.mainColor,
-                                size: 17,
+                          InkWell(
+                            onTap: () async {
+                              loading();
+                              await Future.delayed(const Duration(seconds: 1));
+                              await FlutterShare.share(
+                                  title: "وفيات الرمثاء",
+                                  text:
+                                      'أنتقل الي رحمة الله تعالى ${post.deadName}',
+                                  linkUrl: '${ApiUrl.baseUrl}?id=${post.id}',
+                                  chooserTitle: "وفيات الرمثاء");
+                              closeLoading();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                  color: AppColors.whiteColor.withOpacity(0.1)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(7.0),
+                                child: const Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.share,
+                                      color: AppColors.mainColor,
+                                      size: 17,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text("مشاركة",
+                                        style: TextStyle(color: Colors.grey)),
+                                  ],
+                                ),
                               ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text("مشاركة",
-                                  style: TextStyle(color: Colors.grey)),
-                            ],
+                            ),
                           ),
                         ],
                       ),

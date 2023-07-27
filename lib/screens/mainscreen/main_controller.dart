@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:ramtha/screens/mainscreen/main_repository.dart';
 import 'package:ramtha/screens/searchscreen/search_sceen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../helper/custom/topics_dialog.dart';
 import '../../helper/notification_config.dart';
 import '../deathformscreen.dart/add_death_screen.dart';
@@ -54,12 +56,23 @@ class MainController extends GetxController {
     });
   }
 
-  Future<void> share(String? url) async {
+  Future<void> share() async {
+    loading();
+    var  url ='';
+    if (Platform.isAndroid || Platform.isIOS) {
+      final appId = Platform.isAndroid ? 'com.ramtha.dead' : 'com.ramtha.dead';
+       url =  Platform.isAndroid
+           ? "market://details?id=$appId"
+           : "https://apps.apple.com/app/id$appId";
+    }
+    await Future.delayed(const Duration(seconds: 1));
     await FlutterShare.share(
-        title: 'Example share',
-        text: 'Example share text',
-        linkUrl: '$url',
-        chooserTitle: 'Example Chooser Title');
+        title: "وفيات الرمثاء",
+        text:
+        'حمل تطبيق وفيات الرمثاء',
+        linkUrl:url??"",
+        chooserTitle: "وفيات الرمثاء");
+    closeLoading();
   }
 
   getUserData() async {
