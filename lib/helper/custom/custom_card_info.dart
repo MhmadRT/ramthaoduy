@@ -105,7 +105,7 @@ class CustomCardInfo extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Row(
                     children: [
@@ -135,11 +135,11 @@ class CustomCardInfo extends StatelessWidget {
                         fontWeight: FontWeight.normal),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   SizedBox(
                     width: Get.width,
-                    height: 200,
+                    height:140,
                     child: Stack(
                       children: [
                         Hero(
@@ -160,7 +160,7 @@ class CustomCardInfo extends StatelessWidget {
                   ),
                   if (!isReview)
                     Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
+                      padding: const EdgeInsets.only(top: 10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

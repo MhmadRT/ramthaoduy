@@ -235,7 +235,7 @@ class CustomCommentsBottomSheet extends StatelessWidget {
                               userImage: comment?.image,
                               gender: comment?.gender==1?"ذكر":"انثى",
                               radius: 5000,
-                              boxFit: BoxFit.cover,
+                              boxFit: BoxFit.cover,isComment: true,
                               size: 40),
                           const SizedBox(
                             width: 20,

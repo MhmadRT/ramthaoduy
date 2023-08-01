@@ -74,7 +74,7 @@ class CreateAccountScreen extends StatelessWidget {
                         controller: controller.userNameForRegister,
                         isRequired: true,
                         suffixSvgIconName: '',
-                        title: "الأسم المستخدم لتسجيل",
+                        title: "الأسم المستخدم للتسجيل",
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r"\s")),
                           // Deny whitespace characters
@@ -219,7 +219,7 @@ class CreateAccountScreen extends StatelessWidget {
                         height: 40,
                       ),
                       CustomButton(
-                        color: AppColors.blueButtonColor,
+                        color: AppColors.yellow,
                         title: "انشاء حساب",
                         height: 50,
                         colorTitle: AppColors.whiteColor,

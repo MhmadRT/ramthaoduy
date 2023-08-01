@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:ramtha/helper/custom/custom_loading.dart';
@@ -37,6 +39,8 @@ class MainController extends GetxController {
   bool isLoadingUserData = true;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool isLoadingCount = false;
+  bool isAppExiting = false;
+
   List<Widget> screens = [
     const SearchScreen(),
     const FormDeathScreen(),
@@ -45,6 +49,27 @@ class MainController extends GetxController {
   ];
   List<String> title = ["البحث", "اضافة وفاة", "الرئيسية", "الأشعارات"];
   Uri? _latestUri;
+  bool _isAppExiting = false;
+  late Timer _exitTimer;
+
+  Future<bool> onWillPop() async {
+    if (currentIndex == 2) {
+      if (_isAppExiting) {
+        return true;
+      } else {
+        _isAppExiting = true;
+
+        _exitTimer = Timer(const Duration(seconds: 2), () {
+          _isAppExiting = false;
+        });
+        return false;
+      }
+    } else {
+      currentIndex = 2;
+      update();
+    }
+    return false;
+  }
 
   Future<String> getMobileVersion() async {
     return await PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
@@ -58,19 +83,18 @@ class MainController extends GetxController {
 
   Future<void> share() async {
     loading();
-    var  url ='';
+    var url = '';
     if (Platform.isAndroid || Platform.isIOS) {
       final appId = Platform.isAndroid ? 'com.ramtha.dead' : 'com.ramtha.dead';
-       url =  Platform.isAndroid
-           ? "market://details?id=$appId"
-           : "https://apps.apple.com/app/id$appId";
+      url = Platform.isAndroid
+          ? "market://details?id=$appId"
+          : "https://apps.apple.com/app/id$appId";
     }
     await Future.delayed(const Duration(seconds: 1));
     await FlutterShare.share(
         title: "وفيات الرمثاء",
-        text:
-        'حمل تطبيق وفيات الرمثاء',
-        linkUrl:url??"",
+        text: 'حمل تطبيق وفيات الرمثاء',
+        linkUrl: url ?? "",
         chooserTitle: "وفيات الرمثاء");
     closeLoading();
   }

@@ -202,7 +202,7 @@ class PostDetailsScreen extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        'الموقع عزاء الرجال',
+                                        'موقع عزاء الرجال',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
@@ -245,7 +245,7 @@ class PostDetailsScreen extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        'الموقع عزاء النساء',
+                                        'موقع عزاء النساء',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
@@ -665,7 +665,7 @@ class PostDetailsScreen extends StatelessWidget {
                           UserImage(
                               size: 30,
                               radius: 50,
-                              gender: comment?.username,
+                              gender: comment?.gender==1?"ذكر":"انثى",
                               userImage: comment?.username),
                           const SizedBox(
                             width: 20,

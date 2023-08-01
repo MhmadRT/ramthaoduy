@@ -29,49 +29,6 @@
             {
               "client_id": "4906441024-6l4rq5gmithob3op143s7c15didss8to.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "4906441024-38g8cctdgem5tseoc3j5k8tdn52a28ja.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.ramtha.dead"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:4906441024:android:643cbba4ff2272d8eb82a5",
-        "android_client_info": {
-          "package_name": "com.ramtha.dead"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "4906441024-6l4rq5gmithob3op143s7c15didss8to.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDvddl0NmRtiY5gfglEZq6vXaWlOiNXNUQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "4906441024-6l4rq5gmithob3op143s7c15didss8to.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "4906441024-38g8cctdgem5tseoc3j5k8tdn52a28ja.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.ramtha.dead"
-              }
             }
           ]
         }

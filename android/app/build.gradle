@@ -28,7 +28,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 
 android {
-    namespace "com.ramtha.dead"
+    namespace "com.example.ramtha"
     compileSdkVersion 33
     ndkVersion flutter.ndkVersion
 

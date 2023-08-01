@@ -13,11 +13,13 @@ class UserImage extends StatelessWidget {
   final double? size;
   final double? radius;
   final BoxFit? boxFit;
+  final bool? isComment;
 
   const UserImage(
       {Key? key,
       this.gender,
       this.userImage,
+      this.isComment,
       this.size,
       this.radius,
       this.boxFit})
@@ -36,7 +38,18 @@ class UserImage extends StatelessWidget {
             imageUrl: ApiUrl.baseUrl + (userImage ?? ""),
             fit: boxFit,
             progressIndicatorBuilder: (context, url, downloadProgress) =>
-                const Center(child: CupertinoActivityIndicator()),
+                Center(
+                    child: isComment ?? false
+                        ? SvgPicture.asset(
+                            color: AppColors.mainColor.withOpacity(.65),
+                            // fit: BoxFit.cover,
+                            gender == "ذكر"
+                                ? AppImages.maleSvg
+                                : AppImages.femaleSvg,
+                            height: size,
+                            width: size,
+                          )
+                        : const CupertinoActivityIndicator()),
             errorWidget: (context, url, error) => Center(
                 child: Container(
               decoration: BoxDecoration(
@@ -44,7 +57,7 @@ class UserImage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15)),
               child: SvgPicture.asset(
                 color: AppColors.mainColor.withOpacity(.65),
-               // fit: BoxFit.cover,
+                // fit: BoxFit.cover,
                 gender == "ذكر" ? AppImages.maleSvg : AppImages.femaleSvg,
                 height: size,
                 width: size,
