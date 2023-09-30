@@ -20,6 +20,7 @@ class HomeController extends GetxController {
   int inActiveBox = 0;
   bool isVisibleDrop = false;
   bool isVisibleGender = false;
+  Post ?post;
   HomeRepository repository = HomeRepository();
   GetNumberNotReaded getNumberNotReaded = GetNumberNotReaded();
   CreateAccountRepository createAccountRepository = CreateAccountRepository();
@@ -31,22 +32,22 @@ class HomeController extends GetxController {
   DateTime toDate = DateTime.now();
   int selectSexIndex = 1;
   Cities cities = Cities(cities: []);
-  Item selectedCity = Item(name: 'أختر المحافظة',id: '1');
+  Item selectedCity = Item(name: 'أختر المحافظة', id: '1');
   Districts districts = Districts(districts: []);
-  Item selectedDistrict = Item(name: 'أختر المنطقة',);
+  Item selectedDistrict = Item(
+    name: 'أختر المنطقة',
+  );
   Brigades brigades = Brigades(brigades: []);
-  Item selectedBrigade = Item(name: 'أختر الواء',id: '1');
+  Item selectedBrigade = Item(name: 'أختر الواء', id: '1');
   var formatter = DateFormat('dd/MM/yyyy');
   var formatterDots = DateFormat('dd.MM.yyyy');
   int pageNumber = 1;
   int countPerPage = 10;
-  NotificationController notificationController=Get.put(NotificationController());
-
+  NotificationController notificationController =
+      Get.put(NotificationController());
+  TextEditingController textEditingController = TextEditingController();
   bool isMoreLoad = false;
-mmm(){
 
-  loading();
-}
   getPosts() async {
     isLoading = true;
     update();

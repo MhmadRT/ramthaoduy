@@ -18,53 +18,117 @@ class SearchScreen extends StatelessWidget {
     return GetBuilder<SearchScreenController>(
         init: SearchScreenController(),
         builder: (controller) {
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomTextField(
-                      controller: controller.searchController,
-                      isRequired: false,
-                      autoFocus: true,
-                      showTitle: false,
-                      onchange: (v) {
-                        controller.update();
-                      },
-                      suffixSvgIconName: "",
-                      inputType: TextInputType.text,
-                      hintText: "اكتب هنا ...",
-                      title: "البحث",
-                    ),
+          return GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: Scaffold(
+                body: Column(
+              children: [
+                Container(
+                  height: 85,
+                  decoration: const BoxDecoration(
+                      color: AppColors.mainColor,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(15))),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 45,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(Icons.arrow_back_ios,
+                                    color: AppColors.whiteColor, size: 15),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "البحث",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: AppColors.whiteColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  InkWell(
-                    onTap: controller.searchController.text.isNotEmpty
-                        ? () {
-                            controller.getPostsFromSearch();
-                          }
-                        : null,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: controller.searchController.text.isNotEmpty
-                              ? AppColors.mainColor
-                              : AppColors.mainColor.withOpacity(.5),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child:
-                            SvgPicture.asset(AppImages.searchIcon, height: 20),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: CustomTextField(
+                                  controller: controller.searchController,
+                                  isRequired: false,
+                                  autoFocus: true,
+                                  showTitle: false,
+                                  onchange: (v) {
+                                    controller.update();
+                                  },
+                                  suffixSvgIconName: "",
+                                  inputType: TextInputType.text,
+                                  hintText: "اكتب هنا ...",
+                                  title: "البحث",
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              InkWell(
+                                onTap: controller.searchController.text.isNotEmpty
+                                    ? () {
+                                        controller.getPostsFromSearch();
+                                      }
+                                    : null,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color:
+                                          controller.searchController.text.isNotEmpty
+                                              ? AppColors.mainColor
+                                              : AppColors.mainColor.withOpacity(.5),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: SvgPicture.asset(AppImages.searchIcon,
+                                        height: 20),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          if (controller.isLoading) loading(),
+                          posts(controller.posts?.posts ?? PostsModel(posts: []),
+                              controller),
+                        ],
                       ),
                     ),
-                  )
-                ],
-              ),
-              if (controller.isLoading) loading(),
-              posts(
-                  controller.posts?.posts ?? PostsModel(posts: []), controller),
-            ],
+                  ),
+                )
+              ],
+            )),
           );
         });
   }
@@ -92,10 +156,12 @@ class SearchScreen extends StatelessWidget {
         shrinkWrap: true,
         itemCount: postsModel.posts?.length,
         itemBuilder: (context, index) {
-          return (postsModel.posts?.length??0)>0?CustomCardInfo(
-            isReview: false,
-            post: postsModel.posts![index],
-          ):const NoDataWidget();
+          return (postsModel.posts?.length ?? 0) > 0
+              ? CustomCardInfo(
+                  isReview: false,
+                  post: postsModel.posts![index],
+                )
+              : const NoDataWidget();
         });
   }
 }

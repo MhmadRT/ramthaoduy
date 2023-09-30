@@ -9,6 +9,7 @@ import 'package:ramtha/screens/mainscreen/main_controller.dart';
 import 'package:ramtha/screens/post_detealis/post_controller.dart';
 import '../../constant/app_images.dart';
 import '../../constant/const_var.dart';
+import '../../helper/custom/custom_button.dart';
 import '../../helper/custom/custom_loading.dart';
 import '../../helper/custom/custom_text_feild.dart';
 import '../../helper/custom/location_card.dart';
@@ -16,10 +17,14 @@ import '../../helper/custom/user_image.dart';
 import '../../network/api_urls.dart';
 import '../homescreen/model/comments_response.dart';
 import '../homescreen/model/posts_response.dart';
+import '../reviewsscreen/review_controller.dart';
 
 class PostDetailsScreen extends StatelessWidget {
-  const PostDetailsScreen({Key? key, required this.post}) : super(key: key);
+  const PostDetailsScreen(
+      {Key? key, required this.post, required this.isReviewPost})
+      : super(key: key);
   final Post post;
+  final bool? isReviewPost;
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +125,6 @@ class PostDetailsScreen extends StatelessWidget {
                             ),
                             CachedNetworkImage(
                               height: Get.width - 200,
-
                               width: Get.width,
                               imageUrl: ApiUrl.baseUrl + (post.image ?? ""),
                               fit: BoxFit.cover,
@@ -145,126 +149,170 @@ class PostDetailsScreen extends StatelessWidget {
                                 ),
                               )),
                             ),
-
                             Visibility(
-                              visible: (post.latatude?.isNotEmpty ?? false) &&
-                                  (post.longitude?.isNotEmpty ?? false),
+                              visible: isReviewPost == true,
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const SizedBox(
-                                    height: 20,
+                                    height: 10,
                                   ),
-                                  const Row(
-                                    children: [
-                                      Icon(
-                                        Icons.location_on_rounded,
-                                        color: AppColors.red,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        'موقع المقبرة',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      ),
-                                    ],
+                                  const Text(
+                                    'صورة الهوية',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
                                   ),
-                                  LocationMapWidget(
-                                      lat: double.parse(post.latatude ?? '0'),
-                                      lng: double.parse(post.longitude ?? '0')),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
+                                  CachedNetworkImage(
+                                      height: Get.width - 200,
+                                      width: Get.width,
+                                      imageUrl:
+                                          ApiUrl.baseUrl + (post.idImage ?? ""),
+                                      fit: BoxFit.cover,
+                                      progressIndicatorBuilder: (context, url,
+                                              downloadProgress) =>
+                                          const Center(
+                                              child:
+                                                  CupertinoActivityIndicator()),
+                                      errorWidget: (context, url, error) =>
+                                          Center(
+                                            child: Container(
+                                              width: Get.width,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey.shade100,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: SizedBox(
+                                                height: Get.height / 3.2,
+                                                width: Get.width,
+                                                child: const Icon(Icons.error),
+                                              ),
+                                            ),
+                                          )),
                                 ],
                               ),
                             ),
-                            Visibility(
-                              visible: (post.latatudeCondolencesMaleInfo
-                                          ?.isNotEmpty ??
-                                      false) &&
-                                  (post.latatudeCondolencesMaleInfo
-                                          ?.isNotEmpty ??
-                                      false),
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const Row(
-                                    children: [
-                                      Icon(
-                                        Icons.location_on_rounded,
-                                        color: AppColors.red,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        'موقع عزاء الرجال',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      ),
-                                    ],
-                                  ),
-                                  LocationMapWidget(
-                                      height: 100,
-                                      lat: double.parse(
-                                          post.latatudeCondolencesMaleInfo ??
-                                              '0'),
-                                      lng: double.parse(
-                                          post.longitudeCondolencesMaleInfo ??
-                                              '0')),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                ],
-                              ),
+                            SizedBox(
+                              height: 20,
                             ),
-                            Visibility(
-                              visible: (post.latatudeCondolencesFeMaleInfo
-                                          ?.isNotEmpty ??
-                                      false) &&
-                                  (post.latatudeCondolencesFeMaleInfo
-                                          ?.isNotEmpty ??
-                                      false),
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 20,
+                            const Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'المواقع',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
                                   ),
-                                  const Row(
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              height: 100,
+                              child: ListView(
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                  scrollDirection: Axis.horizontal,
+                                  physics: const BouncingScrollPhysics(),
+                                  children: [
+                                    Visibility(
+                                      visible: (post
+                                                  .latatude?.isNotEmpty ??
+                                              false) &&
+                                          (post.longitude?.isNotEmpty ??
+                                              false),
+                                      child: LocationMapWidget(
+                                          title: "موقع المقبرة",
+                                          width: 150,
+                                          lat: double.parse(
+                                              post.latatude ?? '0'),
+                                          lng: double.parse(
+                                              post.longitude ?? '0')),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Visibility(
+                                      visible: (post
+                                                  .latatudeCondolencesMaleInfo
+                                                  ?.isNotEmpty ??
+                                              false) &&
+                                          (post.latatudeCondolencesMaleInfo
+                                                  ?.isNotEmpty ??
+                                              false),
+                                      child: LocationMapWidget(
+                                          width: 150,
+                                          title: "موقع عزاء الرجال",
+                                          lat: double.parse(
+                                              post.latatudeCondolencesMaleInfo ??
+                                                  '0'),
+                                          lng: double.parse(
+                                              post.longitudeCondolencesMaleInfo ??
+                                                  '0')),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Visibility(
+                                      visible: (post
+                                                  .latatudeCondolencesFeMaleInfo
+                                                  ?.isNotEmpty ??
+                                              false) &&
+                                          (post.latatudeCondolencesFeMaleInfo
+                                                  ?.isNotEmpty ??
+                                              false),
+                                      child: LocationMapWidget(
+                                          width: 150,
+                                          title: "موقع عزاء النساء",
+                                          lat: double.parse(
+                                              post.latatudeCondolencesFeMaleInfo ??
+                                                  '0'),
+                                          lng: double.parse(
+                                              post.longitudeCondolencesFeMaleInfo ??
+                                                  '0')),
+                                    ),
+                                  ]),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  child: Row(
                                     children: [
                                       Icon(
-                                        Icons.location_on_rounded,
-                                        color: AppColors.red,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
+                                        Icons.people_outline_sharp,
+                                        color: AppColors.mainColor,
                                       ),
                                       Text(
-                                        'موقع عزاء النساء',
+                                        'درجة قاربة الناشر بالمتوفي',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 18),
+                                            fontSize: 16),
                                       ),
                                     ],
                                   ),
-                                  LocationMapWidget(
-                                      height: 100,
-                                      lat: double.parse(
-                                          post.latatudeCondolencesMaleInfo ??
-                                              '0'),
-                                      lng: double.parse(
-                                          post.longitudeCondolencesMaleInfo ??
-                                              '0')),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                ],
-                              ),
+                                ),
+                                Text(
+                                  post.relationship ?? "",
+                                  maxLines: 3,
+                                  style: const TextStyle(
+                                      color: AppColors.blueButtonColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
                             ),
                             Row(
                               children: [
@@ -279,7 +327,7 @@ class PostDetailsScreen extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        'رقم الهاتف',
+                                        'رقم الهاتف اهل المتوفي',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
@@ -443,84 +491,132 @@ class PostDetailsScreen extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  AppImages.commentIcon,
-                                  height: 17,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                const Text(
-                                  'التعليقات',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            GetBuilder<PostController>(
-                                init: PostController(post),
-                                builder: (controller) {
-                                  return controller.isLoadingComment
-                                      ? loading()
-                                      : commentsWidget(
-                                          controller.commentPosts, controller);
-                                }),
-                            GetBuilder<PostController>(
-                                init: PostController(post),
-                                builder: (controller) {
-                                  return Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                            Visibility(
+                              visible: isReviewPost == false,
+                              child: Column(
+                                children: [
+                                  Row(
                                     children: [
-                                      Expanded(
-                                          child: CustomTextField(
-                                        showTitle: false,
-                                        hintText: 'أضف تعليق',
-                                        maxLines: 1,
-                                        controller: controller.comment,
-                                        onchange: (v) {
-                                          controller.update();
-                                        },
-                                      )),
-                                      const SizedBox(
-                                        width: 20,
+                                      SvgPicture.asset(
+                                        AppImages.commentIcon,
+                                        height: 17,
                                       ),
-                                      InkWell(
-                                        onTap:
-                                            controller.comment.text.isNotEmpty
-                                                ? () {
-                                                    controller.addComment();
-                                                  }
-                                                : null,
-                                        child: Container(
-                                          height: 45,
-                                          width: 45,
-                                          decoration: BoxDecoration(
-                                              color: controller
-                                                      .comment.text.isNotEmpty
-                                                  ? AppColors.mainColor
-                                                  : AppColors.mainColor
-                                                      .withOpacity(.5),
-                                              borderRadius:
-                                                  BorderRadius.circular(12)),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Center(
-                                                child: Icon(
-                                              Icons.send,
-                                              color: AppColors.whiteColor,
-                                            )),
-                                          ),
-                                        ),
-                                      )
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      const Text(
+                                        'التعليقات',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
                                     ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  GetBuilder<PostController>(
+                                      init: PostController(post),
+                                      builder: (controller) {
+                                        return controller.isLoadingComment
+                                            ? loading()
+                                            : commentsWidget(
+                                                controller.commentPosts,
+                                                controller);
+                                      }),
+                                  GetBuilder<PostController>(
+                                      init: PostController(post),
+                                      builder: (controller) {
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                                child: CustomTextField(
+                                              showTitle: false,
+                                              hintText: 'أضف تعليق',
+                                              maxLines: 1,
+                                              controller: controller.comment,
+                                              onchange: (v) {
+                                                controller.update();
+                                              },
+                                            )),
+                                            const SizedBox(
+                                              width: 20,
+                                            ),
+                                            InkWell(
+                                              onTap: controller
+                                                      .comment.text.isNotEmpty
+                                                  ? () {
+                                                      controller.addComment();
+                                                    }
+                                                  : null,
+                                              child: Container(
+                                                height: 45,
+                                                width: 45,
+                                                decoration: BoxDecoration(
+                                                    color: controller.comment
+                                                            .text.isNotEmpty
+                                                        ? AppColors.mainColor
+                                                        : AppColors.mainColor
+                                                            .withOpacity(.5),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12)),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Center(
+                                                      child: Icon(
+                                                    Icons.send,
+                                                    color: AppColors.whiteColor,
+                                                  )),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      }),
+                                ],
+                              ),
+                            ),
+                            GetBuilder<ReviewController>(
+                                init: ReviewController(),
+                                builder: (controller) {
+                                  return Visibility(
+                                    visible: isReviewPost == true,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        CustomButton(
+                                            color: AppColors.red,
+                                            title: "رفض",
+                                            colorTitle: AppColors.whiteColor,
+                                            height: 40,
+                                            pressed: () {
+                                              controller.approveOrReject(
+                                                  status: "2",
+                                                  id: post.id.toString());
+                                            },
+                                            width: Get.width / 2.3),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        CustomButton(
+                                            color: AppColors.mainColor,
+                                            title: " قبول",
+                                            colorTitle: AppColors.whiteColor,
+                                            height: 40,
+                                            pressed: () {
+                                              controller.approveOrReject(
+                                                  status: "1",
+                                                  id: post.id.toString());
+                                            },
+                                            width: Get.width / 2.3),
+                                      ],
+                                    ),
                                   );
                                 }),
                           ],
@@ -665,7 +761,7 @@ class PostDetailsScreen extends StatelessWidget {
                           UserImage(
                               size: 30,
                               radius: 50,
-                              gender: comment?.gender==1?"ذكر":"انثى",
+                              gender: comment?.gender == 1 ? "ذكر" : "انثى",
                               userImage: comment?.username),
                           const SizedBox(
                             width: 20,

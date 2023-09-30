@@ -17,6 +17,7 @@ class CustomTextField<T> extends StatefulWidget {
       this.autoFocus,
       this.lightLabel,
       this.inputType,
+      this.maxLength,
       this.suffixIcon,
       this.showTitle,
       this.isSecure,
@@ -27,6 +28,7 @@ class CustomTextField<T> extends StatefulWidget {
   final TextEditingController? controller;
   final String? hintText;
   final int? maxLines;
+  final int? maxLength;
   final String? title;
   final bool? isRequired;
   final bool? isSecure;
@@ -67,6 +69,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ),
         ),
         TextFormField(
+          maxLength: widget.maxLength,
           maxLines: widget.isSecure==true?1:widget.maxLines,
           autofocus: widget.autoFocus ?? false,
           keyboardType: widget.inputType,
@@ -76,6 +79,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           obscureText: widget.isSecure ?? false,
           inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
+            counterStyle: TextStyle(color: Colors.white),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             filled: true,

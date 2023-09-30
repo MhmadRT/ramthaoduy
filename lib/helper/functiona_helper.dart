@@ -11,7 +11,7 @@ class FunctionsHelper {
     Post? post = await PostRepository().getPostDetailsByID(postID);
     closeLoading();
     if (post != null) {
-      Get.to(PostDetailsScreen(post: post));
+      Get.to(PostDetailsScreen(post: post,isReviewPost: false,));
     }
   }
 }

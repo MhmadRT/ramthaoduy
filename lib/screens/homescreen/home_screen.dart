@@ -13,9 +13,12 @@ import 'package:ramtha/screens/homescreen/home_conrtoller.dart';
 import 'package:ramtha/screens/homescreen/model/posts_response.dart';
 import 'package:ramtha/screens/homescreen/widget/carouselwidget/carousel_slider_controller.dart';
 import 'package:ramtha/screens/homescreen/widget/filtter_bottom_sheet.dart';
+import 'package:ramtha/screens/searchscreen/search_sceen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../helper/custom/custom_text_feild.dart';
 import '../../network/api_urls.dart';
+import '../mainscreen/main_controller.dart';
 import 'widget/carouselwidget/carousel_slider_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -28,6 +31,51 @@ class HomeScreen extends StatelessWidget {
         builder: (controller) {
           return Column(
             children: [
+              Row(
+                children: [
+                  GetBuilder<MainController>(
+                      init: MainController(),
+                      builder: (mainController) {
+                        return Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.to(()=>const SearchScreen());
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: Colors.grey)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 8),
+                                child: Row(children: [
+                                  SvgPicture.asset(
+                                    AppImages.searchIcon,
+                                    color: Colors.grey,
+                                    height: 15,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  const Text("بحث",
+                                      style: TextStyle(color: Colors.grey)),
+                                  const Expanded(child: SizedBox()),
+                                  const Icon(
+                                    Icons.filter_list_outlined,
+                                    size: 20,
+                                    color: Colors.grey,
+                                  )
+                                ]),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                ],
+              ),
+              const SizedBox(
+                height: 15,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

@@ -17,11 +17,13 @@ class AddDeathsRequest {
   String? latatudeCondolencesFeMaleInfo;
   String? longitudeCondolencesFeMaleInfo;
   String? description;
+  String? relationship;
   String? phoneNumber;
   String? nameOfRequester;
 
   AddDeathsRequest({
     this.cityId,
+    this.relationship,
     this.latatudeCondolencesMaleInfo,
     this.longitudeCondolencesMaleInfo,
     this.latatudeCondolencesFeMaleInfo,
@@ -39,6 +41,7 @@ class AddDeathsRequest {
 
   Map<String, String> toJson() => {
         "city_id": cityId ?? "",
+        "relationship": relationship ?? "",
         "latatudeCondolencesMaleInfo": latatudeCondolencesMaleInfo ?? "",
         "longitudeCondolencesMaleInfo": longitudeCondolencesMaleInfo ?? "",
         "latatudeCondolencesFeMaleInfo": latatudeCondolencesFeMaleInfo ?? "",

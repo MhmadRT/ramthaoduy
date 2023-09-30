@@ -32,8 +32,8 @@ class FormDeathScreen extends StatelessWidget {
                     controller: controller.nameDeathFromThreeSection,
                     isRequired: true,
                     suffixSvgIconName: "",
-                    hintText: "مثال: محمد احمد رمضان",
-                    title: "الأسم الثلاثي للشخص المتوفى",
+                    hintText: "مثال: محمد احمد مراد رمضان",
+                    title: "الأسم الرباعي للشخص المتوفى",
                   ),
                   _buildSelectSex(controller),
                   Column(
@@ -152,6 +152,176 @@ class FormDeathScreen extends StatelessWidget {
                         controller.selectedDistrict = v;
                         controller.update();
                       }),
+                  Column(
+                    children: [
+                      const Row(
+                        children: [
+                          Text(
+                            "صورة الهوية لمقدم النعي",
+                            style: TextStyle(
+                                color: AppColors.mainColor,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            "*",
+                            style: TextStyle(
+                                color: AppColors.red,
+                                fontWeight: FontWeight.w500),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: Get.width,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: AppColors.editTextColor),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(children: [
+                                      if (controller.imageCard?.path == null)
+                                        const Expanded(child: Text("")),
+                                      if (controller.imageCard?.path != null)
+                                        Expanded(
+                                            child: Row(
+                                          children: [
+                                            if (controller.imageCard?.path !=
+                                                null)
+                                              Text(controller.imageCard!.path
+                                                  .toString()
+                                                  .substring(80)),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                controller.imageCard = null;
+                                                controller.update();
+                                              },
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                    color: AppColors.red,
+                                                    shape: BoxShape.circle),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.all(2.0),
+                                                  child: Icon(Icons.close,
+                                                      color:
+                                                          AppColors.whiteColor,
+                                                      size: 15),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )),
+                                      InkWell(
+                                        onTap: () {
+                                          controller.imgFromGallery();
+                                        },
+                                        child: const Icon(Icons.image,
+                                            color: Colors.grey),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      InkWell(
+                                        child: const Icon(
+                                            Icons.camera_alt_outlined,
+                                            color: Colors.grey),
+                                        onTap: () {
+                                          controller.imgFromCamera();
+                                        },
+                                      ),
+                                    ]),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                const Text(
+                                  "*",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "سنقوم بازالة صورة الهوية من الخادم حال مرور 30 يوم على نشر النعي",
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey.withOpacity(.8),
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      CustomDropdown(
+                          isRequired: true,
+                          label: 'صلة قرابة الناشر بالمتوفي',
+                          listItems: controller.relationship.relationship ?? [],
+                          selectedItem: controller.selectedDegreeOfKinship,
+                          onSelected: (v) {
+                            controller.selectedDegreeOfKinship = v;
+                            controller.update();
+                          }),
+                      const SizedBox(height: 5,),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                const Text(
+                                  "*",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "يجب ان يكون المتوفى ضمن احد الخيارات المذكورين في قائمة صلة القرابة",
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey.withOpacity(.8),
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   const SizedBox(
                     height: 40,
                   ),

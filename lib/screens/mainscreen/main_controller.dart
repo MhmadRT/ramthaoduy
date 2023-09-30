@@ -21,6 +21,7 @@ import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../helper/custom/topics_dialog.dart';
 import '../../helper/notification_config.dart';
+import '../category/category_screen.dart';
 import '../deathformscreen.dart/add_death_screen.dart';
 import '../homescreen/home_conrtoller.dart';
 import '../homescreen/home_repository.dart';
@@ -42,12 +43,13 @@ class MainController extends GetxController {
   bool isAppExiting = false;
 
   List<Widget> screens = [
-    const SearchScreen(),
+    // const SearchScreen(),
+    const CategoryScreen(),
     const FormDeathScreen(),
     const HomeScreen(),
     const NotificationScreen()
   ];
-  List<String> title = ["البحث", "اضافة وفاة", "الرئيسية", "الأشعارات"];
+  List<String> title = ["الخدمات", "اضافة وفاة", "الرئيسية", "الأشعارات"];
   Uri? _latestUri;
   bool _isAppExiting = false;
   late Timer _exitTimer;

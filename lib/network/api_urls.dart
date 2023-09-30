@@ -12,9 +12,12 @@ class ApiUrl {
   static const getCities = '${apiUrl}get_cities';
   static const getBrigades = '${apiUrl}get_brigades';
   static const getDistricts = '${apiUrl}get_districts';
+  static const degreeOfKinship = '${apiUrl}get_relationships';
   static const getDeaths = '${apiUrl}get_deaths';
   static const getNotifications = '${apiUrl}get_user_notifications';
   static const numberNumberReaded = '${apiUrl}number_not_readed';
+  static const getMainCategory = '${apiUrl}get_main_categories';
+  static const getServiceClassification = '${apiUrl}get_service_classification';
   static const readNotification = '${apiUrl}read_notification';
   static const getBanners = '${apiUrl}get_banners';
   static const getPaddingDeaths = '${apiUrl}get_pending_deaths';
@@ -24,5 +27,6 @@ class ApiUrl {
   static const rate = '${apiUrl}add_note';
   static const addComment = '${apiUrl}add_comment';
   static const deleteComment = '${apiUrl}delete_comment';
+  static const clickAction = '${apiUrl}click_action';
   static const forgetPassword = '${apiUrl}forgot_password';
 }

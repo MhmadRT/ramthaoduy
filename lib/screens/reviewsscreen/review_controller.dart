@@ -16,6 +16,7 @@ class ReviewController extends GetxController {
   bool isLoading = true;
   ScrollController? scrollController;
 
+
   getPosts() async {
     isLoading = true;
     update();
@@ -56,10 +57,13 @@ class ReviewController extends GetxController {
       if (value.status == '1') {
         getPosts();
         Get.dialog(SuccessDialog(
+          isFromReview: true,
           massage: status == "1"
               ? " تم القبول ${value.message}"
               : " تم الرفض ${value.message}",
         ));
+
+        update();
       } else {
         CustomSnackBar.showCustomSnackBar(
           duration: const Duration(seconds: 1),

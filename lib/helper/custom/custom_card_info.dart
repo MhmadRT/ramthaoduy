@@ -41,7 +41,7 @@ class CustomCardInfo extends StatelessWidget {
         padding: const EdgeInsets.only(top: 3, bottom: 0, right: 0, left: 0),
         child: InkWell(
           onTap: () {
-            Get.to(PostDetailsScreen(post: post));
+            Get.to(PostDetailsScreen(post: post,isReviewPost: isReview,));
           },
           child: Container(
             decoration: BoxDecoration(

@@ -6,8 +6,9 @@ import 'package:ramtha/constant/app_images.dart';
 import 'package:ramtha/helper/custom/custom_button.dart';
 
 class SuccessDialog extends StatelessWidget {
-  const SuccessDialog({Key? key, this.massage}) : super(key: key);
+  const SuccessDialog({Key? key, this.massage,this.isFromReview}) : super(key: key);
   final String? massage;
+  final bool? isFromReview;
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +48,14 @@ class SuccessDialog extends StatelessWidget {
                         title: "اغلاق",
                         height: 40,
                         colorTitle: AppColors.whiteColor,
-                        pressed: () {
-                          Get.back();
-                        })
+                        pressed: isFromReview==null
+                            ? () {
+                                Get.back();
+                              }
+                            : () {
+                                Get.back();
+                                Get.back();
+                              })
                   ]),
                 ),
               ),

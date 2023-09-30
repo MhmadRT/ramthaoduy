@@ -11,9 +11,11 @@ class LocationMapWidget extends StatelessWidget {
   final double lat;
   final double lng;
   final double? height;
+  final double? width;
+  final String? title;
 
   LocationMapWidget(
-      {super.key, required this.lat, required this.lng, this.height});
+      {super.key, required this.lat, required this.lng, this.height,this.title,this.width});
 
   final Set<Marker> _markers = {};
   final Completer<GoogleMapController> _controller = Completer();
@@ -28,9 +30,10 @@ class LocationMapWidget extends StatelessWidget {
     CameraPosition initialLocation =
         CameraPosition(zoom: 14, bearing: 30, target: pinPosition);
     return ClipRRect(
-      borderRadius: BorderRadius.circular(22),
+      borderRadius: BorderRadius.circular(15),
       child: Container(
         height: height ?? 178,
+        width: width ?? Get.width,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(45)),
         child: Stack(
           children: [
@@ -74,14 +77,14 @@ class LocationMapWidget extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                         decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
+                            color: AppColors.mainColor,
                             borderRadius: BorderRadius.circular(7)),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
+                        child:   Padding(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 5),
                           child: Text(
-                            'اذهب إلى الموقع',
-                            style: TextStyle(
+                            title??"اذهب الى الموقع",
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12),

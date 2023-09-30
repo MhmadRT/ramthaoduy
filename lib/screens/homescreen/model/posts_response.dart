@@ -56,6 +56,7 @@ class Post {
   final String? city;
   final int? numberOfComments;
   final String? image;
+  final String? idImage;
   final int? status;
   final String? gender;
   final String? userImage;
@@ -63,6 +64,7 @@ class Post {
   final String? buryDescription;
   final String? latatude;
   final String? longitude;
+  final String? relationship;
   final String? description;
   final String? phoneNumber;
   final String? nameOfRequester;
@@ -86,6 +88,8 @@ class Post {
     this.city,
     this.numberOfComments,
     this.image,
+    this.idImage,
+    this.relationship,
     this.gender,
     this.buryDescription,
     this.latatude,
@@ -104,7 +108,9 @@ class Post {
     latatudeCondolencesFeMaleInfo: json["latatudeCondolencesFeMaleInfo"],
     longitudeCondolencesFeMaleInfo: json["longitudeCondolencesFeMaleInfo"],
     userImage: json["user_image"],
+    relationship: json["relationship"],
     userGender: json["user_image"],
+    idImage: json["id_image"],
     status: json["status"],
     deadName: json["dead_name"],
     createdDate: json["created_date"] == null ? null : DateTime.parse(json["created_date"]),

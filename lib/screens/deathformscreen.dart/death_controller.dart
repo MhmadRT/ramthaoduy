@@ -1,10 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:ramtha/constant/app_colors.dart';
-import 'package:ramtha/screens/homescreen/home_conrtoller.dart';
 import '../../helper/custom/custom_drop_down.dart';
 import '../../helper/custom/custom_loading.dart';
 import '../../helper/custom/custom_sucsess_dialog.dart';
@@ -13,6 +12,7 @@ import '../../network/api_response_model.dart';
 import '../createaccountscreen/create_account_repository.dart';
 import '../createaccountscreen/models/brigades.dart';
 import '../createaccountscreen/models/cities.dart';
+import '../createaccountscreen/models/degree_of_kinship_model.dart';
 import '../createaccountscreen/models/districts.dart';
 import '../locationscreen/location_screen.dart';
 import '../mainscreen/main_controller.dart';
@@ -45,17 +45,42 @@ class FormDeathController extends GetxController {
     id: '1',
   );
   Districts districts = Districts(districts: []);
+  Relationship relationship = Relationship(relationship: []);
   Item selectedDistrict = Item(name: 'أختر المنطقة');
+  Item selectedDegreeOfKinship = Item(name: 'أختر درجة القرابة');
   Brigades brigades = Brigades(brigades: []);
   Item selectedBrigade = Item(name: 'أختر الواء', id: '1');
   final formKey = GlobalKey<FormState>();
   XFile? imagePath;
+  late ImagePicker imagePicker;
+  File? imageCard;
+  ScrollController scrollController = ScrollController();
 
   @override
   void onInit() async {
+    imagePicker = ImagePicker();
     // TODO: implement onInit
     Future.delayed(Duration.zero).then((value) => getDistrict());
+    Future.delayed(Duration.zero).then((value) => getDegreeOfKinship());
+
     super.onInit();
+  }
+
+  imgFromCamera() async {
+    XFile? pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      imageCard = File(pickedFile.path);
+    }
+    update();
+  }
+
+  imgFromGallery() async {
+    XFile? pickedFile =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      imageCard = File(pickedFile.path);
+    }
+    update();
   }
 
   bool hasThreeSpaces(String text) {
@@ -66,7 +91,7 @@ class FormDeathController extends GetxController {
         spaceCount++;
       }
 
-      if (spaceCount >= 2) {
+      if (spaceCount >= 3) {
         return true;
       }
     }
@@ -82,7 +107,7 @@ class FormDeathController extends GetxController {
     }
     if (!hasThreeSpaces(nameDeathFromThreeSection.text)) {
       return CustomSnackBar.showCustomSnackBar(
-        message: "الرجاء ادخال اسم المتوفي/ة من ثلاث مقاطع",
+        message: "الرجاء ادخال اسم المتوفي/ة من اربع مقاطع",
       );
     }
     if (date.isAfter(DateTime.now())) {
@@ -93,6 +118,11 @@ class FormDeathController extends GetxController {
     if (selectedDistrict.id == null) {
       return CustomSnackBar.showCustomSnackBar(
         message: "الرجاء اختيار المنطقة",
+      );
+    }
+    if (imageCard == null) {
+      return CustomSnackBar.showCustomSnackBar(
+        message: "الرجاء ادخال صورة هوية مقدم النعي",
       );
     }
     if (burial.text.isEmpty) {
@@ -123,15 +153,18 @@ class FormDeathController extends GetxController {
     loading();
     AddDeathsRequest addDeathsRequest = AddDeathsRequest(
       cityId: selectedDistrict.id,
+      relationship: selectedDegreeOfKinship.id,
       phoneNumber: theMobileNumberOfTheDeceasedFamily.text,
-      longitude: locationInfo.lat.toString()??"",
-      latatude: locationInfo.lng.toString()??"",
+      longitude: locationInfo.lat.toString() ?? "",
+      latatude: locationInfo.lng.toString() ?? "",
       latatudeCondolencesFeMaleInfo:
-          locationCondolencesFeMaleInfo.lat.toString()??"",
+          locationCondolencesFeMaleInfo.lat.toString() ?? "",
       longitudeCondolencesFeMaleInfo:
-          locationCondolencesFeMaleInfo.lng.toString()??"",
-      longitudeCondolencesMaleInfo: locationCondolencesMaleInfo.lng.toString()??"",
-      latatudeCondolencesMaleInfo: locationCondolencesMaleInfo.lat.toString()??"",
+          locationCondolencesFeMaleInfo.lng.toString() ?? "",
+      longitudeCondolencesMaleInfo:
+          locationCondolencesMaleInfo.lng.toString() ?? "",
+      latatudeCondolencesMaleInfo:
+          locationCondolencesMaleInfo.lat.toString() ?? "",
       birthDate: date.toIso8601String(),
       buryDescription: burial.text,
       deadName: nameDeathFromThreeSection.text,
@@ -139,9 +172,26 @@ class FormDeathController extends GetxController {
       nameOfRequester: mainController.userInfoResponse?.data?.user?.name,
       description: burial.text,
     );
-    print(addDeathsRequest.toJson());
+    //
+
+    var body = addDeathsRequest.toJson();
+    if (locationInfo.lng == null) {
+      body.remove("longitude");
+      body.remove("latatude");
+    }
+    if (locationCondolencesMaleInfo.lng == null) {
+      body.remove("latatudeCondolencesMaleInfo");
+      body.remove("longitudeCondolencesMaleInfo");
+    }
+    if (locationCondolencesFeMaleInfo.lng == null) {
+      body.remove("latatudeCondolencesFeMaleInfo");
+      body.remove("longitudeCondolencesFeMaleInfo");
+    }
+
+    // print(body);
     ApiResponseModel apiResponseModel = await deathFormRepository.addDeaths(
-        addDeathsRequest.toJson(), imagePath);
+        body, imagePath, XFile(imageCard!.path));
+
     closeLoading();
 
     Get.dialog(SuccessDialog(
@@ -183,6 +233,15 @@ class FormDeathController extends GetxController {
     districts = Districts(districts: []);
     districts =
         await repository.getDistricts(brigadeId: selectedBrigade.id ?? "");
+    update();
+    closeLoading();
+  }
+
+  getDegreeOfKinship() async {
+    loading();
+    selectedDegreeOfKinship = Item(name: 'أختر درجة القرابة');
+    relationship = Relationship(relationship: []);
+    relationship = await repository.getDegreeOfKinship();
     update();
     closeLoading();
   }

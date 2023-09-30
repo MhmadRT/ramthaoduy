@@ -56,13 +56,13 @@ class CreateAccountScreen extends StatelessWidget {
                         controller: controller.userNameFromThreeSection,
                         isRequired: true,
                         suffixSvgIconName: '',
-                        title: "الأسم من ثلاث مقاطع",
-                        hintText: 'محمد احمد علي',
+                        title: "الأسم من اربع مقاطع",
+                        hintText: 'محمد احمد علي رمضان',
                         lightLabel: true,
                         validator: (v) {
-                          if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          if (v?.isEmpty ?? true) return 'الحقل فارغ';
                           if (!controller.hasThreeSpaces(v ?? "")) {
-                            return "الرجاء ادخال الأسم من ثلاث مقاطع";
+                            return "الرجاء ادخال الأسم من اربع مقاطع";
                           }
                           return null;
                         },
@@ -82,7 +82,31 @@ class CreateAccountScreen extends StatelessWidget {
                         hintText: 'user123',
                         lightLabel: true,
                         validator: (v) {
-                          if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          if (v?.isEmpty ?? true) return 'الحقل فارغ';
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomTextField<String>(
+                        maxLength: 10,
+                        controller: controller.idNumber,
+                        inputType: TextInputType.number,
+                        isRequired: true,
+                        suffixSvgIconName: '',
+                        title: "الرقم الوطني",
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r"\s")),
+                          // Deny whitespace characters
+                        ],
+                        hintText: '',
+                        lightLabel: true,
+                        validator: (v) {
+                          if (v?.isEmpty ?? true) return 'الحقل فارغ';
+                          if ((v?.length ?? 0) < 10) {
+                            return 'يجب ان يكون الرقم الوطني مكون من 10 ارقام';
+                          }
                           return null;
                         },
                       ),
@@ -101,7 +125,7 @@ class CreateAccountScreen extends StatelessWidget {
                         hintText: 'example@gmail.com',
                         lightLabel: true,
                         validator: (v) {
-                          if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          if (v?.isEmpty ?? true) return 'الحقل فارغ';
                           if (!GetUtils.isEmail(v ?? '')) {
                             return 'البريد الاكتروني غير صحيح';
                           }
@@ -117,6 +141,7 @@ class CreateAccountScreen extends StatelessWidget {
                         suffixSvgIconName: '',
                         title: "كلمة السر",
                         lightLabel: true,
+                        isSecure: controller.visiblePassword,
                         suffixIcon: InkWell(
                           onTap: () {
                             controller.visiblePassword =
@@ -146,6 +171,7 @@ class CreateAccountScreen extends StatelessWidget {
                       CustomTextField<String>(
                         controller: controller.passwordConfirm,
                         isRequired: true,
+                        isSecure: controller.visiblePasswordConfirm,
                         suffixIcon: InkWell(
                           onTap: () {
                             controller.visiblePasswordConfirm =
@@ -164,7 +190,7 @@ class CreateAccountScreen extends StatelessWidget {
                         title: "تأكيد كلمة السر",
                         lightLabel: true,
                         validator: (v) {
-                          if (v?.isEmpty ?? true) return 'الحقل فارخ';
+                          if (v?.isEmpty ?? true) return 'الحقل فارغ';
                           if ((v?.length ?? 0) < 6) {
                             return 'يجب ان تتكون كلمة المرور من 6 مقاطع او اكثر';
                           }
@@ -174,6 +200,7 @@ class CreateAccountScreen extends StatelessWidget {
                           return null;
                         },
                       ),
+
                       // const SizedBox(
                       //   height: 10,
                       // ),

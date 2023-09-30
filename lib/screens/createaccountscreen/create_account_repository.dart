@@ -6,6 +6,7 @@ import 'package:ramtha/screens/createaccountscreen/models/brigades.dart';
 import 'package:ramtha/screens/createaccountscreen/models/cities.dart';
 import 'package:ramtha/screens/createaccountscreen/models/create_response.dart';
 
+import 'models/degree_of_kinship_model.dart';
 import 'models/districts.dart';
 
 class CreateAccountRepository {
@@ -38,5 +39,11 @@ class CreateAccountRepository {
     ApiResponseModel apiResponseModel =
         ApiResponseModel.fromJson(response.toJson());
     return Districts.fromJson(apiResponseModel.toJson());
+  }
+  Future<Relationship> getDegreeOfKinship() async {
+    final response = await BaseAPI.get2(ApiUrl.degreeOfKinship,{});
+    ApiResponseModel apiResponseModel =
+    ApiResponseModel.fromJson(response.toJson());
+    return Relationship.fromJson(apiResponseModel.toJson());
   }
 }

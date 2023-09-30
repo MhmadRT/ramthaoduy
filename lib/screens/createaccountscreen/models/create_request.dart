@@ -19,6 +19,7 @@ class CreateRequest {
   String? deviceToken;
   String? platform;
   String? gender;
+  String? idNumber;
 
   CreateRequest({
     this.name,
@@ -27,6 +28,7 @@ class CreateRequest {
     this.password,
     this.cityId,
     this.brigadeId,
+    this.idNumber,
     this.districtId,
     this.deviceToken,
     this.platform,
@@ -35,6 +37,7 @@ class CreateRequest {
 
   factory CreateRequest.fromJson(Map<String, dynamic> json) => CreateRequest(
     name: json["name"],
+    idNumber: json["idNumber"],
     email: json["email"],
     username: json["username"],
     password: json["password"],
@@ -48,6 +51,7 @@ class CreateRequest {
   Map<String, dynamic> toJson() => {
     "name": name,
     "email": email,
+    "idNumber": idNumber,
     "username": username,
     "password": password,
     "city_id": cityId,

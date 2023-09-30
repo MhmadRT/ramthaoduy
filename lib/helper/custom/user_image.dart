@@ -36,7 +36,7 @@ class UserImage extends StatelessWidget {
           width: size,
           child: CachedNetworkImage(
             imageUrl: ApiUrl.baseUrl + (userImage ?? ""),
-            fit: boxFit,
+            fit: BoxFit.cover,
             progressIndicatorBuilder: (context, url, downloadProgress) =>
                 Center(
                     child: isComment ?? false

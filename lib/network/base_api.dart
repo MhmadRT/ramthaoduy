@@ -14,12 +14,12 @@ class BaseAPI {
   static final Map<String, String> _headers = {
     'Accept': 'application/json',
     'api_key':
-    'ZZnUS84FEKcw8roZlLwrJ83keSGj661AMomSjTMpiEsBoIlSgsOPI9kHV1ByV7ekBmOqe3oZ63ar8tV55vNZH4J78SMLCAR9iNxrHEXx6pMLVkU1KjzDUEGd9kaVAmZlB3dD4HZSXT4WdGFTDfmzJKlPuBQU4ep4MYQMewlqd8EclYwyZb4DKA7e7dyLyHgkkGOYGN6rQV9zhXPx2gS0LUJpagcDN827VHJ9Uivy5mCbTTpomydCh0Xpjz4UIrFh'
+        'ZZnUS84FEKcw8roZlLwrJ83keSGj661AMomSjTMpiEsBoIlSgsOPI9kHV1ByV7ekBmOqe3oZ63ar8tV55vNZH4J78SMLCAR9iNxrHEXx6pMLVkU1KjzDUEGd9kaVAmZlB3dD4HZSXT4WdGFTDfmzJKlPuBQU4ep4MYQMewlqd8EclYwyZb4DKA7e7dyLyHgkkGOYGN6rQV9zhXPx2gS0LUJpagcDN827VHJ9Uivy5mCbTTpomydCh0Xpjz4UIrFh'
   };
 
   static Alice alice = Alice(
-    showNotification: false,
-    showInspectorOnShake: false,
+    showNotification: true,
+    showInspectorOnShake: true,
     darkTheme: false,
     maxCallsCount: 10,
   );
@@ -31,7 +31,7 @@ class BaseAPI {
     try {
       final String queryString = Uri(
           queryParameters:
-          body.map((key, value) => MapEntry(key, value?.toString()))).query;
+              body.map((key, value) => MapEntry(key, value?.toString()))).query;
 
       String fullUrl = "$url?$queryString";
       log('START', name: 'Get $fullUrl API');
@@ -39,8 +39,8 @@ class BaseAPI {
           .get(Uri.parse(fullUrl), headers: _headers)
           .interceptWithAlice(alice, body: body)
           .timeout(
-        const Duration(seconds: _timeOutValueSeconds),
-      );
+            const Duration(seconds: _timeOutValueSeconds),
+          );
       log(response.body, name: 'STATUS CODE ${response.statusCode}');
     } on SocketException catch (e) {
       log(e.message);
@@ -52,16 +52,19 @@ class BaseAPI {
     return _handelResponse(response);
   }
 
-  static Future<ApiResponseModel> post2(String url,
-      Map<String, dynamic> body) async {
+  static Future<ApiResponseModel> post2(
+      String url, Map<String, dynamic> body) async {
     try {
       var response = await http
           .post(Uri.parse(url), headers: await getHeader(), body: body)
           .interceptWithAlice(alice, body: body)
           .timeout(
-        const Duration(seconds: _timeOutValueSeconds),
+            const Duration(seconds: _timeOutValueSeconds),
+          );
+      log(
+        'START',
+        name: 'post $url API $body',
       );
-      log('START', name: 'post $url API $body',);
       Future.delayed(const Duration(seconds: 1))
           .then((value) => print(response.body));
       log(response.body, name: 'Body');
@@ -73,8 +76,9 @@ class BaseAPI {
     }
   }
 
-  static Future<ApiResponseModel> postMultipartRequest(String url,
-      Map<String, String> body, XFile? file) async {
+  static Future<ApiResponseModel> postMultipartRequest(
+      String url, Map<String, String> body, XFile? file,
+      {XFile? fileCard}) async {
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.headers.addAll(await getHeader());
@@ -82,6 +86,10 @@ class BaseAPI {
       if (file != null) {
         request.files
             .addAll({await http.MultipartFile.fromPath('image', file.path)});
+      }
+      if (fileCard != null) {
+        request.files.addAll(
+            {await http.MultipartFile.fromPath('id_image', fileCard.path)});
       }
       http.StreamedResponse response = await request.send();
       var responseBody = await response.stream.bytesToString();
@@ -99,20 +107,20 @@ class BaseAPI {
     }
   }
 
-  static Future<ApiResponseModel> get2(String url,
-      Map<String, dynamic> body) async {
+  static Future<ApiResponseModel> get2(
+      String url, Map<String, dynamic> body) async {
     try {
       final String queryString = Uri(
           queryParameters:
-          body.map((key, value) => MapEntry(key, value?.toString()))).query;
+              body.map((key, value) => MapEntry(key, value?.toString()))).query;
       String fullUrl = "$url?$queryString";
       log('START', name: 'Get $fullUrl API');
       var response = await http
           .get(Uri.parse(fullUrl), headers: await getHeader())
           .interceptWithAlice(alice, body: body)
           .timeout(
-        const Duration(seconds: _timeOutValueSeconds),
-      );
+            const Duration(seconds: _timeOutValueSeconds),
+          );
       log(response.body, name: 'STATUS CODE ${response.statusCode}');
       if (response.statusCode == 401) {
         // makeLogOut();
@@ -130,7 +138,7 @@ class BaseAPI {
         'ZZnUS84FEKcw8roZlLwrJ83keSGj661AMomSjTMpiEsBoIlSgsOPI9kHV1ByV7ekBmOqe3oZ63ar8tV55vNZH4J78SMLCAR9iNxrHEXx6pMLVkU1KjzDUEGd9kaVAmZlB3dD4HZSXT4WdGFTDfmzJKlPuBQU4ep4MYQMewlqd8EclYwyZb4DKA7e7dyLyHgkkGOYGN6rQV9zhXPx2gS0LUJpagcDN827VHJ9Uivy5mCbTTpomydCh0Xpjz4UIrFh';
     String? token = await LocalStorageHelper.getToken();
     Map<String, String> header = {
-      'api_key': apiKey,
+      'api-key': apiKey,
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     };
@@ -146,8 +154,8 @@ class BaseAPI {
           .post(Uri.parse(url), headers: _headers, body: body)
           .interceptWithAlice(alice, body: body)
           .timeout(
-        const Duration(seconds: _timeOutValueSeconds),
-      );
+            const Duration(seconds: _timeOutValueSeconds),
+          );
       log(response.body, name: 'STATUS CODE ${response.statusCode}');
     } on SocketException catch (e) {
       log(e.message);
@@ -165,7 +173,7 @@ class BaseAPI {
     try {
       final String queryString = Uri(
           queryParameters:
-          body.map((key, value) => MapEntry(key, value?.toString()))).query;
+              body.map((key, value) => MapEntry(key, value?.toString()))).query;
 
       String fullUrl = "$url?$queryString";
       log('START', name: 'PUT $fullUrl API');
@@ -173,8 +181,8 @@ class BaseAPI {
           .put(Uri.parse(fullUrl), headers: _headers)
           .interceptWithAlice(alice, body: body)
           .timeout(
-        const Duration(seconds: _timeOutValueSeconds),
-      );
+            const Duration(seconds: _timeOutValueSeconds),
+          );
       log(response.body, name: 'STATUS CODE ${response.statusCode}');
     } on SocketException catch (e) {
       log(e.message);
@@ -192,7 +200,7 @@ class BaseAPI {
     try {
       final String queryString = Uri(
           queryParameters:
-          body.map((key, value) => MapEntry(key, value?.toString()))).query;
+              body.map((key, value) => MapEntry(key, value?.toString()))).query;
 
       String fullUrl = "$url?$queryString";
       log('START', name: 'HEAD $fullUrl API');
@@ -200,8 +208,8 @@ class BaseAPI {
           .head(Uri.parse(fullUrl), headers: _headers)
           .interceptWithAlice(alice, body: body)
           .timeout(
-        const Duration(seconds: _timeOutValueSeconds),
-      );
+            const Duration(seconds: _timeOutValueSeconds),
+          );
       log(response.body, name: 'STATUS CODE ${response.statusCode}');
     } on SocketException catch (e) {
       log(e.message);

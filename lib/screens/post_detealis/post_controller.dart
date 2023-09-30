@@ -6,6 +6,7 @@ import 'package:ramtha/screens/homescreen/model/posts_response.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../helper/custom/custom_toast_massage.dart';
+import '../homescreen/home_conrtoller.dart';
 import '../homescreen/model/comments_response.dart';
 
 class PostController extends GetxController {
@@ -74,18 +75,19 @@ class PostController extends GetxController {
 
   addComment() async {
     if (comment.text.isNotEmpty) {
-      loading();
+      isLoadingComment=true;
       Map<String, dynamic> body = {
         "content": comment.text,
         "post_id": post.id.toString(),
       };
       await repository.addComment(body).then((value) async {
-        closeLoading();
+        isLoadingComment=false;
+        FocusScope.of(Get.context!).unfocus();
         if (value.status == '1') {
           await getComment();
           comment.clear();
           await Future.delayed(Duration(seconds: 1));
-          _scrollDown();
+          // _scrollDown();
         } else {
           CustomSnackBar.showCustomSnackBar(
             duration: const Duration(seconds: 1),
@@ -98,12 +100,12 @@ class PostController extends GetxController {
   }
 
   deleteComment(String? commentId) async {
-    loading();
+    isLoadingComment=true;
     Map<String, dynamic> body = {
       "comment_id": commentId,
     };
     await repository.deleteComment(body).then((value) async {
-      closeLoading();
+      isLoadingComment=false;
       if (value.status == '1') {
         await getComment();
       } else {

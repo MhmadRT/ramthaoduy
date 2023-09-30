@@ -36,8 +36,7 @@ class MainScreen extends StatelessWidget {
             },
             child: WillPopScope(
               onWillPop: () async {
-              return controller.onWillPop();
-
+                return controller.onWillPop();
               },
               child: Scaffold(
                   key: scaffoldKey,
@@ -53,132 +52,134 @@ class MainScreen extends StatelessWidget {
                             controller.isLoadingUserData
                                 ? loadingUserData(controller)
                                 : Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                Get.dialog(Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Dialog(
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      elevation: 0,
-                                                      child: UserImage(
-                                                        userImage: controller
-                                                                .userInfoResponse
-                                                                ?.data
-                                                                ?.user
-                                                                ?.image ??
-                                                            "",
-                                                        boxFit: BoxFit.cover,
-                                                        gender: controller
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              Get.dialog(Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .center,
+                                                children: [
+                                                  Dialog(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    elevation: 0,
+                                                    child: UserImage(
+                                                      userImage: controller
+                                                              .userInfoResponse
+                                                              ?.data
+                                                              ?.user
+                                                              ?.image ??
+                                                          "",
+                                                      boxFit: BoxFit.cover,
+                                                      gender: controller
+                                                          .userInfoResponse
+                                                          ?.data
+                                                          ?.user
+                                                          ?.gender,
+                                                      radius: 50000,
+                                                      size: Get.height / 2,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ));
+                                            },
+                                            child: UserImage(
+                                                userImage: controller
+                                                        .userInfoResponse
+                                                        ?.data
+                                                        ?.user
+                                                        ?.image ??
+                                                    "",
+                                                boxFit: BoxFit.cover,
+                                                gender: controller
+                                                        .userInfoResponse
+                                                        ?.data
+                                                        ?.user
+                                                        ?.gender ??
+                                                    "ذكر",
+                                                radius: 25,
+                                                size: 40),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                    controller
                                                             .userInfoResponse
                                                             ?.data
                                                             ?.user
-                                                            ?.gender,
-                                                        radius: 50000,
-                                                        size: Get.height / 2,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ));
-                                              },
-                                              child: UserImage(
-                                                  userImage: controller
-                                                          .userInfoResponse
-                                                          ?.data
-                                                          ?.user
-                                                          ?.image ??
-                                                      "",
-                                                  boxFit: BoxFit.cover,
-                                                  gender: controller
-                                                          .userInfoResponse
-                                                          ?.data
-                                                          ?.user
-                                                          ?.gender ??
-                                                      "ذكر",
-                                                  radius: 25,
-                                                  size: 40),
+                                                            ?.name ??
+                                                        "بدون اسم",
+                                                    style: const TextStyle(
+                                                        fontSize: 17,
+                                                        color: AppColors
+                                                            .mainColor,
+                                                        fontWeight:
+                                                            FontWeight
+                                                                .w600)),
+                                                Text(
+                                                    controller
+                                                            .userInfoResponse
+                                                            ?.data
+                                                            ?.user
+                                                            ?.address ??
+                                                        "بدون عنوان",
+                                                    style: const TextStyle(
+                                                        color: AppColors
+                                                            .mainColor,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 14)),
+                                              ],
                                             ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                      controller
-                                                              .userInfoResponse
-                                                              ?.data
-                                                              ?.user
-                                                              ?.name ??
-                                                          "بدون اسم",
-                                                      style: const TextStyle(
-                                                          fontSize: 17,
-                                                          color: AppColors
-                                                              .mainColor,
-                                                          fontWeight:
-                                                              FontWeight.w600)),
-                                                  Text(
-                                                      controller
-                                                              .userInfoResponse
-                                                              ?.data
-                                                              ?.user
-                                                              ?.address ??
-                                                          "بدون عنوان",
-                                                      style: const TextStyle(
-                                                          color: AppColors
-                                                              .mainColor,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 14)),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      InkWell(
-                                        onTap: controller.isLogin == true
-                                            ? () {
-                                                Get.dialog(EditUserDataDialog(
-                                                  user: controller
-                                                      .userInfoResponse,
-                                                ));
-                                              }
-                                            : () {
-                                                Get.dialog(
-                                                    const DialogPermission());
-                                              },
-                                        child: Column(
-                                          children: [
-                                            SvgPicture.asset(
-                                              AppImages.editIcon,
-                                              height: 20,
-                                            ),
-                                            Text("تعديل",
-                                                style: TextStyle(
-                                                    color: Colors.grey
-                                                        .withOpacity(.5),
-                                                    fontWeight:
-                                                        FontWeight.normal)),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    InkWell(
+                                      onTap: controller.isLogin == true
+                                          ? () {
+                                              Get.dialog(EditUserDataDialog(
+                                                user: controller
+                                                    .userInfoResponse,
+                                              ));
+                                            }
+                                          : () {
+                                              Get.dialog(
+                                                  const DialogPermission());
+                                            },
+                                      child: Column(
+                                        children: [
+                                          SvgPicture.asset(
+                                            AppImages.editIcon,
+                                            height: 20,
+                                          ),
+                                          Text("تعديل",
+                                              style: TextStyle(
+                                                  color: Colors.grey
+                                                      .withOpacity(.5),
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                             const SizedBox(
                               height: 50,
                             ),
@@ -707,16 +708,16 @@ class MainScreen extends StatelessWidget {
                                             child: Column(
                                               children: [
                                                 SvgPicture.asset(
-                                                  AppImages.searchIcon,
+                                                  AppImages.services,
                                                   color: controller
                                                               .currentIndex ==
                                                           0
                                                       ? AppColors.yellow
                                                       : AppColors.whiteColor,
-                                                  height: 15,
+                                                  height: 16,
                                                 ),
                                                 Text(
-                                                  "البحث",
+                                                  "خدمات",
                                                   style: TextStyle(
                                                       color: controller
                                                                   .currentIndex ==

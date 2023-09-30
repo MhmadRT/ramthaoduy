@@ -14,6 +14,7 @@ class HomeRepository {
         ApiResponseModel.fromJson(response.toJson());
     return PostsResponse.fromJson(apiResponseModel.toJson());
   }
+
   Future<GetNumberNotReaded> getNumberNotifications(Map<String, dynamic> body) async {
     final response = await BaseAPI.get2(ApiUrl.numberNumberReaded, body);
     ApiResponseModel apiResponseModel =

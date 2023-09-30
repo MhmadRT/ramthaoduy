@@ -28,6 +28,7 @@ class CreateAccountController extends GetxController {
   int selectSexIndex = 1;
   TextEditingController userNameFromThreeSection = TextEditingController();
   TextEditingController userNameForRegister = TextEditingController();
+  TextEditingController idNumber = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController passwordConfirm = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -67,7 +68,7 @@ class CreateAccountController extends GetxController {
         spaceCount++;
       }
 
-      if (spaceCount >= 2) {
+      if (spaceCount >= 3) {
         return true;
       }
     }
@@ -151,6 +152,7 @@ class CreateAccountController extends GetxController {
         name: userNameFromThreeSection.text,
         brigadeId: selectedBrigade.id,
         cityId: selectedCity.id,
+        idNumber: idNumber.text,
         districtId: selectedDistrict.id,
         email: email.text,
         password: password.text,

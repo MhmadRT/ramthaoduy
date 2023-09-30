@@ -28,6 +28,7 @@ class AppImages {
   static const String filterIcon = "${baseurl}filter.svg";
   static const String femaleSvg = "${baseurl}female.svg";
   static const String maleSvg = "${baseurl}male.svg";
+  static const String services = "${baseurl}services.svg";
 
   /// GIF
   static const String loading = "${baseurl}loading.gif";
@@ -35,6 +36,9 @@ class AppImages {
   ///png
   static const String blackLine = "${baseurl}black_line.png";
   static const String iconPin = "${baseurl}icon_pin.png";
+  static const String coffe = "${baseurl}coffe.png";
+  static const String deaths = "${baseurl}deaths.png";
+  static const String printBook = "${baseurl}print_book.png";
 
   ///jpg
   static const String male = "${baseurl}male.jpg";

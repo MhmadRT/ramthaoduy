@@ -41,6 +41,7 @@ class ReviewsScreen extends StatelessWidget {
                               children: [
                                 InkWell(
                                   onTap: () {
+
                                     Get.back();
                                   },
                                   child: Padding(
@@ -276,7 +277,7 @@ class ReviewsScreen extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       Get.to(
-                          PostDetailsScreen(
+                          PostDetailsScreen(isReviewPost: true,
                             post: postsModel.posts![index],
                           ),
                           transition: Transition.rightToLeftWithFade);
